@@ -18,60 +18,143 @@ export default function App() {
 	const [currentData, setCurrentData] = useState([])
 	const [forecastData, setForecastData] = useState([])
 
-	// const searchOptions = searchHistory.map((location) => ({ label: location, value: location }))
-
-	const getWeatherData = (location) => {
-		axios.all([
-			axios.get(`${weatherApiBaseUrl}/current.json?key=${weatherApiKey}&q=${location}&aqi=no`),
-			axios.get(`${weatherApiBaseUrl}/forecast.json?key=${weatherApiKey}&q=${location}&days=6&aqi=no&alerts=no`)
-		])
-		.then(axios.spread((currentResponse, forecastResponse) => {
-			const currentData = currentResponse.data
-			const forecastData = forecastResponse.data
-	
-			const { name, region, country } = currentData.location
-			const location = country.includes('USA United States of America') || country.includes('United States of America') || country.includes('USA') ? `${name}, ${useStateCode(region)}` : `${name}, ${country}`
-			const date = `(${dayjs(currentData.location.localtime).format('ddd, M/D/YY @ h:mma')} local time)`
-	
-			const condition = currentData.current.condition.icon
-			const temp = `${currentData.current.temp_f} °F`
-			const wind = `${currentData.current.wind_mph} MPH`
-			const humidity = `${currentData.current.humidity}%`
-			const uv = currentData.current.uv
-			const currentVals = [condition, temp, wind, humidity, uv];
-	
-			const forecastInfo = forecastData.forecast.forecastday.slice(1).map((info) => ({
-				date: dayjs(info.date).format('ddd, M/D'),
-				condition: info.day.condition.icon,
-				tempHigh: `${info.day.maxtemp_f} °F`,
-				tempLow: `${info.day.mintemp_f} °F`,
-				rain: `${info.day.daily_chance_of_rain}%`,
-				uvi: info.day.uv,
-			}))
-	
-			setCurrentLocation(location)
-			setCurrentDate(date)
-			setCurrentData(currentVals)
-			setForecastData(forecastInfo)
-	
-			if (!searchHistory.includes(location)) {
-				setSearchHistory([...searchHistory, location])
-				localStorage.setItem('searchHistory', JSON.stringify([...searchHistory, location]))
-			}
-		}))
-		.catch((err) => console.error(err))
-	}
-
-	const newSearchWeather = (e) => {
+	function newSearchWeather(e) {
 		e.preventDefault()
-		getWeatherData(searchLocation)
+
+		axios.get(
+			`${weatherApiBaseUrl}/current.json?key=${weatherApiKey}&q=${searchLocation}&aqi=no`
+		)
+		.then(
+			(res) => {
+				res.data.location.country === 'USA'
+				|| res.data.location.country === 'United States of America'
+				|| res.data.location.country === 'USA United States of America'
+				? setCurrentLocation(
+						`${res.data.location.name}, ${useStateCode(res.data.location.region)}`
+					)
+				: setCurrentLocation(
+						`${res.data.location.name}, ${res.data.location.country}`
+					)
+
+				setCurrentDate(
+					`(${dayjs(res.data.location.localtime).format('ddd, M/D/YY @ h:mma')} local time)`
+				)
+
+				const currentInfo = {
+					condition: res.data.current.condition.icon,
+					temp: `${res.data.current.temp_f} °F`,
+					wind: `${res.data.current.wind_mph} MPH`,
+					humidity: `${res.data.current.humidity}%`,
+					uvi: res.data.current.uv
+				}
+
+				const currentVals = Object.values(currentInfo)
+
+				setCurrentData(currentVals)
+
+				setSearchHistory([...searchHistory, searchLocation])
+
+				localStorage.setItem(
+					'searchHistory', JSON.stringify([...searchHistory, searchLocation])
+				)
+			}
+		)
+		.catch(
+			(err) => {
+				console.error(err)
+				alert('Please make sure you have entered a valid city name or zip code and try again!')
+			}
+		)
+
+		axios.get(
+			`${weatherApiBaseUrl}/forecast.json?key=${weatherApiKey}&q=${searchLocation}&days=6&aqi=no&alerts=no`
+		)
+		.then(
+			(res) => {
+				const forecastInfo = res.data.forecast.forecastday.map(
+					(info) => ({
+						date: dayjs(info.date).format('ddd, M/D'),
+						condition: info.day.condition.icon,
+						tempHigh: `${info.day.maxtemp_f} °F`,
+						tempLow: `${info.day.mintemp_f} °F`,
+						rain: `${info.day.daily_chance_of_rain}%`,
+						uvi: info.day.uv,
+					})
+				)
+
+				setForecastData(forecastInfo)
+			}
+		)
+		.catch(
+			(err) => console.error(err)
+		)
+
 		setSearchLocation('')
 	}
-	
-	const prevSearchWeather = (e) => {
+
+	function prevSearchWeather(e) {
 		e.preventDefault()
-		const prevSearchLocation = e.target.value
-		getWeatherData(prevSearchLocation)
+
+		const prevSearchLocation = e.target.innerHTML
+
+		axios.get(
+			`${weatherApiBaseUrl}/current.json?key=${weatherApiKey}&q=${prevSearchLocation}&aqi=no`
+		)
+		.then(
+			(res) => {
+				res.data.location.country === 'USA'
+				|| res.data.location.country === 'United States of America'
+				|| res.data.location.country === 'USA United States of America'
+				? setCurrentLocation(
+						`${res.data.location.name}, ${useStateCode(res.data.location.region)}`
+					)
+				: setCurrentLocation(
+						`${res.data.location.name}, ${res.data.location.country}`
+					)
+
+				setCurrentDate(
+					`(${dayjs(res.data.location.localtime).format('ddd, M/D/YY @ h:mma')} local time)`
+				)
+
+				const prevSearchInfo = {
+					condition: res.data.current.condition.icon,
+					temp: `${res.data.current.temp_f} °F`,
+					wind: `${res.data.current.wind_mph} MPH`,
+					humidity: `${res.data.current.humidity}%`,
+					uvi: res.data.current.uv
+				}
+
+				const prevSearchVals = Object.values(prevSearchInfo)
+
+				setCurrentData(prevSearchVals)
+			}
+		)
+		.catch(
+			(err) => console.error(err)
+		)
+
+		axios.get(
+			`${weatherApiBaseUrl}/forecast.json?key=${weatherApiKey}&q=${prevSearchLocation}&days=6&aqi=no&alerts=no`
+		)
+		.then(
+			(res) => {
+				const forecastInfo = res.data.forecast.forecastday.map(
+					(info) => ({
+						date: dayjs(info.date).format('ddd, M/D'),
+						condition: info.day.condition.icon,
+						tempHigh: `${info.day.maxtemp_f} °F`,
+						tempLow: `${info.day.mintemp_f} °F`,
+						rain: `${info.day.daily_chance_of_rain}%`,
+						uvi: info.day.uv,
+					})
+				)
+
+				setForecastData(forecastInfo)
+			}
+		)
+		.catch(
+			(err) => console.error(err)
+		)
 	}
 
 	return (
@@ -91,13 +174,7 @@ export default function App() {
 									placeholder='Search by city or zip code'
 									value={searchLocation}
 									onChange={(e) => setSearchLocation(e.target.value)}
-									// list='searchOptions'
 								/>
-								{/* <datalist id='searchOptions'>
-									{searchOptions.map((option) => (
-										<option key={option.label} value={option.value} />
-									))}
-								</datalist> */}
 								<div>
 									<button
 										className='search-button'
@@ -112,21 +189,18 @@ export default function App() {
 					{searchHistory.length !== 0 && (
 						<Fragment>
 							<hr />
-							<div className='search-history-dropdown-container'>
-								<select
-									className='search-history-dropdown'
-									onChange={prevSearchWeather}>
-									<option value=''>Search History...</option>
-									{searchHistory.map((search, index) => (
-										<option key={index} value={search.innerHTML}>
-											{search}
-										</option>
-									))}
-								</select>
-							</div>
+							{searchHistory.map((search, index) => (
+								<Fragment key={index}>
+									<button
+										className='search-history-button'
+										type='button'
+										onClick={prevSearchWeather}>
+										{search}
+									</button>
+								</Fragment>
+							))}
 						</Fragment>
 					)}
-
 				</div>
 
 				<div className='search-results-container'>
@@ -189,7 +263,7 @@ export default function App() {
 					</section>
 
 					<section className='forecast-weather-section'>
-						{forecastData.map((day, index) => (
+						{forecastData.slice(1).map((day, index) => (
 							<Fragment key={index}>
 								<div className='forecast-card-outer'>
 									<div className='forecast-card-inner'>
