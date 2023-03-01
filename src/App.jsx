@@ -2,9 +2,11 @@ import React, { Fragment, useState } from 'react'
 import axios from 'axios'
 import dayjs from 'dayjs'
 
+import { weatherApiKey, weatherApiBaseUrl } from '../config'
+
 import useStateCode from './useStateCode.js'
 
-import { weatherApiKey, weatherApiBaseUrl } from '../config'
+import AlertModal from './AlertModal.jsx'
 
 import './App.css'
 
@@ -17,49 +19,90 @@ export default function App() {
 	const [currentDate, setCurrentDate] = useState('')
 	const [currentData, setCurrentData] = useState([])
 	const [forecastData, setForecastData] = useState([])
-
-	// const searchOptions = searchHistory.map((location) => ({ label: location, value: location }))
+	const [error, setError] = useState(null)
+	const [otherError, setOtherError] = useState(null)
 
 	const getWeatherData = (location) => {
-		axios.all([
-			axios.get(`${weatherApiBaseUrl}/current.json?key=${weatherApiKey}&q=${location}&aqi=no`),
-			axios.get(`${weatherApiBaseUrl}/forecast.json?key=${weatherApiKey}&q=${location}&days=6&aqi=no&alerts=no`)
-		])
-		.then(axios.spread((currentResponse, forecastResponse) => {
-			const currentData = currentResponse.data
-			const forecastData = forecastResponse.data
-	
-			const { name, region, country } = currentData.location
-			const location = country.includes('USA United States of America') || country.includes('United States of America') || country.includes('USA') ? `${name}, ${useStateCode(region)}` : `${name}, ${country}`
-			const date = `(${dayjs(currentData.location.localtime).format('ddd, M/D/YY @ h:mma')} local time)`
-	
-			const condition = currentData.current.condition.icon
-			const temp = `${currentData.current.temp_f} °F`
-			const wind = `${currentData.current.wind_mph} MPH`
-			const humidity = `${currentData.current.humidity}%`
-			const uv = currentData.current.uv
-			const currentVals = [condition, temp, wind, humidity, uv];
-	
-			const forecastInfo = forecastData.forecast.forecastday.slice(1).map((info) => ({
-				date: dayjs(info.date).format('ddd, M/D'),
-				condition: info.day.condition.icon,
-				tempHigh: `${info.day.maxtemp_f} °F`,
-				tempLow: `${info.day.mintemp_f} °F`,
-				rain: `${info.day.daily_chance_of_rain}%`,
-				uvi: info.day.uv,
-			}))
-	
-			setCurrentLocation(location)
-			setCurrentDate(date)
-			setCurrentData(currentVals)
-			setForecastData(forecastInfo)
-	
-			if (!searchHistory.includes(location)) {
-				setSearchHistory([...searchHistory, location])
-				localStorage.setItem('searchHistory', JSON.stringify([...searchHistory, location]))
-			}
-		}))
-		.catch((err) => console.error(err))
+		if (!location) {
+			const error = new Error(
+				'Uh oh! Looks like you left the search field empty. Please enter a city name or zip code and try again.'
+			)
+			setError(error)
+		} else {
+			Promise.all([
+				axios.get(
+					`${weatherApiBaseUrl}/current.json?key=${weatherApiKey}&q=${location}&aqi=no`
+				),
+				axios.get(
+					`${weatherApiBaseUrl}/forecast.json?key=${weatherApiKey}&q=${location}&days=6&aqi=no&alerts=no`
+				),
+			])
+				.then(
+					axios.spread((currentResponse, forecastResponse) => {
+						const currentData = currentResponse.data
+						const forecastData = forecastResponse.data
+
+						const { name, region, country } = currentData.location
+						const location =
+							country.includes('USA United States of America') ||
+							country.includes('United States of America') ||
+							country.includes('USA')
+								? `${name}, ${useStateCode(region)}`
+								: `${name}, ${country}`
+						const date = `(${dayjs(currentData.location.localtime).format(
+							'ddd, M/D/YY @ h:mma'
+						)} local time)`
+
+						const condition = currentData.current.condition.icon
+						const temp = `${currentData.current.temp_f} °F`
+						const wind = `${currentData.current.wind_mph} MPH`
+						const humidity = `${currentData.current.humidity}%`
+						const uv = currentData.current.uv
+						const currentVals = [condition, temp, wind, humidity, uv]
+
+						const forecastInfo = forecastData.forecast.forecastday
+							.slice(1)
+							.map((info) => ({
+								date: dayjs(info.date).format('ddd, M/D'),
+								condition: info.day.condition.icon,
+								tempHigh: `${info.day.maxtemp_f} °F`,
+								tempLow: `${info.day.mintemp_f} °F`,
+								rain: `${info.day.daily_chance_of_rain}%`,
+								uvi: info.day.uv,
+							}))
+
+						setCurrentLocation(location)
+						setCurrentDate(date)
+						setCurrentData(currentVals)
+						setForecastData(forecastInfo)
+
+						if (!searchHistory.includes(location)) {
+							setSearchHistory([...searchHistory, location])
+							localStorage.setItem(
+								'searchHistory',
+								JSON.stringify([...searchHistory, location])
+							)
+						}
+					})
+				)
+				.catch((err) => {
+					console.error(err)
+					if (err.response && err.response.status === 400) {
+						setOtherError({
+							message:
+								'Uh oh! Looks like you may have entered an invalid city name or zip code. Please double check your entry and try again.',
+						})
+					}
+				})
+		}
+	}
+
+	const handleCloseError = () => {
+		setError(null)
+	}
+
+	const handleCloseOtherError = () => {
+		setOtherError(null)
 	}
 
 	const newSearchWeather = (e) => {
@@ -67,7 +110,7 @@ export default function App() {
 		getWeatherData(searchLocation)
 		setSearchLocation('')
 	}
-	
+
 	const prevSearchWeather = (e) => {
 		e.preventDefault()
 		const prevSearchLocation = e.target.value
@@ -91,13 +134,7 @@ export default function App() {
 									placeholder='Search by city or zip code'
 									value={searchLocation}
 									onChange={(e) => setSearchLocation(e.target.value)}
-									// list='searchOptions'
 								/>
-								{/* <datalist id='searchOptions'>
-									{searchOptions.map((option) => (
-										<option key={option.label} value={option.value} />
-									))}
-								</datalist> */}
 								<div>
 									<button
 										className='search-button'
@@ -108,6 +145,19 @@ export default function App() {
 							</div>
 						</div>
 					</form>
+					<div id='alert-modal'>
+						<AlertModal
+							isOpen={error !== null}
+							onClose={handleCloseError}>
+							<p>{error && error.message}</p>
+						</AlertModal>
+
+						<AlertModal
+							isOpen={otherError !== null}
+							onClose={handleCloseOtherError}>
+							<p>{otherError && otherError.message}</p>
+						</AlertModal>
+					</div>
 
 					{searchHistory.length !== 0 && (
 						<Fragment>
@@ -118,7 +168,9 @@ export default function App() {
 									onChange={prevSearchWeather}>
 									<option value=''>Search History...</option>
 									{searchHistory.map((search, index) => (
-										<option key={index} value={search.innerHTML}>
+										<option
+											key={index}
+											value={search.innerHTML}>
 											{search}
 										</option>
 									))}
@@ -126,7 +178,6 @@ export default function App() {
 							</div>
 						</Fragment>
 					)}
-
 				</div>
 
 				<div className='search-results-container'>
@@ -136,8 +187,12 @@ export default function App() {
 								<div className='current-card-body'>
 									<div className='current-card-header'>
 										<div className='current-card-title-wrapper'>
-											<h2 className='current-card-title-location'>{currentLocation}</h2>
-											<div className='current-card-title-date'>{currentDate}</div>
+											<h2 className='current-card-title-location'>
+												{currentLocation}
+											</h2>
+											<div className='current-card-title-date'>
+												{currentDate}
+											</div>
 										</div>
 										<img
 											className='current-card-icon'
@@ -148,21 +203,15 @@ export default function App() {
 									<div className='current-card-info-wrapper'>
 										<p className='current-card-text'>
 											Temperature: &nbsp;
-											<span className='card-api-data'>
-												{currentData[1]}
-											</span>
+											<span className='card-api-data'>{currentData[1]}</span>
 										</p>
 										<p className='current-card-text'>
 											Wind Speed: &nbsp;
-											<span className='card-api-data'>
-												{currentData[2]}
-											</span>
+											<span className='card-api-data'>{currentData[2]}</span>
 										</p>
 										<p className='current-card-text'>
 											Humidity: &nbsp;
-											<span className='card-api-data'>
-												{currentData[3]}
-											</span>
+											<span className='card-api-data'>{currentData[3]}</span>
 										</p>
 										<p className='current-card-text'>
 											UV Index: &nbsp;
@@ -204,21 +253,15 @@ export default function App() {
 											</div>
 											<p className='forecast-card-text'>
 												High: &nbsp;
-												<span className='card-api-data'>
-													{day.tempHigh}
-												</span>
+												<span className='card-api-data'>{day.tempHigh}</span>
 											</p>
 											<p className='forecast-card-text'>
 												Low: &nbsp;
-												<span className='card-api-data'>
-													{day.tempLow}
-												</span>
+												<span className='card-api-data'>{day.tempLow}</span>
 											</p>
 											<p className='forecast-card-text'>
 												Rain: &nbsp;
-												<span className='card-api-data'>
-													{day.rain}
-												</span>
+												<span className='card-api-data'>{day.rain}</span>
 											</p>
 											<p className='forecast-card-text'>
 												UVI: &nbsp;
