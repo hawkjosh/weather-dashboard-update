@@ -127,22 +127,22 @@ export default function App() {
 				<div className='search-container'>
 					<form>
 						<div className='search-form-controls'>
-							<div>
-								<input
-									className='search-input'
-									type='text'
-									placeholder='Search by city or zip code'
-									value={searchLocation}
-									onChange={(e) => setSearchLocation(e.target.value)}
-								/>
-								<div>
-									<button
-										className='search-button'
-										onClick={newSearchWeather}>
-										Search
-									</button>
-								</div>
-							</div>
+							{/* <div> */}
+							<input
+								className='search-input'
+								type='text'
+								placeholder='Search by city or zip code'
+								value={searchLocation}
+								onChange={(e) => setSearchLocation(e.target.value)}
+							/>
+							{/* <div> */}
+							<button
+								className='search-button'
+								onClick={newSearchWeather}>
+								Search
+							</button>
+							{/* </div> */}
+							{/* </div> */}
 						</div>
 					</form>
 					<div id='alert-modal'>
@@ -165,14 +165,27 @@ export default function App() {
 							<div className='search-history-dropdown-container'>
 								<select
 									className='search-history-dropdown'
-									onChange={prevSearchWeather}>
-									<option value=''>Search History...</option>
+									defaultValue=''
+									onChange={prevSearchWeather}
+									onBlur={(e) => {
+										if (
+											!searchHistory
+												.map((search) => search.innerHTML)
+												.includes(e.target.value)
+										) {
+											e.target.value = ''
+										}
+									}}
+									>
+									<option
+										value=''
+										disabled>
+										Search History...
+									</option>
 									{searchHistory.map((search, index) => (
-										<option
-											key={index}
-											value={search.innerHTML}>
-											{search}
-										</option>
+										<Fragment key={index}>
+											<option value={search.innerHTML}>{search}</option>
+										</Fragment>
 									))}
 								</select>
 							</div>
@@ -180,11 +193,11 @@ export default function App() {
 					)}
 				</div>
 
-				<div className='search-results-container'>
-					<section className='current-weather-section'>
+				{/* <div className='search-results-container'> */}
+					{/* <section className='current-weather-section'> */}
 						{currentData.length !== 0 && (
 							<div className='current-card-container'>
-								<div className='current-card-body'>
+								{/* <div className='current-card-body'> */}
 									<div className='current-card-header'>
 										<div className='current-card-title-wrapper'>
 											<h2 className='current-card-title-location'>
@@ -194,48 +207,61 @@ export default function App() {
 												{currentDate}
 											</div>
 										</div>
-										<img
+										{/* <img
 											className='current-card-icon'
 											src={currentData[0]}
 											alt='current condition icon'
-										/>
-									</div>
+										/> */}
+									{/* </div> */}
 									<div className='current-card-info-wrapper'>
-										<p className='current-card-text'>
-											Temperature: &nbsp;
-											<span className='card-api-data'>{currentData[1]}</span>
-										</p>
-										<p className='current-card-text'>
-											Wind Speed: &nbsp;
-											<span className='card-api-data'>{currentData[2]}</span>
-										</p>
-										<p className='current-card-text'>
-											Humidity: &nbsp;
-											<span className='card-api-data'>{currentData[3]}</span>
-										</p>
-										<p className='current-card-text'>
-											UV Index: &nbsp;
-											{currentData[4] <= 3 && (
-												<button className='uvi-button uvi-low'>
-													{currentData[4]}
-												</button>
-											)}
-											{currentData[4] > 3 && currentData[4] < 7 && (
-												<button className='uvi-button uvi-medium'>
-													{currentData[4]}
-												</button>
-											)}
-											{currentData[4] >= 7 && (
-												<button className='uvi-button uvi-high'>
-													{currentData[4]}
-												</button>
-											)}
-										</p>
+										<div>
+											<p className='current-card-text'>
+												Temperature: &nbsp;
+												<span className='card-api-data'>{currentData[1]}</span>
+											</p>
+											<p className='current-card-text'>
+												Wind Speed: &nbsp;
+												<span className='card-api-data'>{currentData[2]}</span>
+											</p>
+										</div>
+										<div>
+											<p className='current-card-text'>
+												Humidity: &nbsp;
+												<span className='card-api-data'>{currentData[3]}</span>
+											</p>
+											<p className='current-card-text'>
+												UV Index: &nbsp;
+												{currentData[4] <= 3 && (
+													<button className='uvi-button uvi-low'>
+														{currentData[4]}
+													</button>
+												)}
+												{currentData[4] > 3 && currentData[4] < 7 && (
+													<button className='uvi-button uvi-medium'>
+														{currentData[4]}
+													</button>
+												)}
+												{currentData[4] >= 7 && (
+													<button className='uvi-button uvi-high'>
+														{currentData[4]}
+													</button>
+												)}
+											</p>
+										</div>
+										</div>
 									</div>
-								</div>
+									<div className='current-card-icon-wrapper'>
+										<img
+												className='current-card-icon'
+												src={currentData[0]}
+												alt='current condition icon'
+											/>
+									</div>
+
+								{/* </div> */}
 							</div>
 						)}
-					</section>
+					{/* </section> */}
 
 					<section className='forecast-weather-section'>
 						{forecastData.map((day, index) => (
@@ -287,7 +313,7 @@ export default function App() {
 							</Fragment>
 						))}
 					</section>
-				</div>
+				{/* </div> */}
 			</main>
 		</Fragment>
 	)
