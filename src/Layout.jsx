@@ -8,7 +8,6 @@ import useStateCode from './useStateCode.js'
 
 import AlertModal from './AlertModal.jsx'
 
-
 import './Layout.css'
 
 export default () => {
@@ -112,71 +111,83 @@ export default () => {
 		setSearchLocation('')
 	}
 
-	const prevSearchWeather = (e) => {
-		e.preventDefault()
-		const prevSearchLocation = e.target.value
-		getWeatherData(prevSearchLocation)
-	}
+  const historySearchWeather = (e) => {
+    setSearchLocation(e.target.innerHTML)
+    e.preventDefault()
+    newSearchWeather()
+  }
+
+	// const prevSearchWeather = (e) => {
+	// 	e.preventDefault()
+	// 	const prevSearchLocation = e.target.value
+	// 	getWeatherData(prevSearchLocation)
+	// }
+
+	const [showHistory, setShowHistory] = useState(false)
 
 	return (
 		<Fragment>
-      <header>
-        <div className='header-container'>
-          <div className='header-content'>
-            Weather Dashboard
-          </div>
-        </div>
-      </header>
+			<header>
+				<div className='header-container'>
+					<div className='header-content'>Weather Dashboard</div>
+				</div>
+			</header>
 
-      <main>
-        <div className='main-container'>
-          <div className='search'>
-            <form className='search-form'>
-              <input
-                className='search-form-input'
-                type='text'
-                placeholder='Search by city or zip code...'
-                value={searchLocation}
-                onChange={(e) => setSearchLocation(e.target.value)}
-              />
+			<main>
+				<div className='main-container'>
+					<div className='search'>
+						<form className='search-form'>
+							<input
+								className='search-form-input'
+								type='text'
+								placeholder='Search by city or zip code...'
+								value={searchLocation}
+								onChange={(e) => setSearchLocation(e.target.value)}
+							/>
 
-              <button
-                className='search-form-btn'
-                onClick={newSearchWeather}
-                type='submit'>
-                Search
-              </button>
-            </form>
+							<button
+								className='search-form-btn'
+								onClick={newSearchWeather}
+								type='submit'>
+								Search
+							</button>
+						</form>
 
-            <div id='alert-modal'>
-              <AlertModal
-                isOpen={error !== null}
-                onClose={handleCloseError}>
-                <p>{error && error.message}</p>
-              </AlertModal>
+						<div id='alert-modal'>
+							<AlertModal
+								isOpen={error !== null}
+								onClose={handleCloseError}>
+								<p>{error && error.message}</p>
+							</AlertModal>
 
-              <AlertModal
-                isOpen={otherError !== null}
-                onClose={handleCloseOtherError}>
-                <p>{otherError && otherError.message}</p>
-              </AlertModal>
-            </div>
+							<AlertModal
+								isOpen={otherError !== null}
+								onClose={handleCloseOtherError}>
+								<p>{otherError && otherError.message}</p>
+							</AlertModal>
+						</div>
 
-            {searchHistory.length !== 0 && (
-              <div className='search-history'>
-                <hr className='divider' />
+						{searchHistory.length !== 0 && (
+							<div className='search-history'>
+								<hr className='divider' />
 
-                {/* <button className='search-history-btn'>Previous Searches</button>
+								<button
+									className='search-history-btn'
+									onClick={() => setShowHistory(!showHistory)}>
+									Previous Searches
+								</button>
 
-                <div className='search-history-content'>
-                  <a href='#'>SEARCH HISTORY ITEM 1</a>
-                  <a href='#'>SEARCH HISTORY ITEM 2</a>
-                  <a href='#'>SEARCH HISTORY ITEM 3</a>
-                  <a href='#'>SEARCH HISTORY ITEM 4</a>
-                  <a href='#'>SEARCH HISTORY ITEM 5</a>
-                </div> */}
+								{showHistory && (
+									<div className='search-history-content'>
+										{searchHistory.map((search, index) => (
+											<Fragment key={index}>
+												<div onClick={historySearchWeather}>{search}</div>
+											</Fragment>
+										))}
+									</div>
+								)}
 
-                <select
+								{/* <select
 									className='search-history-dropdown'
 									defaultValue=''
 									onChange={prevSearchWeather}>
@@ -190,138 +201,126 @@ export default () => {
 											<option value={search.innerHTML}>{search}</option>
 										</Fragment>
 									))}
-								</select>
-              </div>
-            )}
-          </div>
+								</select> */}
+							</div>
+						)}
+					</div>
 
-          {currentData.length !== 0 && (
-            <div className='current-weather'>
-              <div className='current-weather-card'>
-                <div className='current-weather-card-header'>
-                  <div className='current-weather-card-title'>
-                    <div className='current-weather-card-location'>
-                      {currentLocation}
-                    </div>
-                    <div className='current-weather-card-date'>
-                      {currentDate}
-                    </div>
-                  </div>
-                  <img
-                    className='current-weather-card-icon'
-                    src={currentData[0]}
-                    alt='current condition icon'
-                  />
-                </div>
-                <div className='current-weather-card-info'>
-                  <div className='current-weather-card-content'>
-                    Temperature: &nbsp;
-                    <span className='card-api-data'>
-                      {currentData[1]}
-                    </span>
-                  </div>
-                  <div className='current-weather-card-content'>
-                    Wind Speed: &nbsp;
-                    <span className='card-api-data'>
-                      {currentData[2]}
-                    </span>
-                  </div>
-                  <div className='current-weather-card-content'>
-                    Humidity: &nbsp;
-                    <span className='card-api-data'>
-                      {currentData[3]}
-                    </span>
-                  </div>
-                  <div className='current-weather-card-content'>
-                    UV Index: &nbsp;
-                    {currentData[4] <= 3 && (
-                      <button className='uvi-button uvi-low'>
-                        {currentData[4]}
-                      </button>
-                    )}
-                    {currentData[4] > 3 && currentData[4] < 7 && (
-                      <button className='uvi-button uvi-medium'>
-                        {currentData[4]}
-                      </button>
-                    )}
-                    {currentData[4] >= 7 && (
-                      <button className='uvi-button uvi-high'>
-                        {currentData[4]}
-                      </button>
-                    )}
-                  </div>
-                </div>
+					{currentData.length !== 0 && (
+						<div className='current-weather'>
+							<div className='current-weather-card'>
+								<div className='current-weather-card-header'>
+									<div className='current-weather-card-title'>
+										<div className='current-weather-card-location'>
+											{currentLocation}
+										</div>
+										<div className='current-weather-card-date'>
+											{currentDate}
+										</div>
+									</div>
+									<img
+										className='current-weather-card-icon'
+										src={currentData[0]}
+										alt='current condition icon'
+									/>
+								</div>
+								<div className='current-weather-card-info'>
+									<div className='current-weather-card-content'>
+										Temperature: &nbsp;
+										<span className='card-api-data'>{currentData[1]}</span>
+									</div>
+									<div className='current-weather-card-content'>
+										Wind Speed: &nbsp;
+										<span className='card-api-data'>{currentData[2]}</span>
+									</div>
+									<div className='current-weather-card-content'>
+										Humidity: &nbsp;
+										<span className='card-api-data'>{currentData[3]}</span>
+									</div>
+									<div className='current-weather-card-content'>
+										UV Index: &nbsp;
+										{currentData[4] <= 3 && (
+											<button className='uvi-button uvi-low'>
+												{currentData[4]}
+											</button>
+										)}
+										{currentData[4] > 3 && currentData[4] < 7 && (
+											<button className='uvi-button uvi-medium'>
+												{currentData[4]}
+											</button>
+										)}
+										{currentData[4] >= 7 && (
+											<button className='uvi-button uvi-high'>
+												{currentData[4]}
+											</button>
+										)}
+									</div>
+								</div>
+							</div>
+						</div>
+					)}
 
-              </div>
-            </div>
-          )}
+					{forecastData.length !== 0 && (
+						<div className='forecast'>
+							{forecastData.map((info, index) => (
+								<Fragment key={index}>
+									<div className='forecast-card'>
+										<div className='forecast-card-header'>
+											<div className='forecast-card-title'>{info.date}</div>
+											<div className='forecast-card-icon'>
+												<img
+													src={info.condition}
+													alt='forecast condition icon'
+												/>
+											</div>
+										</div>
+										<div className='forecast-card-body'>
+											<div className='forecast-card-content'>
+												High: &nbsp;
+												<span className='card-api-data'>{info.tempHigh}</span>
+											</div>
+											<div className='forecast-card-content'>
+												Low: &nbsp;
+												<span className='card-api-data'>{info.tempLow}</span>
+											</div>
+											<div className='forecast-card-content'>
+												Rain: &nbsp;
+												<span className='card-api-data'>{info.rain}</span>
+											</div>
+											<div className='forecast-card-content'>
+												UVI: &nbsp;
+												{info.uvi <= 3 && (
+													<button className='uvi-button uvi-low'>
+														{info.uvi}
+													</button>
+												)}
+												{info.uvi > 3 && info.uvi < 7 && (
+													<button className='uvi-button uvi-medium'>
+														{info.uvi}
+													</button>
+												)}
+												{info.uvi >= 7 && (
+													<button className='uvi-button uvi-high'>
+														{info.uvi}
+													</button>
+												)}
+											</div>
+										</div>
+									</div>
+								</Fragment>
+							))}
+						</div>
+					)}
+				</div>
+			</main>
 
-          {forecastData.length !== 0 && (
-            <div className='forecast'>
-              {forecastData.map((info, index) => (
-                <Fragment key={index}>
-                  <div className='forecast-card'>
-                    <div className='forecast-card-header'>
-                      <div className='forecast-card-title'>
-                        {info.date}
-                      </div>
-                      <div className='forecast-card-icon'>
-                        <img src={info.condition} alt='forecast condition icon' />
-                      </div>
-                    </div>
-                    <div className='forecast-card-body'>
-                      <div className='forecast-card-content'>
-                        High: &nbsp;
-  												<span className='card-api-data'>
-                            {info.tempHigh}
-                          </span>
-                      </div>
-                      <div className='forecast-card-content'>
-                        Low: &nbsp;
-  												<span className='card-api-data'>
-                            {info.tempLow}
-                          </span>
-                      </div>
-                      <div className='forecast-card-content'>
-                        Rain: &nbsp;
-  												<span className='card-api-data'>
-                            {info.rain}
-                          </span>
-                      </div>
-                      <div className='forecast-card-content'>
-                        UVI: &nbsp;
-  												{info.uvi <= 3 && (
-  													<button className='uvi-button uvi-low'>
-  														{info.uvi}
-  													</button>
-  												)}
-  												{info.uvi > 3 && info.uvi < 7 && (
-  													<button className='uvi-button uvi-medium'>
-  														{info.uvi}
-  													</button>
-  												)}
-  												{info.uvi >= 7 && (
-  													<button className='uvi-button uvi-high'>
-  														{info.uvi}
-  													</button>
-  												)}
-                      </div>
-                    </div>
-                  </div>
-                </Fragment>
-              ))}
-            </div>
-          )}
-        </div>
-      </main>
-
-      <footer>
+			{/* <footer>
         <div className='footer-container'>
           <div className='footer-content'>
             © {new Date().getFullYear()} Joshua Wilde Hawk
           </div>
         </div>
-      </footer>
+      </footer> */}
 		</Fragment>
 	)
 }
