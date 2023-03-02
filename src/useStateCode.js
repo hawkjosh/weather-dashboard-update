@@ -50,6 +50,11 @@ export default function useStateCode(stateName) {
 		'West Virginia': 'WV',
 		Wisconsin: 'WI',
 		Wyoming: 'WY',
+		'District of Columbia': 'D.C.'
+	}
+
+	if (stateName === 'District of Columbia') {
+		return 'D.C.'
 	}
 
 	// convert state name to title case for better matching

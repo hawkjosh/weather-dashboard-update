@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import dayjs from 'dayjs'
 
@@ -21,6 +21,8 @@ export default () => {
 	const [forecastData, setForecastData] = useState([])
 	const [error, setError] = useState(null)
 	const [otherError, setOtherError] = useState(null)
+	const [showHistory, setShowHistory] = useState(false)
+	const dropdownRef = useRef(null)
 
 	const getWeatherData = (location) => {
 		if (!location) {
@@ -105,25 +107,32 @@ export default () => {
 		setOtherError(null)
 	}
 
+	useEffect(() => {
+		document.addEventListener('click', handleClickOutside)
+		return () => {
+			document.removeEventListener('click', handleClickOutside)
+		}
+	}, [])
+
+	const handleClickOutside = (e) => {
+		if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+			setShowHistory(false)
+		}
+	}
+
 	const newSearchWeather = (e) => {
 		e.preventDefault()
 		getWeatherData(searchLocation)
 		setSearchLocation('')
 	}
 
-  const historySearchWeather = (e) => {
-    setSearchLocation(e.target.innerHTML)
-    e.preventDefault()
-    newSearchWeather()
-  }
-
-	// const prevSearchWeather = (e) => {
-	// 	e.preventDefault()
-	// 	const prevSearchLocation = e.target.value
-	// 	getWeatherData(prevSearchLocation)
-	// }
-
-	const [showHistory, setShowHistory] = useState(false)
+	const prevSearchWeather = (e) => {
+		const location = e.target.innerHTML
+		setSearchLocation(location)
+		getWeatherData(location)
+		setShowHistory(!showHistory)
+		setSearchLocation('')
+	}
 
 	return (
 		<Fragment>
@@ -136,11 +145,12 @@ export default () => {
 			<main>
 				<div className='main-container'>
 					<div className='search'>
+						<div className='search-label'>Search for a location:</div>
 						<form className='search-form'>
 							<input
 								className='search-form-input'
 								type='text'
-								placeholder='Search by city or zip code...'
+								placeholder='Enter city name or zip code...'
 								value={searchLocation}
 								onChange={(e) => setSearchLocation(e.target.value)}
 							/>
@@ -168,7 +178,9 @@ export default () => {
 						</div>
 
 						{searchHistory.length !== 0 && (
-							<div className='search-history'>
+							<div
+								className='search-history'
+								ref={dropdownRef}>
 								<hr className='divider' />
 
 								<button
@@ -178,30 +190,18 @@ export default () => {
 								</button>
 
 								{showHistory && (
-									<div className='search-history-content'>
+									<div className='search-history-list'>
 										{searchHistory.map((search, index) => (
 											<Fragment key={index}>
-												<div onClick={historySearchWeather}>{search}</div>
+												<div
+													className='search-history-list-item'
+													onClick={prevSearchWeather}>
+													{search}
+												</div>
 											</Fragment>
 										))}
 									</div>
 								)}
-
-								{/* <select
-									className='search-history-dropdown'
-									defaultValue=''
-									onChange={prevSearchWeather}>
-									<option
-										value=''
-										disabled>
-										Search History...
-									</option>
-									{searchHistory.map((search, index) => (
-										<Fragment key={index}>
-											<option value={search.innerHTML}>{search}</option>
-										</Fragment>
-									))}
-								</select> */}
 							</div>
 						)}
 					</div>
@@ -224,21 +224,21 @@ export default () => {
 										alt='current condition icon'
 									/>
 								</div>
-								<div className='current-weather-card-info'>
+								<div className='current-weather-card-body'>
 									<div className='current-weather-card-content'>
-										Temperature: &nbsp;
+										Temperature:
 										<span className='card-api-data'>{currentData[1]}</span>
 									</div>
 									<div className='current-weather-card-content'>
-										Wind Speed: &nbsp;
+										Wind Speed:
 										<span className='card-api-data'>{currentData[2]}</span>
 									</div>
 									<div className='current-weather-card-content'>
-										Humidity: &nbsp;
+										Humidity:
 										<span className='card-api-data'>{currentData[3]}</span>
 									</div>
 									<div className='current-weather-card-content'>
-										UV Index: &nbsp;
+										UV Index:
 										{currentData[4] <= 3 && (
 											<button className='uvi-button uvi-low'>
 												{currentData[4]}
@@ -276,19 +276,19 @@ export default () => {
 										</div>
 										<div className='forecast-card-body'>
 											<div className='forecast-card-content'>
-												High: &nbsp;
+												High:
 												<span className='card-api-data'>{info.tempHigh}</span>
 											</div>
 											<div className='forecast-card-content'>
-												Low: &nbsp;
+												Low:
 												<span className='card-api-data'>{info.tempLow}</span>
 											</div>
 											<div className='forecast-card-content'>
-												Rain: &nbsp;
+												Rain:
 												<span className='card-api-data'>{info.rain}</span>
 											</div>
 											<div className='forecast-card-content'>
-												UVI: &nbsp;
+												UVI:
 												{info.uvi <= 3 && (
 													<button className='uvi-button uvi-low'>
 														{info.uvi}
@@ -313,14 +313,6 @@ export default () => {
 					)}
 				</div>
 			</main>
-
-			{/* <footer>
-        <div className='footer-container'>
-          <div className='footer-content'>
-            © {new Date().getFullYear()} Joshua Wilde Hawk
-          </div>
-        </div>
-      </footer> */}
 		</Fragment>
 	)
 }
