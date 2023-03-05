@@ -17,11 +17,11 @@ export default () => {
 	const [searchHistory, setSearchHistory] = useState(() => {
 		const searchHistoryString = localStorage.getItem('searchHistory')
 		if (searchHistoryString !== null) {
-		return JSON.parse(searchHistoryString)
+			return JSON.parse(searchHistoryString)
 		} else {
 			return []
 		}
-})
+	})
 	const [currentLocation, setCurrentLocation] = useState('')
 	const [currentDate, setCurrentDate] = useState('')
 	const [currentData, setCurrentData] = useState([])
@@ -29,7 +29,6 @@ export default () => {
 	const [error, setError] = useState(null)
 	const [otherError, setOtherError] = useState(null)
 	const [showHistory, setShowHistory] = useState(false)
-	// const [isPendingUpdate, setIsPendingUpdate] = useState(false)
 	const dropdownRef = useRef(null)
 
 	const getWeatherData = (location) => {
@@ -125,40 +124,12 @@ export default () => {
 		const location = e.target.innerHTML
 		setSearchLocation(location)
 		getWeatherData(location)
-		// setShowHistory(!showHistory)
 		setSearchLocation('')
+		setShowHistory(!showHistory)
 	}
 
-	// const removeHistoryItem = (e) => {
-	// 	const searchKey = e.currentTarget.dataset.key
-	// 	if (typeof(Storage) !== 'undefined') {
-	// 		const item = localStorage.getItem(searchKey)
-	// 		if (item !== null) {
-	// 			localStorage.removeItem(searchKey)
-	// 		}	else {
-	// 			console.log(`${searchKey} not found in localStorage.`)
-	// 		}
-	// 	} else {
-	// 		console.log('Sorry, your browser does not support web storage.')
-	// 	}
-	// }
-
-	// const removeHistoryItem = (searchKey) => {
-	// 	if (typeof(Storage) !== 'undefined') {
-	// 		const item = localStorage.getItem(searchKey)
-	// 		if (item !== null) {
-	// 			localStorage.removeItem(searchKey)
-	// 		} else {
-	// 			console.log(`${searchKey} not found in localStorage.`)
-	// 			console.log(`localStorage contains the following keys: ${Object.keys(localStorage)}`)
-	// 		}
-	// 	} else {
-	// 		console.log('Sorry, your browser does not support web storage.')
-	// 	}
-	// }
-
 	const removeHistoryItem = (search) => {
-		if (typeof(Storage) !== 'undefined') {
+		if (typeof Storage !== 'undefined') {
 			const searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
 			if (searchHistory !== null) {
 				const index = searchHistory.indexOf(search)
@@ -169,7 +140,6 @@ export default () => {
 					if (searchHistory.length === 0) {
 						setShowHistory(false)
 					}
-					// setIsPendingUpdate(true)
 				} else {
 					console.log(`${search} not found in searchHistory.`)
 				}
@@ -187,24 +157,12 @@ export default () => {
 				setShowHistory(false)
 			}
 		}
-	
+
 		document.addEventListener('click', handleClickOutside)
 		return () => {
 			document.removeEventListener('click', handleClickOutside)
 		}
 	}, [dropdownRef])
-
-	// useEffect(() => {
-	// 	if (showHistory && searchHistory.length === 0 && !isPendingUpdate) {
-	// 		setShowHistory(false);
-	// 	}
-	// }, [showHistory, searchHistory, isPendingUpdate]);
-
-	// useEffect(() => {
-	// 	if (isPendingUpdate) {
-	// 		setIsPendingUpdate(false)
-	// 	}
-	// }, [searchHistory, isPendingUpdate])
 
 	return (
 		<Fragment>
@@ -265,28 +223,20 @@ export default () => {
 									<div className='search-history-list'>
 										{searchHistory.map((search, index) => (
 											<Fragment key={index}>
-												{/* <div
-													className='search-history-list-item'
-													onClick={prevSearchWeather}>
-													{search}
-												</div> */}
-												{/* <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', paddingRight: '2rem' }}> */}
-													<div className='search-history-list-item-wrapper'>
-														<div
-															className='search-history-list-item'
-															data-key={search}
-															onClick={prevSearchWeather}>
-															{search}
-														</div>
-														{/* <button className='search-history-delete-btn' onClick={() => removeHistoryItem(search)}>X</button> */}
-														<TrashIcon
-															className='search-history-delete-btn'
-															iconSize='1.25rem'
-															iconColor='hsl(0, 0%, 90%)'
-															onClick={() => removeHistoryItem(search)}
-														/>
+												<div className='search-history-list-item-wrapper'>
+													<div
+														className='search-history-list-item'
+														// data-key={search}
+														onClick={prevSearchWeather}>
+														{search}
 													</div>
-												{/* </div> */}
+													<TrashIcon
+														className='search-history-delete-btn'
+														iconSize='1.25rem'
+														iconColor='hsl(0, 0%, 90%)'
+														onClick={() => removeHistoryItem(search)}
+													/>
+												</div>
 											</Fragment>
 										))}
 									</div>
