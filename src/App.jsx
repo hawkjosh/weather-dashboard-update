@@ -1,4 +1,4 @@
- import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import dayjs from 'dayjs'
 
@@ -8,10 +8,20 @@ import useStateCode from './useStateCode.js'
 
 import AlertModal from './AlertModal.jsx'
 
+import TrashIcon from './TrashIcon.jsx'
+
 import './App.css'
 
-export default function App() {
+export default () => {
 	const [searchLocation, setSearchLocation] = useState('')
+	// const [searchHistory, setSearchHistory] = useState(() => {
+	// 	const searchHistoryString = localStorage.getItem('searchHistory')
+	// 	if (searchHistoryString !== null) {
+	// 		return JSON.parse(searchHistoryString)
+	// 	} else {
+	// 		return []
+	// 	}
+	// })
 	const [searchHistory, setSearchHistory] = useState(
 		JSON.parse(localStorage.getItem('searchHistory')) || []
 	)
@@ -21,6 +31,8 @@ export default function App() {
 	const [forecastData, setForecastData] = useState([])
 	const [error, setError] = useState(null)
 	const [otherError, setOtherError] = useState(null)
+	const [showHistory, setShowHistory] = useState(false)
+	const dropdownRef = useRef(null)
 
 	const getWeatherData = (location) => {
 		if (!location) {
@@ -112,208 +124,242 @@ export default function App() {
 	}
 
 	const prevSearchWeather = (e) => {
-		e.preventDefault()
-		const prevSearchLocation = e.target.value
-		getWeatherData(prevSearchLocation)
+		const location = e.target.innerHTML
+		setSearchLocation(location)
+		getWeatherData(location)
+		setSearchLocation('')
+		setShowHistory(!showHistory)
 	}
+
+	const removeHistoryItem = (search) => {
+		if (typeof Storage !== 'undefined') {
+			const searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
+			if (searchHistory !== null) {
+				const index = searchHistory.indexOf(search)
+				if (index !== -1) {
+					searchHistory.splice(index, 1)
+					localStorage.setItem('searchHistory', JSON.stringify(searchHistory))
+					setSearchHistory(searchHistory)
+					if (searchHistory.length === 0) {
+						setShowHistory(false)
+					}
+				} else {
+					console.log(`${search} not found in searchHistory.`)
+				}
+			} else {
+				console.log('searchHistory not found in localStorage.')
+			}
+		} else {
+			console.log('Sorry, your browser does not support web storage.')
+		}
+	}
+
+	useEffect(() => {
+		const handleClickOutside = (e) => {
+			if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+				setShowHistory(false)
+			}
+		}
+
+		document.addEventListener('click', handleClickOutside)
+		return () => {
+			document.removeEventListener('click', handleClickOutside)
+		}
+	}, [dropdownRef])
 
 	return (
 		<Fragment>
 			<header>
-				<h1 className='header-title'>Weather Dashboard</h1>
+				<div className='header-container'>
+					<div className='header-content'>Weather Dashboard</div>
+				</div>
 			</header>
 
 			<main>
-				<div className='search-container'>
-					<form>
-						<div className='search-form-controls'>
-							{/* <div> */}
+				<div className='main-container'>
+					<section className='search-container'>
+						<div className='search-label'>Search for a location:</div>
+						<form className='search-form'>
 							<input
-								className='search-input'
+								className='search-form-input'
 								type='text'
-								placeholder='Search by city or zip code'
+								placeholder='Enter city name or zip code...'
 								value={searchLocation}
 								onChange={(e) => setSearchLocation(e.target.value)}
 							/>
-							{/* <div> */}
+
 							<button
-								className='search-button'
+								className='search-form-btn'
+								type='submit'
 								onClick={newSearchWeather}>
 								Search
 							</button>
-							{/* </div> */}
-							{/* </div> */}
+						</form>
+
+						<div id='alert-modal'>
+							<AlertModal
+								isOpen={error !== null}
+								onClose={handleCloseError}>
+								<p>{error && error.message}</p>
+							</AlertModal>
+
+							<AlertModal
+								isOpen={otherError !== null}
+								onClose={handleCloseOtherError}>
+								<p>{otherError && otherError.message}</p>
+							</AlertModal>
 						</div>
-					</form>
-					<div id='alert-modal'>
-						<AlertModal
-							isOpen={error !== null}
-							onClose={handleCloseError}>
-							<p>{error && error.message}</p>
-						</AlertModal>
 
-						<AlertModal
-							isOpen={otherError !== null}
-							onClose={handleCloseOtherError}>
-							<p>{otherError && otherError.message}</p>
-						</AlertModal>
-					</div>
+						{searchHistory.length !== 0 && (
+							<div
+								className='search-history'
+								ref={dropdownRef}>
+								<hr className='divider' />
 
-					{searchHistory.length !== 0 && (
-						<Fragment>
-							<hr />
-							<div className='search-history-dropdown-container'>
-								<select
-									className='search-history-dropdown'
-									defaultValue=''
-									onChange={prevSearchWeather}
-									onBlur={(e) => {
-										if (
-											!searchHistory
-												.map((search) => search.innerHTML)
-												.includes(e.target.value)
-										) {
-											e.target.value = ''
-										}
-									}}
-									>
-									<option
-										value=''
-										disabled>
-										Search History...
-									</option>
-									{searchHistory.map((search, index) => (
-										<Fragment key={index}>
-											<option value={search.innerHTML}>{search}</option>
-										</Fragment>
-									))}
-								</select>
-							</div>
-						</Fragment>
-					)}
-				</div>
+								<button
+									className='search-history-btn'
+									onClick={() => setShowHistory(!showHistory)}>
+									Previous Searches
+								</button>
 
-				{/* <div className='search-results-container'> */}
-					{/* <section className='current-weather-section'> */}
-						{currentData.length !== 0 && (
-							<div className='current-card-container'>
-								{/* <div className='current-card-body'> */}
-									<div className='current-card-header'>
-										<div className='current-card-title-wrapper'>
-											<h2 className='current-card-title-location'>
-												{currentLocation}
-											</h2>
-											<div className='current-card-title-date'>
-												{currentDate}
-											</div>
-										</div>
-										{/* <img
-											className='current-card-icon'
-											src={currentData[0]}
-											alt='current condition icon'
-										/> */}
-									{/* </div> */}
-									<div className='current-card-info-wrapper'>
-										<div>
-											<p className='current-card-text'>
-												Temperature: &nbsp;
-												<span className='card-api-data'>{currentData[1]}</span>
-											</p>
-											<p className='current-card-text'>
-												Wind Speed: &nbsp;
-												<span className='card-api-data'>{currentData[2]}</span>
-											</p>
-										</div>
-										<div>
-											<p className='current-card-text'>
-												Humidity: &nbsp;
-												<span className='card-api-data'>{currentData[3]}</span>
-											</p>
-											<p className='current-card-text'>
-												UV Index: &nbsp;
-												{currentData[4] <= 3 && (
-													<button className='uvi-button uvi-low'>
-														{currentData[4]}
-													</button>
-												)}
-												{currentData[4] > 3 && currentData[4] < 7 && (
-													<button className='uvi-button uvi-medium'>
-														{currentData[4]}
-													</button>
-												)}
-												{currentData[4] >= 7 && (
-													<button className='uvi-button uvi-high'>
-														{currentData[4]}
-													</button>
-												)}
-											</p>
-										</div>
-										</div>
+								{showHistory && (
+									<div className='search-history-list'>
+										{searchHistory.map((search, index) => (
+											<Fragment key={index}>
+												<div className='search-history-list-item-wrapper'>
+													<div
+														className='search-history-list-item'
+														onClick={prevSearchWeather}>
+														{search}
+													</div>
+													<TrashIcon
+														className='search-history-delete-btn'
+														onClick={() => removeHistoryItem(search)}
+													/>
+												</div>
+											</Fragment>
+										))}
 									</div>
-									<div className='current-card-icon-wrapper'>
-										<img
-												className='current-card-icon'
-												src={currentData[0]}
-												alt='current condition icon'
-											/>
-									</div>
-
-								{/* </div> */}
+								)}
 							</div>
 						)}
-					{/* </section> */}
+					</section>
 
-					<section className='forecast-weather-section'>
-						{forecastData.map((day, index) => (
-							<Fragment key={index}>
-								<div className='forecast-card-outer'>
-									<div className='forecast-card-inner'>
-										<div className='forecast-card-body'>
-											<div className='forecast-card-header'>
-												<h5 className='forecast-card-title'>{day.date}</h5>
-												<img
-													className='forecast-card-icon'
-													src={day.condition}
-													alt='forecast condition icon'
-												/>
-											</div>
-											<p className='forecast-card-text'>
-												High: &nbsp;
-												<span className='card-api-data'>{day.tempHigh}</span>
-											</p>
-											<p className='forecast-card-text'>
-												Low: &nbsp;
-												<span className='card-api-data'>{day.tempLow}</span>
-											</p>
-											<p className='forecast-card-text'>
-												Rain: &nbsp;
-												<span className='card-api-data'>{day.rain}</span>
-											</p>
-											<p className='forecast-card-text'>
-												UVI: &nbsp;
-												{day.uvi <= 3 && (
-													<button className='uvi-button uvi-low'>
-														{day.uvi}
-													</button>
-												)}
-												{day.uvi > 3 && day.uvi < 7 && (
-													<button className='uvi-button uvi-medium'>
-														{day.uvi}
-													</button>
-												)}
-												{day.uvi >= 7 && (
-													<button className='uvi-button uvi-high'>
-														{day.uvi}
-													</button>
-												)}
-											</p>
+					{currentData.length !== 0 && (
+						<section className='current-weather-container'>
+							<div className='current-weather-card'>
+								<div className='current-weather-card-header'>
+									<div className='current-weather-card-title-wrapper'>
+										<div className='current-weather-card-location'>
+											{currentLocation}
+										</div>
+										<div className='current-weather-card-date'>
+											{currentDate}
 										</div>
 									</div>
+									<img
+										className='current-weather-card-icon'
+										src={currentData[0]}
+										alt='current condition icon'
+									/>
 								</div>
-							</Fragment>
-						))}
-					</section>
-				{/* </div> */}
+								<div className='current-weather-card-body'>
+									<div className='current-weather-card-data-label'>
+										Temperature:
+										<span className='current-weather-card-data'>
+											{currentData[1]}
+										</span>
+									</div>
+									<div className='current-weather-card-data-label'>
+										Wind Speed:
+										<span className='current-weather-card-data'>
+											{currentData[2]}
+										</span>
+									</div>
+									<div className='current-weather-card-data-label'>
+										Humidity:
+										<span className='current-weather-card-data'>
+											{currentData[3]}
+										</span>
+									</div>
+									<div className='current-weather-card-data-label'>
+										UV Index:
+										{currentData[4] <= 3 && (
+											<span className='current-weather-card-uvi-badge uvi-low'>
+												{currentData[4]}
+											</span>
+										)}
+										{currentData[4] > 3 && currentData[4] < 7 && (
+											<span className='current-weather-card-uvi-badge uvi-medium'>
+												{currentData[4]}
+											</span>
+										)}
+										{currentData[4] >= 7 && (
+											<span className='current-weather-card-uvi-badge uvi-high'>
+												{currentData[4]}
+											</span>
+										)}
+									</div>
+								</div>
+							</div>
+						</section>
+					)}
+
+					{forecastData.length !== 0 && (
+						<section className='forecast-container'>
+							{forecastData.map((info, index) => (
+								<Fragment key={index}>
+									<div className='forecast-card'>
+										<div className='forecast-card-header'>
+											<div className='forecast-card-title'>{info.date}</div>
+											<img
+												className='forecast-card-icon'
+												src={info.condition}
+												alt='forecast condition icon'
+											/>
+										</div>
+										<div className='forecast-card-body'>
+											<div className='forecast-card-data-label'>
+												High:
+												<span className='forecast-card-data'>
+													{info.tempHigh}
+												</span>
+											</div>
+											<div className='forecast-card-data-label'>
+												Low:
+												<span className='forecast-card-data'>
+													{info.tempLow}
+												</span>
+											</div>
+											<div className='forecast-card-data-label'>
+												Rain:
+												<span className='forecast-card-data'>{info.rain}</span>
+											</div>
+											<div className='forecast-card-data-label'>
+												UVI:
+												{info.uvi <= 3 && (
+													<span className='forecast-card-uvi-badge uvi-low'>
+														{info.uvi}
+													</span>
+												)}
+												{info.uvi > 3 && info.uvi < 7 && (
+													<span className='forecast-card-uvi-badge uvi-medium'>
+														{info.uvi}
+													</span>
+												)}
+												{info.uvi >= 7 && (
+													<span className='forecast-card-uvi-badge uvi-high'>
+														{info.uvi}
+													</span>
+												)}
+											</div>
+										</div>
+									</div>
+								</Fragment>
+							))}
+						</section>
+					)}
+				</div>
 			</main>
 		</Fragment>
 	)
