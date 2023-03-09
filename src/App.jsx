@@ -14,14 +14,6 @@ import './App.css'
 
 export default () => {
 	const [searchLocation, setSearchLocation] = useState('')
-	// const [searchHistory, setSearchHistory] = useState(() => {
-	// 	const searchHistoryString = localStorage.getItem('searchHistory')
-	// 	if (searchHistoryString !== null) {
-	// 		return JSON.parse(searchHistoryString)
-	// 	} else {
-	// 		return []
-	// 	}
-	// })
 	const [searchHistory, setSearchHistory] = useState(
 		JSON.parse(localStorage.getItem('searchHistory')) || []
 	)
@@ -37,7 +29,7 @@ export default () => {
 	const getWeatherData = (location) => {
 		if (!location) {
 			const error = new Error(
-				'Uh oh! Looks like you left the search field empty. Please enter a city name or zip code and try again.'
+				'Empty search field. Please enter valid city or zip code.'
 			)
 			setError(error)
 		} else {
@@ -101,8 +93,7 @@ export default () => {
 					console.error(err)
 					if (err.response && err.response.status === 400) {
 						setOtherError({
-							message:
-								'Uh oh! Looks like you may have entered an invalid city name or zip code. Please double check your entry and try again.',
+							message: 'Invalid entry. Please enter valid city or zip code.',
 						})
 					}
 				})
@@ -271,15 +262,15 @@ export default () => {
 										</span>
 									</div>
 									<div className='current-weather-card-data-label'>
-										Wind Speed:
-										<span className='current-weather-card-data'>
-											{currentData[2]}
-										</span>
-									</div>
-									<div className='current-weather-card-data-label'>
 										Humidity:
 										<span className='current-weather-card-data'>
 											{currentData[3]}
+										</span>
+									</div>
+									<div className='current-weather-card-data-label'>
+										Wind Speed:
+										<span className='current-weather-card-data'>
+											{currentData[2]}
 										</span>
 									</div>
 									<div className='current-weather-card-data-label'>

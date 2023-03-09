@@ -1,6 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+import WarningIcon from './WarningIcon.jsx'
+import CloseIcon from './CloseIcon.jsx'
+
 import './AlertModal.css'
 
 export default ({ isOpen, onClose, children }) => {
@@ -11,11 +14,15 @@ export default ({ isOpen, onClose, children }) => {
 	return ReactDOM.createPortal(
 		<div className='modal-overlay'>
 			<div className='modal-container'>
-				<button
+				<CloseIcon
 					className='modal-close-btn'
-					onClick={onClose}>
-					X
-				</button>
+					onClick={onClose}
+				/>
+				<div className='modal-title-wrapper'>
+					<WarningIcon className='modal-title-icon' />
+					<div className='modal-title'>Error</div>
+					<WarningIcon className='modal-title-icon' />
+				</div>
 				<div className='modal-content'>{children}</div>
 			</div>
 		</div>,
