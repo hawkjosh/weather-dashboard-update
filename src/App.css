@@ -5,6 +5,7 @@
 	margin: 0;
 	padding: 0;
 }
+
 * ::-webkit-scrollbar {
 	display: none;
 }
@@ -324,7 +325,8 @@ header {
 }
 
 /* Media Queries */
-@media (width >= 1024px) {
+/* → @media (width >= 1024px) */
+@media (min-width: 1024px) {
 	.main-container {
 		display: grid;
 		grid-template-columns: 4fr 6fr;
@@ -444,13 +446,15 @@ header {
 	}
 }
 
-@media (width >= 1280px) {
+/* → @media (width >= 1280px) */
+@media (min-width: 1280px) {
 	.forecast-card-header {
 		flex-direction: row;
 	}
 }
 
-@media (768px <= width < 1024px) {
+/* → @media (768px <= width < 1024px) */
+@media (min-width: 768px) and (max-width: 1023px) {
 	.main-container {
 		display: grid;
 		grid-template-columns: 4fr 6fr;
@@ -608,7 +612,8 @@ header {
 	}
 }
 
-@media (625px <= width < 768px) {
+/* → @media (625px <= width < 768px) */
+@media (min-width: 625px) and (max-width: 767px) {
 	.main-container {
 		display: flex;
 		flex-direction: column;
@@ -775,7 +780,8 @@ header {
 	}
 }
 
-@media (428px <= width < 625px) {
+/* → @media (428px <= width < 625px) */
+@media (min-width: 428px) and (max-width: 624px) {
 	.main-container {
 		display: flex;
 		flex-direction: column;
@@ -936,7 +942,8 @@ header {
 	}
 }
 
-@media (width < 428px) {
+/* → @media (width < 428px) */
+@media (max-width: 427px) {
 	.main-container {
 		display: flex;
 		flex-direction: column;
