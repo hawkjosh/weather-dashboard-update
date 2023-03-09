@@ -209,6 +209,7 @@ header {
 }
 
 .current-weather-card {
+	width: 100%;
 	height: 100%;
 	background: linear-gradient(to left, hsl(219, 57%, 47%), hsl(262, 80%, 16%));
 	border-radius: 0.5rem;
@@ -266,6 +267,7 @@ header {
 
 /* MAIN → Forecast Section */
 .forecast-card {
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -379,10 +381,10 @@ header {
 		gap: 1rem;
 	}
 	.current-weather-card-title-wrapper {
-		gap: 0.675rem;
+		gap: 0.625rem;
 	}
 	.current-weather-card-location {
-		font-size: 1.675rem;
+		font-size: 1.625rem;
 	}
 	.current-weather-card-date {
 		font-size: 1.375rem;
@@ -608,9 +610,11 @@ header {
 	}
 	.forecast-card:first-child .forecast-card-uvi-badge {
 		font-size: 1.375rem;
-		padding: 0.25rem 0.675rem;
+		padding: 0.25rem 0.625rem;
 	}
 }
+
+/* PIN Need to update the clamp/responsive values commented out in the below media query. This was my stopping point. Working my way up, have completed media query clamp/responsiveness for sections below this one. */
 
 /* → @media (625px <= width < 768px) */
 @media (min-width: 625px) and (max-width: 767px) {
@@ -662,121 +666,173 @@ header {
 	}
 	.current-weather-card {
 		padding: 1rem;
+		/* padding: ; */
 	}
 	.current-weather-card-header {
-		display: flex;
-		justify-content: space-evenly;
-		align-items: center;
-		gap: 1rem;
+		width: 100%;
+		display: grid;
+		grid-template-columns: 70% 30%;
+		column-gap: 0;
+		place-items: center;
 	}
 	.current-weather-card-title-wrapper {
 		gap: 0.625rem;
+		/* gap: ; */
 	}
 	.current-weather-card-location {
 		font-size: 1.625rem;
+		/* font-size: ; */
 	}
 	.current-weather-card-date {
 		font-size: 1.375rem;
+		/* font-size: ; */
 	}
 	.current-weather-card-icon {
-		width: 6.625rem;
+		width: clamp(7.5rem, 0.398rem + 18.182vw, 9.125rem);
 	}
 	.current-weather-card-body {
 		display: grid;
 		grid-template-columns: 55% 45%;
 		grid-template-rows: repeat(2, 1fr);
-		column-gap: 0.5rem;
+		column-gap: 0;
 		row-gap: 1.125rem;
+		/* row-gap: ; */
 		place-items: center;
 	}
 	.current-weather-card-data-label {
 		font-size: 1.375rem;
+		/* font-size: ; */
 	}
 	.current-weather-card-data {
 		font-size: 1.5rem;
+		/* font-size: ; */
 	}
 	.current-weather-card-uvi-badge {
 		font-size: 1.25rem;
+		/* font-size: ; */
 	}
 	.forecast-container {
 		width: 90%;
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		gap: 1.5rem;
+		grid-template-rows: repeat(2, auto);
+		gap: 1.25rem;
+		/* gap: ; */
 	}
 	.forecast-card {
 		gap: 1rem;
+		/* gap: ; */
 		padding: 0.5rem;
+		/* padding: ; */
 	}
-	.forecast-card:nth-child(2),
-	.forecast-card:nth-child(5) {
+	.forecast-card:nth-child(2) {
 		grid-column: 3 / 4;
+		grid-row: 1 / 2;
 	}
 	.forecast-card:nth-child(3) {
 		grid-column: 1 / 2;
+		grid-row: 2 / 3;
 	}
 	.forecast-card:nth-child(4) {
 		grid-column: 2 / 3;
+		grid-row: 2 / 3;
+	}
+	.forecast-card:nth-child(5) {
+		grid-column: 3 / 4;
+		grid-row: 2 / 3;
 	}
 	.forecast-card-header {
 		flex-direction: column;
 		gap: 0.75rem;
+		/* gap: ; */
 	}
 	.forecast-card-title {
-		font-size: 1.675rem;
+		font-size: 1.625rem;
+		/* font-size: ; */
 	}
 	.forecast-card-icon {
-		width: 3rem;
+		width: clamp(3.375rem, 0.643rem + 6.993vw, 4rem);
 	}
 	.forecast-card-body {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		gap: 0.75rem;
+		/* gap: ; */
 	}
 	.forecast-card-data-label {
 		font-size: 1.125rem;
+		/* font-size: ; */
 	}
 	.forecast-card-data {
 		font-size: 1.25rem;
+		/* font-size: ; */
 	}
 	.forecast-card-uvi-badge {
 		font-size: 1rem;
+		/* font-size: ; */
 		padding: 0.125rem 0.5rem;
 	}
 	.forecast-card:first-child {
 		grid-column: 1 / 3;
+		grid-row: 1 / 2;
 		gap: 1.75rem;
+		/* gap: ; */
 		padding: 0.875rem;
+		/* padding: ; */
 	}
 	.forecast-card:first-child .forecast-card-header {
-		flex-direction: row;
-		gap: 3rem;
+		width: 100%;
+		display: grid;
+		grid-template-columns: 55% 45%;
+		column-gap: 0;
+		place-items: center;
 	}
 	.forecast-card:first-child .forecast-card-title {
 		font-size: 2.5rem;
+		/* font-size: ; */
 	}
 	.forecast-card:first-child .forecast-card-icon {
-		width: 6.875rem;
+		width: clamp(6rem, 1.083rem + 12.587vw, 7.125rem);
 	}
 	.forecast-card:first-child .forecast-card-body {
 		width: 100%;
 		display: grid;
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: 55% 45%;
 		grid-template-rows: repeat(2, 1fr);
-		column-gap: 1.25rem;
+		column-gap: 0;
 		row-gap: 1.5rem;
+		/* row-gap: ; */
 		place-items: center;
 	}
 	.forecast-card:first-child .forecast-card-data-label {
 		font-size: 1.375rem;
+		/* font-size: ; */
+	}
+	.forecast-card-data-label:first-child {
+		grid-column: 1 / 2;
+		grid-row: 1 / 2;
+	}
+	.forecast-card-data-label:nth-child(2) {
+		grid-column: 1 / 2;
+		grid-row: 2 / 3;
+	}
+	.forecast-card-data-label:nth-child(3) {
+		grid-column: 2 / 3;
+		grid-row: 1 / 2;
+	}
+	.forecast-card-data-label:last-child {
+		grid-column: 2 / 3;
+		grid-row: 2 / 3;
 	}
 	.forecast-card:first-child .forecast-card-data {
 		font-size: 1.5rem;
+		/* font-size: ; */
 	}
 	.forecast-card:first-child .forecast-card-uvi-badge {
 		font-size: 1.25rem;
-		padding: 0.25rem 0.675rem;
+		/* font-size: ; */
+		padding: 0.25rem 0.625rem;
 	}
 }
 
@@ -829,116 +885,148 @@ header {
 		width: 92.5%;
 	}
 	.current-weather-card {
-		padding: 1rem;
+		padding: clamp(0.75rem, 0.207rem + 2.03vw, 1rem);
 	}
 	.current-weather-card-header {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 1.375rem;
+		gap: clamp(1.375rem, 1.103rem + 1.015vw, 1.5rem);
 	}
 	.current-weather-card-title-wrapper {
-		gap: 0.375rem;
+		gap: clamp(0.375rem, 0.103rem + 1.015vw, 0.5rem);
 	}
 	.current-weather-card-location {
-		font-size: 1.5rem;
+		font-size: clamp(1.5rem, 1.228rem + 1.015vw, 1.625rem);
 	}
 	.current-weather-card-date {
-		font-size: 1.25rem;
+		font-size: clamp(1.125rem, 0.853rem + 1.015vw, 1.25rem);
 	}
 	.current-weather-card-icon {
-		width: 7.125rem;
+		width: clamp(7.25rem, 3.448rem + 14.213vw, 9rem);
 	}
 	.current-weather-card-body {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 0.875rem;
+		gap: clamp(0.875rem, 0.603rem + 1.015vw, 1rem);
 	}
 	.current-weather-card-data-label {
-		font-size: 1.5rem;
+		font-size: clamp(1.5rem, 1.228rem + 1.015vw, 1.625rem);
 	}
 	.current-weather-card-data {
-		font-size: 1.675rem;
+		font-size: clamp(1.625rem, 1.353rem + 1.015vw, 1.75rem);
 	}
 	.current-weather-card-uvi-badge {
-		font-size: 1.375rem;
+		font-size: clamp(1.375rem, 1.103rem + 1.015vw, 1.5rem);
 	}
 	.forecast-container {
 		width: 90%;
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
-		gap: 1.5rem;
+		grid-template-rows: repeat(3, auto);
+		gap: clamp(1.25rem, 0.707rem + 2.03vw, 1.5rem);
 	}
 	.forecast-card {
-		padding: 0.5rem;
-		gap: 1rem;
+		gap: clamp(1rem, 0.457rem + 2.03vw, 1.25rem);
+		padding: clamp(0.5rem, -0.043rem + 2.03vw, 0.75rem);
 	}
-	.forecast-card:nth-child(2n + 2) {
+	.forecast-card:nth-child(2) {
 		grid-column: 1 / 2;
+		grid-row: 2 / 3;
 	}
-	.forecast-card:nth-child(2n + 1) {
+	.forecast-card:nth-child(3) {
 		grid-column: 2 / 3;
+		grid-row: 2 / 3;
+	}
+	.forecast-card:nth-child(4) {
+		grid-column: 1 / 2;
+		grid-row: 3 / 4;
+	}
+	.forecast-card:last-child {
+		grid-column: 2 / 3;
+		grid-row: 3 / 4;
 	}
 	.forecast-card-header {
 		flex-direction: column;
-		gap: 0.75rem;
+		gap: clamp(0.75rem, 0.478rem + 1.015vw, 0.875rem);
 	}
 	.forecast-card-title {
-		font-size: 1.625rem;
+		font-size: clamp(1.75rem, 1.478rem + 1.015vw, 1.875rem);
 	}
 	.forecast-card-icon {
-		width: 3.25rem;
+		width: clamp(3.25rem, 0.534rem + 10.152vw, 4.5rem);
 	}
 	.forecast-card-body {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 0.75rem;
+		gap: clamp(0.75rem, 0.478rem + 1.015vw, 0.875rem);
 	}
 	.forecast-card-data-label {
-		font-size: 1.125rem;
+		font-size: clamp(1.375rem, 1.103rem + 1.015vw, 1.5rem);
 	}
 	.forecast-card-data {
-		font-size: 1.25rem;
+		font-size: clamp(1.5rem, 1.228rem + 1.015vw, 1.625rem);
 	}
 	.forecast-card-uvi-badge {
-		font-size: 1rem;
+		font-size: clamp(1.25rem, 0.978rem + 1.015vw, 1.375rem);
 		padding: 0.125rem 0.5rem;
 	}
 	.forecast-card:first-child {
 		grid-column: 1 / 3;
-		gap: 1rem;
-		padding: 1rem;
+		grid-row: 1 / 2;
+		gap: clamp(1.25rem, 0.978rem + 1.015vw, 1.375rem);
+		padding: clamp(0.75rem, -0.336rem + 4.061vw, 1.25rem);
 	}
 	.forecast-card:first-child .forecast-card-header {
-		flex-direction: row;
-		gap: 3rem;
+		width: 100%;
+		display: grid;
+		grid-template-columns: 55% 45%;
+		gap: 0;
+		place-items: center;
 	}
 	.forecast-card:first-child .forecast-card-title {
-		font-size: 2.5rem;
+		font-size: clamp(2.25rem, 1.978rem + 1.015vw, 2.375rem);
 	}
 	.forecast-card:first-child .forecast-card-icon {
-		width: 6.875rem;
+		width: clamp(6.375rem, 2.301rem + 15.228vw, 8.25rem);
 	}
 	.forecast-card:first-child .forecast-card-body {
 		width: 100%;
 		display: grid;
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: 55% 45%;
 		grid-template-rows: repeat(2, 1fr);
-		column-gap: 1.25rem;
-		row-gap: 1.125rem;
+		column-gap: 0;
+		row-gap: clamp(0.75rem, 0.478rem + 1.015vw, 0.875rem);
 		place-items: center;
 	}
 	.forecast-card:first-child .forecast-card-data-label {
-		font-size: 1.375rem;
+		font-size: clamp(1.5rem, 1.228rem + 1.015vw, 1.625rem);
+		gap: clamp(0.875rem, 0.603rem + 1.015vw, 1rem);
+	}
+	.forecast-card-data-label:first-child {
+		grid-column: 1 / 2;
+		grid-row: 1 / 2;
+	}
+	.forecast-card-data-label:nth-child(2) {
+		grid-column: 1 / 2;
+		grid-row: 2 / 3;
+	}
+	.forecast-card-data-label:nth-child(3) {
+		grid-column: 2 / 3;
+		grid-row: 1 / 2;
+	}
+	.forecast-card-data-label:last-child {
+		grid-column: 2 / 3;
+		grid-row: 2 / 3;
 	}
 	.forecast-card:first-child .forecast-card-data {
-		font-size: 1.5rem;
+		font-size: clamp(1.625rem, 1.353rem + 1.015vw, 1.75rem);
 	}
 	.forecast-card:first-child .forecast-card-uvi-badge {
-		font-size: 1.25rem;
-		padding: 0.25rem 0.675rem;
+		font-size: clamp(1.375rem, 1.103rem + 1.015vw, 1.5rem);
+		padding: 0.25rem 0.625rem;
 	}
 }
 
@@ -974,117 +1062,142 @@ header {
 		font-size: clamp(1.25rem, 0.588rem + 2.941vw, 1.375rem);
 	}
 	.search-history-list-item {
-		font-size: 1.125rem;
+		font-size: clamp(1.125rem, 0.463rem + 2.941vw, 1.25rem);
 	}
 	.search-history-list-item::before {
-		font-size: 1.25rem;
+		font-size: clamp(1.25rem, 0.588rem + 2.941vw, 1.375rem);
 	}
 	.search-history-delete-btn {
-		width: 1.125rem;
+		width: clamp(1.125rem, 0.463rem + 2.941vw, 1.25rem);
 	}
 	.current-weather-container {
 		width: 95%;
 	}
 	.current-weather-card {
-		padding: 0.75rem;
+		padding: clamp(0.5rem, -0.824rem + 5.882vw, 0.75rem);
 	}
 	.current-weather-card-header {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 1.25rem;
+		gap: clamp(1.25rem, 0.588rem + 2.941vw, 1.375rem);
 	}
 	.current-weather-card-title-wrapper {
-		gap: 0.25rem;
+		gap: clamp(0.25rem, -0.412rem + 2.941vw, 0.375rem);
 	}
 	.current-weather-card-location {
-		font-size: 1.375rem;
+		font-size: clamp(1.375rem, 0.713rem + 2.941vw, 1.5rem);
 	}
 	.current-weather-card-date {
-		font-size: 1.125rem;
+		font-size: clamp(1rem, 0.338rem + 2.941vw, 1.125rem);
 	}
 	.current-weather-card-icon {
-		width: 6.125rem;
+		width: clamp(5.875rem, -1.404rem + 32.353vw, 7.25rem);
 	}
 	.current-weather-card-body {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 0.75rem;
+		gap: clamp(0.75rem, 0.088rem + 2.941vw, 0.875rem);
 	}
 	.current-weather-card-data-label {
-		font-size: 1.375rem;
+		font-size: clamp(1.375rem, 0.713rem + 2.941vw, 1.5rem);
 	}
 	.current-weather-card-data {
-		font-size: 1.5rem;
+		font-size: clamp(1.5rem, 0.838rem + 2.941vw, 1.625rem);
 	}
 	.current-weather-card-uvi-badge {
-		font-size: 1.25rem;
+		font-size: clamp(1.25rem, 0.588rem + 2.941vw, 1.375rem);
 	}
 	.forecast-container {
 		width: 95%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 1.25rem;
+		gap: clamp(1.125rem, 0.463rem + 2.941vw, 1.25rem);
 	}
 	.forecast-card {
-		width: 90%;
-		gap: 1rem;
-		padding: 0.75rem;
+		width: 95%;
+		gap: clamp(0.75rem, 0.088rem + 2.941vw, 0.875rem);
+		padding: clamp(0.625rem, -0.037rem + 2.941vw, 0.75rem);
 	}
 	.forecast-card-header {
-		gap: 1rem;
+		width: 100%;
+		display: grid;
+		grid-template-columns: 2fr 1.5fr;
+		gap: 0;
+		place-items: center;
 	}
 	.forecast-card-title {
-		font-size: 1.5rem;
+		font-size: clamp(1.75rem, 1.088rem + 2.941vw, 1.875rem);
 	}
 	.forecast-card-icon {
-		width: 3.375rem;
+		width: clamp(4.375rem, 0.404rem + 17.647vw, 5.125rem);
 	}
 	.forecast-card-body {
 		width: 100%;
 		display: grid;
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: 2fr 1.5fr;
 		grid-template-rows: repeat(2, 1fr);
-		column-gap: 0.5rem;
-		row-gap: 0.375rem;
+		column-gap: 0;
+		row-gap: clamp(0.375rem, -0.287rem + 2.941vw, 0.5rem);
 		place-items: center;
 	}
 	.forecast-card-data-label {
-		font-size: 1.125rem;
+		font-size: clamp(1.25rem, 0.588rem + 2.941vw, 1.375rem);
+	}
+	.forecast-card-data-label:first-child {
+		grid-column: 1 / 2;
+		grid-row: 1 / 2;
+	}
+	.forecast-card-data-label:nth-child(2) {
+		grid-column: 1 / 2;
+		grid-row: 2 / 3;
+	}
+	.forecast-card-data-label:nth-child(3) {
+		grid-column: 2 / 3;
+		grid-row: 1 / 2;
+	}
+	.forecast-card-data-label:last-child {
+		grid-column: 2 / 3;
+		grid-row: 2 / 3;
 	}
 	.forecast-card-data {
-		font-size: 1.25rem;
+		font-size: clamp(1.375rem, 0.713rem + 2.941vw, 1.5rem);
 	}
 	.forecast-card-uvi-badge {
-		font-size: 1rem;
+		font-size: clamp(1.125rem, 0.463rem + 2.941vw, 1.25rem);
 		padding: 0.125rem 0.5rem;
 	}
 	.forecast-card:first-child {
-		gap: 0.125rem;
-		padding: 1.25rem;
+		gap: clamp(0rem, -0.662rem + 2.941vw, 0.125rem);
+		padding: clamp(0.75rem, -0.574rem + 5.882vw, 1rem);
 	}
 	.forecast-card:first-child .forecast-card-header {
-		gap: 2.5rem;
+		width: 100%;
+		display: grid;
+		grid-template-columns: 65% 35%;
+		gap: 0;
+		place-items: center;
 	}
 	.forecast-card:first-child .forecast-card-title {
-		font-size: 2rem;
+		font-size: clamp(2.125rem, 1.463rem + 2.941vw, 2.25rem);
 	}
 	.forecast-card:first-child .forecast-card-icon {
-		width: 5.125rem;
+		width: clamp(5.375rem, 0.081rem + 23.529vw, 6.375rem);
 	}
 	.forecast-card:first-child .forecast-card-body {
+		width: 100%;
 		display: grid;
-		grid-template-columns: 55% 45%;
+		grid-template-columns: 65% 35%;
 		grid-template-rows: repeat(3, 1fr);
-		column-gap: 1.25rem;
-		row-gap: 0.625rem;
+		column-gap: 0;
+		row-gap: clamp(0.625rem, -0.037rem + 2.941vw, 0.75rem);
 		place-items: center;
 	}
 	.forecast-card:first-child .forecast-card-data-label {
-		font-size: 1.25rem;
-		gap: 0.75rem;
+		font-size: clamp(1.375rem, 0.713rem + 2.941vw, 1.5rem);
+		gap: clamp(1rem, 0.338rem + 2.941vw, 1.125rem);
 	}
 	.forecast-card:first-child .forecast-card-data-label:first-child {
 		grid-column: 1 / 2;
@@ -1102,29 +1215,13 @@ header {
 		grid-column: 2 / 3;
 		grid-row: 1 / 4;
 		flex-direction: column;
-		gap: 0.625rem;
+		gap: clamp(0.625rem, -0.037rem + 2.941vw, 0.75rem);
 	}
 	.forecast-card:first-child .forecast-card-data {
-		font-size: 1.375rem;
+		font-size: clamp(1.5rem, 0.838rem + 2.941vw, 1.625rem);
 	}
 	.forecast-card:first-child .forecast-card-uvi-badge {
-		font-size: 1.125rem;
-		padding: 0.25rem 0.675rem;
+		font-size: clamp(1.25rem, 0.588rem + 2.941vw, 1.375rem);
+		padding: 0.25rem 0.625rem;
 	}
 }
-
-/* @media (428px <= width < 768px) {
-	.search-form {
-		width: 95%;
-		flex-direction: row;
-		gap: 0.75rem;
-	}
-	.search-form-input {
-		flex: 1;
-	}
-	.search-form-btn {
-		flex: 0.5;
-		height: 100%;
-		padding: 0.75rem 0;
-	}
-} */
