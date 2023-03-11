@@ -1,0 +1,15 @@
+@keyframes test {
+  0% {
+    font-size: 1rem;
+    color: red;
+  }
+  100% {
+    font-size: 3rem;
+    color: blue;
+  }
+}
+
+.test {
+  --tt-key: test;
+  
+}

@@ -205,28 +205,33 @@ header {
 
 /* MAIN → Current Weather Section */
 .current-weather-container {
+	width: 100%;
 	height: 100%;
 }
 
 .current-weather-card {
 	width: 100%;
 	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	background: linear-gradient(to left, hsl(219, 57%, 47%), hsl(262, 80%, 16%));
 	border-radius: 0.5rem;
 	box-shadow: 0 0.5rem 1rem 0 hsla(0, 0%, 0%, 0.5);
 }
 
 .current-weather-card-header {
-	margin-bottom: 1.25rem;
+	width: 100%;
 }
 
-.current-weather-card-title-wrapper {
+/* .current-weather-card-title-wrapper {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-}
+} */
 
 .current-weather-card-location {
+	width: 100%;
 	font-weight: 500;
 	text-align: center;
 	text-transform: uppercase;
@@ -234,6 +239,14 @@ header {
 }
 
 .current-weather-card-date {
+	font-style: italic;
+	font-weight: 200;
+	font-weight: 400;
+	text-align: center;
+	color: hsl(60, 100%, 50%);
+}
+
+.current-weather-card-time {
 	font-style: italic;
 	font-weight: 200;
 	text-align: center;
@@ -380,9 +393,9 @@ header {
 		align-items: center;
 		gap: 1rem;
 	}
-	.current-weather-card-title-wrapper {
+	/* .current-weather-card-title-wrapper {
 		gap: 0.625rem;
-	}
+	} */
 	.current-weather-card-location {
 		font-size: 1.625rem;
 	}
@@ -497,32 +510,46 @@ header {
 		width: clamp(1.125rem, 0.75rem + 0.781vw, 1.25rem);
 	}
 	.current-weather-container {
-		width: 100%;
+		/* width: 100%; */
 		grid-column: 2 / 3;
 	}
 	.current-weather-card {
+		/* display: flex; */
+		/* flex-direction: column; */
 		padding: 0.75rem;
-		display: flex;
-		flex-direction: column;
-		gap: 1.125rem;
 	}
 	.current-weather-card-header {
-		display: flex;
-		justify-content: space-evenly;
-		align-items: center;
-		gap: 0.75rem;
+		display: grid;
+		grid-template-columns: 70% 30%;
+		grid-template-rows: repeat(3, auto);
+		gap: 0;
+		place-items: center;
 	}
-	.current-weather-card-title-wrapper {
+	/* .current-weather-card-title-wrapper {
 		gap: 0.5rem;
-	}
+	} */
 	.current-weather-card-location {
+		width: 100%;
+		grid-column: 1 / 2;
+		grid-row: 1 / 2;
+		font-size: min(1.25rem, 70%);
+
+		outline: solid red;
+		}
+	.current-weather-card-date {
+		grid-column: 1 / 2;
+		grid-row: 2 / 3;
 		font-size: 1.375rem;
 	}
-	.current-weather-card-date {
+	.current-weather-card-time {
+		grid-column: 1 / 2;
+		grid-row: 3 / 4;
 		font-size: 1.125rem;
 	}
 	.current-weather-card-icon {
-		width: 5.375rem;
+		grid-column: 2 / 3;
+		grid-row: 1 / 4;
+		width: clamp(7.375rem, 1.75rem + 11.719vw, 9.25rem);
 	}
 	.current-weather-card-body {
 		display: grid;
@@ -614,8 +641,6 @@ header {
 	}
 }
 
-/* PIN Need to update the clamp/responsive values commented out in the below media query. This was my stopping point. Working my way up, have completed media query clamp/responsiveness for sections below this one. */
-
 /* → @media (625px <= width < 768px) */
 @media (min-width: 625px) and (max-width: 767px) {
 	.main-container {
@@ -665,8 +690,7 @@ header {
 		width: 90%;
 	}
 	.current-weather-card {
-		padding: 1rem;
-		/* padding: ; */
+		padding: clamp(0.875rem, 0.329rem + 1.399vw, 1rem);
 	}
 	.current-weather-card-header {
 		width: 100%;
@@ -675,17 +699,14 @@ header {
 		column-gap: 0;
 		place-items: center;
 	}
-	.current-weather-card-title-wrapper {
-		gap: 0.625rem;
-		/* gap: ; */
-	}
+	/* .current-weather-card-title-wrapper {
+		gap: clamp(0.625rem, 0.079rem + 1.399vw, 0.75rem);
+	} */
 	.current-weather-card-location {
-		font-size: 1.625rem;
-		/* font-size: ; */
+		font-size: clamp(1.5rem, 0.954rem + 1.399vw, 1.625rem);
 	}
 	.current-weather-card-date {
-		font-size: 1.375rem;
-		/* font-size: ; */
+		font-size: clamp(1.125rem, 0.579rem + 1.399vw, 1.25rem);
 	}
 	.current-weather-card-icon {
 		width: clamp(7.5rem, 0.398rem + 18.182vw, 9.125rem);
@@ -695,35 +716,28 @@ header {
 		grid-template-columns: 55% 45%;
 		grid-template-rows: repeat(2, 1fr);
 		column-gap: 0;
-		row-gap: 1.125rem;
-		/* row-gap: ; */
+		row-gap: clamp(1rem, 0.454rem + 1.399vw, 1.125rem);
 		place-items: center;
 	}
 	.current-weather-card-data-label {
-		font-size: 1.375rem;
-		/* font-size: ; */
+		font-size: clamp(1.375rem, 0.829rem + 1.399vw, 1.5rem);
 	}
 	.current-weather-card-data {
-		font-size: 1.5rem;
-		/* font-size: ; */
+		font-size: clamp(1.5rem, 0.954rem + 1.399vw, 1.625rem);
 	}
 	.current-weather-card-uvi-badge {
-		font-size: 1.25rem;
-		/* font-size: ; */
+		font-size: clamp(1.25rem, 0.704rem + 1.399vw, 1.375rem);
 	}
 	.forecast-container {
 		width: 90%;
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
 		grid-template-rows: repeat(2, auto);
-		gap: 1.25rem;
-		/* gap: ; */
+		gap: clamp(1.25rem, 0.704rem + 1.399vw, 1.375rem);
 	}
 	.forecast-card {
-		gap: 1rem;
-		/* gap: ; */
-		padding: 0.5rem;
-		/* padding: ; */
+		gap: clamp(1rem, 0.454rem + 1.399vw, 1.125rem);
+		padding: clamp(0.5rem, -0.046rem + 1.399vw, 0.625rem);
 	}
 	.forecast-card:nth-child(2) {
 		grid-column: 3 / 4;
@@ -743,12 +757,10 @@ header {
 	}
 	.forecast-card-header {
 		flex-direction: column;
-		gap: 0.75rem;
-		/* gap: ; */
+		gap: clamp(0.75rem, 0.204rem + 1.399vw, 0.875rem);
 	}
 	.forecast-card-title {
-		font-size: 1.625rem;
-		/* font-size: ; */
+		font-size: clamp(1.625rem, 1.079rem + 1.399vw, 1.75rem);
 	}
 	.forecast-card-icon {
 		width: clamp(3.375rem, 0.643rem + 6.993vw, 4rem);
@@ -757,29 +769,23 @@ header {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 0.75rem;
-		/* gap: ; */
+		gap: clamp(0.625rem, 0.079rem + 1.399vw, 0.75rem);
 	}
 	.forecast-card-data-label {
-		font-size: 1.125rem;
-		/* font-size: ; */
+		font-size: clamp(1.125rem, 0.579rem + 1.399vw, 1.25rem);
 	}
 	.forecast-card-data {
-		font-size: 1.25rem;
-		/* font-size: ; */
+		font-size: clamp(1.25rem, 0.704rem + 1.399vw, 1.375rem);
 	}
 	.forecast-card-uvi-badge {
-		font-size: 1rem;
-		/* font-size: ; */
+		font-size: clamp(1rem, 0.454rem + 1.399vw, 1.125rem);
 		padding: 0.125rem 0.5rem;
 	}
 	.forecast-card:first-child {
 		grid-column: 1 / 3;
 		grid-row: 1 / 2;
-		gap: 1.75rem;
-		/* gap: ; */
-		padding: 0.875rem;
-		/* padding: ; */
+		gap: clamp(1.75rem, 1.204rem + 1.399vw, 1.875rem);
+		padding: clamp(0.75rem, 0.204rem + 1.399vw, 0.875rem);
 	}
 	.forecast-card:first-child .forecast-card-header {
 		width: 100%;
@@ -789,8 +795,7 @@ header {
 		place-items: center;
 	}
 	.forecast-card:first-child .forecast-card-title {
-		font-size: 2.5rem;
-		/* font-size: ; */
+		font-size: clamp(2.125rem, 1.579rem + 1.399vw, 2.25rem);
 	}
 	.forecast-card:first-child .forecast-card-icon {
 		width: clamp(6rem, 1.083rem + 12.587vw, 7.125rem);
@@ -801,13 +806,11 @@ header {
 		grid-template-columns: 55% 45%;
 		grid-template-rows: repeat(2, 1fr);
 		column-gap: 0;
-		row-gap: 1.5rem;
-		/* row-gap: ; */
+		row-gap: clamp(1.5rem, 0.954rem + 1.399vw, 1.625rem);
 		place-items: center;
 	}
 	.forecast-card:first-child .forecast-card-data-label {
-		font-size: 1.375rem;
-		/* font-size: ; */
+		font-size: clamp(1.375rem, 0.829rem + 1.399vw, 1.5rem);
 	}
 	.forecast-card-data-label:first-child {
 		grid-column: 1 / 2;
@@ -826,12 +829,10 @@ header {
 		grid-row: 2 / 3;
 	}
 	.forecast-card:first-child .forecast-card-data {
-		font-size: 1.5rem;
-		/* font-size: ; */
+		font-size: clamp(1.5rem, 0.954rem + 1.399vw, 1.625rem);
 	}
 	.forecast-card:first-child .forecast-card-uvi-badge {
-		font-size: 1.25rem;
-		/* font-size: ; */
+		font-size: clamp(1.25rem, 0.704rem + 1.399vw, 1.375rem);
 		padding: 0.25rem 0.625rem;
 	}
 }
@@ -893,9 +894,9 @@ header {
 		align-items: center;
 		gap: clamp(1.375rem, 1.103rem + 1.015vw, 1.5rem);
 	}
-	.current-weather-card-title-wrapper {
+	/* .current-weather-card-title-wrapper {
 		gap: clamp(0.375rem, 0.103rem + 1.015vw, 0.5rem);
-	}
+	} */
 	.current-weather-card-location {
 		font-size: clamp(1.5rem, 1.228rem + 1.015vw, 1.625rem);
 	}
@@ -1074,25 +1075,51 @@ header {
 		width: 95%;
 	}
 	.current-weather-card {
+		gap: 2rem;
 		padding: clamp(0.5rem, -0.824rem + 5.882vw, 0.75rem);
 	}
 	.current-weather-card-header {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: clamp(1.25rem, 0.588rem + 2.941vw, 1.375rem);
+		display: grid;
+		grid-template-rows: auto;
+		row-gap: 0.75rem;
+		column-gap: 2rem;
+		place-items: center;
 	}
-	.current-weather-card-title-wrapper {
+	/* .current-weather-card-title-wrapper {
 		gap: clamp(0.25rem, -0.412rem + 2.941vw, 0.375rem);
-	}
+	} */
 	.current-weather-card-location {
+		grid-column: 1 / 3;
+		grid-row: 1 / 2;
 		font-size: clamp(1.375rem, 0.713rem + 2.941vw, 1.5rem);
+		font-size: 6vw;
 	}
 	.current-weather-card-date {
-		font-size: clamp(1rem, 0.338rem + 2.941vw, 1.125rem);
+		grid-column: 1 / 3;
+		grid-row: 2 / 3;
+		/* font-size: clamp(1rem, 0.338rem + 2.941vw, 1.125rem); */
+		font-size: 5vw;
 	}
+	/* .current-weather-card-time {
+		grid-area: 2 / 2 / 3 / 3;
+		font-size: clamp(1rem, 0.338rem + 2.941vw, 1.125rem);
+		justify-self: flex-start;
+	} */
 	.current-weather-card-icon {
+		grid-column: 1 / 2;
+		grid-row: 3 / 4;
+		justify-self: flex-end;
 		width: clamp(5.875rem, -1.404rem + 32.353vw, 7.25rem);
+	}
+	.current-weather-card-uvi {
+		grid-column: 2 / 3;
+		grid-row: 3 / 4;
+		justify-self: flex-start;
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		font-weight: 300;
+		color: hsl(0, 0%, 90%);
 	}
 	.current-weather-card-body {
 		display: flex;
