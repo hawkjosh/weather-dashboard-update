@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 import { weatherApiKey, weatherApiBaseUrl } from '../config'
 
 import useStateCode from './useStateCode.js'
+import useCountryCode from './useCountryCode.js'
 
 import AlertModal from './AlertModal.jsx'
 
@@ -19,7 +20,6 @@ export default () => {
 	)
 	const [currentLocation, setCurrentLocation] = useState('')
 	const [currentDate, setCurrentDate] = useState('')
-	const [currentTime, setCurrentTime] = useState('')
 	const [currentData, setCurrentData] = useState([])
 	const [forecastData, setForecastData] = useState([])
 	const [error, setError] = useState(null)
@@ -47,32 +47,27 @@ export default () => {
 						const currentData = currentResponse.data
 						const forecastData = forecastResponse.data
 
+						console.log(currentData)
+
 						const { name, region, country } = currentData.location
 						const location =
 							country.includes('USA United States of America') ||
 							country.includes('United States of America') ||
 							country.includes('USA')
 								? `${name}, ${useStateCode(region)}`
-								: `${name}, ${country}`
-						// const date = `(${dayjs(currentData.location.localtime).format(
-						// 	'ddd, M/D/YY @ h:mma'
-						// )} local time)`
-						// const date = `${dayjs(currentData.location.localtime).format(
-						// 	'ddd, M/D/YY'
-						// )}`
-						const time = `(${dayjs(currentData.location.localtime).format(
-							'h:mma'
-						)})`
+								// : `${name}, ${country}`
+								: `${name} (${useCountryCode(country)})`
 						const date = `${dayjs(currentData.location.localtime).format(
-							'h:mma on ddd, M/D/YY'
+							'ddd, M/D/YY @ h:mma'
 						)}`
 
 						const condition = currentData.current.condition.icon
+						const conditionText = currentData.current.condition.text
 						const temp = `${currentData.current.temp_f} °F`
 						const wind = `${currentData.current.wind_mph} MPH`
 						const humidity = `${currentData.current.humidity}%`
 						const uv = currentData.current.uv
-						const currentVals = [condition, temp, wind, humidity, uv]
+						const currentVals = [condition, uv, conditionText, temp, wind, humidity]
 
 						const forecastInfo = forecastData.forecast.forecastday
 							.slice(1)
@@ -87,7 +82,6 @@ export default () => {
 
 						setCurrentLocation(location)
 						setCurrentDate(date)
-						setCurrentTime(time)
 						setCurrentData(currentVals)
 						setForecastData(forecastInfo)
 
@@ -251,52 +245,53 @@ export default () => {
 						<section className='current-weather-container'>
 							<div className='current-weather-card'>
 								<div className='current-weather-card-header'>
-									{/* <div className='current-weather-card-title-wrapper'> */}
-										<div className='current-weather-card-location'>
-											{currentLocation}
-										</div>
-										<div className='current-weather-card-date'>
-											{currentDate}
-										</div>
-
-										<div className='current-weather-card-uvi'>
-											UVI &nbsp; ►
-											{currentData[4] <= 3 && (
-												<span className='current-weather-card-uvi-badge uvi-low'>
-													{currentData[4]}
-												</span>
-											)}
-											{currentData[4] > 3 && currentData[4] < 7 && (
-												<span className='current-weather-card-uvi-badge uvi-medium'>
-													{currentData[4]}
-												</span>
-											)}
-											{currentData[4] >= 7 && (
-												<span className='current-weather-card-uvi-badge uvi-high'>
-													{currentData[4]}
-												</span>
-											)}
-										</div>
-
-										{/* <div className='current-weather-card-time'>
-											{currentTime}
-										</div> */}
-									{/* </div> */}
+									<div className='current-weather-card-location'>
+										{currentLocation}
+									</div>
+									<div className='current-weather-card-date'>
+										{currentDate}
+									</div>
 									<img
 										className='current-weather-card-icon'
 										src={currentData[0]}
 										alt='current condition icon'
 									/>
+									<div className='current-weather-card-uvi'>
+										<span>UVI</span>
+										<span>►</span>
+										{/* UVI&nbsp; ► */}
+										{currentData[1] <= 3 && (
+											<span className='current-weather-card-uvi-badge uvi-low'>
+												{currentData[1]}
+											</span>
+										)}
+										{currentData[1] > 3 && currentData[1] < 7 && (
+											<span className='current-weather-card-uvi-badge uvi-medium'>
+												{currentData[1]}
+											</span>
+										)}
+										{currentData[1] >= 7 && (
+											<span className='current-weather-card-uvi-badge uvi-high'>
+												{currentData[1]}
+											</span>
+										)}
+									</div>
 								</div>
 								<div className='current-weather-card-body'>
 									<div className='current-weather-card-data-label'>
-										Temperature:
+										Condition:
 										<span className='current-weather-card-data'>
-											{currentData[1]}
+											{currentData[2]}
 										</span>
 									</div>
 									<div className='current-weather-card-data-label'>
 										Humidity:
+										<span className='current-weather-card-data'>
+											{currentData[5]}
+										</span>
+									</div>
+									<div className='current-weather-card-data-label'>
+										Temperature:
 										<span className='current-weather-card-data'>
 											{currentData[3]}
 										</span>
@@ -304,27 +299,9 @@ export default () => {
 									<div className='current-weather-card-data-label'>
 										Wind Speed:
 										<span className='current-weather-card-data'>
-											{currentData[2]}
+											{currentData[4]}
 										</span>
 									</div>
-									{/* <div className='current-weather-card-data-label'>
-										UV Index:
-										{currentData[4] <= 3 && (
-											<span className='current-weather-card-uvi-badge uvi-low'>
-												{currentData[4]}
-											</span>
-										)}
-										{currentData[4] > 3 && currentData[4] < 7 && (
-											<span className='current-weather-card-uvi-badge uvi-medium'>
-												{currentData[4]}
-											</span>
-										)}
-										{currentData[4] >= 7 && (
-											<span className='current-weather-card-uvi-badge uvi-high'>
-												{currentData[4]}
-											</span>
-										)}
-									</div> */}
 								</div>
 							</div>
 						</section>
@@ -385,7 +362,6 @@ export default () => {
 						</section>
 					)}
 				</div>
-				<div className='test'>Test</div>
 			</main>
 		</Fragment>
 	)
