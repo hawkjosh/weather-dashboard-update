@@ -245,11 +245,13 @@ export default () => {
 						<section className='current-weather-container'>
 							<div className='current-weather-card'>
 								<div className='current-weather-card-header'>
-									<div className='current-weather-card-location'>
-										{currentLocation}
-									</div>
-									<div className='current-weather-card-date'>
-										{currentDate}
+									<div className='current-weather-card-title'>
+										<div className='current-weather-card-location'>
+											{currentLocation}
+										</div>
+										<div className='current-weather-card-date'>
+											{currentDate}
+										</div>
 									</div>
 									<img
 										className='current-weather-card-icon'
@@ -259,7 +261,6 @@ export default () => {
 									<div className='current-weather-card-uvi'>
 										<span>UVI</span>
 										<span>►</span>
-										{/* UVI&nbsp; ► */}
 										{currentData[1] <= 3 && (
 											<span className='current-weather-card-uvi-badge uvi-low'>
 												{currentData[1]}
@@ -291,13 +292,13 @@ export default () => {
 										</span>
 									</div>
 									<div className='current-weather-card-data-label'>
-										Temperature:
+										Temp:
 										<span className='current-weather-card-data'>
 											{currentData[3]}
 										</span>
 									</div>
 									<div className='current-weather-card-data-label'>
-										Wind Speed:
+										Wind:
 										<span className='current-weather-card-data'>
 											{currentData[4]}
 										</span>
