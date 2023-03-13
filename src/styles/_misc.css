@@ -1,0 +1,14 @@
+.uvi-low {
+	color: $color-white;
+	background-color: $bg-color-green;
+}
+
+.uvi-medium {
+	color: $color-red;
+	background-color: $bg-color-orange;
+}
+
+.uvi-high {
+	color: $color-yellow;
+	background-color: $bg-color-red;
+}

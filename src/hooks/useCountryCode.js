@@ -163,7 +163,7 @@ export default function useCountryCode(countryName) {
 		'South Sudan': 'SS',
 		Spain: 'ES',
 		'Sri Lanka': 'LK',
-    Sudan: 'SD',
+		Sudan: 'SD',
 		Suriname: 'SR',
 		Sweden: 'SE',
 		Switzerland: 'CH',

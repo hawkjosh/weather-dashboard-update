@@ -1,0 +1,16 @@
+$color-white: hsl(0, 0%, 100%);
+$color-red: hsl(0, 100%, 50%);
+
+$bg-color-dark-transparent: hsla(0, 0%, 0%, 0.75);
+
+$bs-color-medium: hsla(0, 0%, 65%, 0.45);
+
+$alert-box-shadow: 0.875rem 0.875rem 1.5rem 0.625rem $bs-color-medium,
+	-0.875rem -0.875rem 1.5rem 0.625rem $bs-color-medium,
+	-0.875rem 0.875rem 1.5rem 0.625rem $bs-color-medium,
+	0.875rem -0.875rem 1.5rem 0.625rem $bs-color-medium;
+
+@custom-media --laptop (width >= 1000px);
+@custom-media --tablet-lg (750px <= width < 1000px);
+@custom-media --tablet-sm (500px <= width < 750px);
+@custom-media --mobile (width < 500px);

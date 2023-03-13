@@ -1,0 +1,34 @@
+header {
+	height: 6rem;
+	background: linear-gradient(to left, $color-primary, $color-secondary);
+
+	& .header-container {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 1rem;
+	}
+
+	& .header-content {
+		font-weight: 600;
+		letter-spacing: 0.25rem;
+		text-transform: uppercase;
+		text-align: center;
+		color: $color-white;
+
+		@media (--laptop) {
+			font-size: 2.5rem;
+		}
+		@media (--tablet-lg) {
+			font-size: 2rem;
+		}
+		@media (--tablet-sm) {
+			font-size: 1.75rem;
+		}
+		@media (--mobile) {
+			font-size: 1.5rem;
+		}
+	}
+}

@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import WarningIcon from './WarningIcon.jsx'
-import CloseIcon from './CloseIcon.jsx'
+import CloseIcon from '../icons/CloseIcon.jsx'
+import WarningIcon from '../icons/WarningIcon.jsx'
 
 import './AlertModal.css'
 

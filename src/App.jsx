@@ -2,14 +2,15 @@ import React, { Fragment, useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import dayjs from 'dayjs'
 
-import { weatherApiKey, weatherApiBaseUrl } from '../config'
+import { weatherApiKey, weatherApiBaseUrl } from '../config.js'
 
-import useStateCode from './useStateCode.js'
-import useCountryCode from './useCountryCode.js'
+import useStateCode from './hooks/useStateCode.js'
+import useCountryCode from './hooks/useCountryCode.js'
+import useCountryFlag from './hooks/useCountryFlag.js'
 
-import AlertModal from './AlertModal.jsx'
+import AlertModal from './components/AlertModal.jsx'
 
-import TrashIcon from './TrashIcon.jsx'
+import TrashIcon from './icons/TrashIcon.jsx'
 
 import './App.css'
 
@@ -20,6 +21,7 @@ export default () => {
 	)
 	const [currentLocation, setCurrentLocation] = useState('')
 	const [currentDate, setCurrentDate] = useState('')
+	const [currentFlag, setCurrentFlag] = useState('')
 	const [currentData, setCurrentData] = useState([])
 	const [forecastData, setForecastData] = useState([])
 	const [error, setError] = useState(null)
@@ -39,7 +41,7 @@ export default () => {
 					`${weatherApiBaseUrl}/current.json?key=${weatherApiKey}&q=${location}&aqi=no`
 				),
 				axios.get(
-					`${weatherApiBaseUrl}/forecast.json?key=${weatherApiKey}&q=${location}&days=6&aqi=no&alerts=no`
+					`${weatherApiBaseUrl}/forecast.json?key=${weatherApiKey}&q=${location}&days=3&aqi=no&alerts=no`
 				),
 			])
 				.then(
@@ -47,19 +49,28 @@ export default () => {
 						const currentData = currentResponse.data
 						const forecastData = forecastResponse.data
 
-						console.log(currentData)
-
 						const { name, region, country } = currentData.location
 						const location =
 							country.includes('USA United States of America') ||
 							country.includes('United States of America') ||
 							country.includes('USA')
 								? `${name}, ${useStateCode(region)}`
-								// : `${name}, ${country}`
 								: `${name} (${useCountryCode(country)})`
 						const date = `${dayjs(currentData.location.localtime).format(
 							'ddd, M/D/YY @ h:mma'
 						)}`
+
+						const countryCode = useCountryFlag(currentData.location.country)
+						const flag =
+							currentData.location.country.includes(
+								'USA United States of America'
+							) ||
+							currentData.location.country.includes(
+								'United States of America'
+							) ||
+							currentData.location.country.includes('USA')
+								? 'https://flagcdn.com/us.svg'
+								: `https://flagcdn.com/${countryCode}.svg`
 
 						const condition = currentData.current.condition.icon
 						const conditionText = currentData.current.condition.text
@@ -67,7 +78,14 @@ export default () => {
 						const wind = `${currentData.current.wind_mph} MPH`
 						const humidity = `${currentData.current.humidity}%`
 						const uv = currentData.current.uv
-						const currentVals = [condition, uv, conditionText, temp, wind, humidity]
+						const currentVals = [
+							condition,
+							uv,
+							conditionText,
+							temp,
+							wind,
+							humidity,
+						]
 
 						const forecastInfo = forecastData.forecast.forecastday
 							.slice(1)
@@ -82,6 +100,7 @@ export default () => {
 
 						setCurrentLocation(location)
 						setCurrentDate(date)
+						setCurrentFlag(flag)
 						setCurrentData(currentVals)
 						setForecastData(forecastInfo)
 
@@ -121,6 +140,7 @@ export default () => {
 
 	const prevSearchWeather = (e) => {
 		const location = e.target.innerHTML
+		console.log(location)
 		setSearchLocation(location)
 		getWeatherData(location)
 		setSearchLocation('')
@@ -172,197 +192,196 @@ export default () => {
 			</header>
 
 			<main>
-				<div className='main-container'>
-					<section className='search-container'>
-						<div className='search-label'>Search for a location:</div>
-						<form className='search-form'>
-							<input
-								className='search-form-input'
-								type='text'
-								placeholder='Enter city name or zip code...'
-								value={searchLocation}
-								onChange={(e) => setSearchLocation(e.target.value)}
-							/>
+				<section className='search-container'>
+					<div className='search-label'>Search for a location:</div>
+					<form className='search-form'>
+						<input
+							className='search-form-input'
+							type='text'
+							placeholder='Enter city name or zip code...'
+							value={searchLocation}
+							onChange={(e) => setSearchLocation(e.target.value)}
+						/>
+
+						<button
+							className='search-form-btn'
+							type='submit'
+							onClick={newSearchWeather}>
+							Search
+						</button>
+					</form>
+
+					<div id='alert-modal'>
+						<AlertModal
+							isOpen={error !== null}
+							onClose={handleCloseError}>
+							<p>{error && error.message}</p>
+						</AlertModal>
+
+						<AlertModal
+							isOpen={otherError !== null}
+							onClose={handleCloseOtherError}>
+							<p>{otherError && otherError.message}</p>
+						</AlertModal>
+					</div>
+
+					{searchHistory.length !== 0 && (
+						<div
+							className='search-history'
+							ref={dropdownRef}>
+							<hr className='divider' />
 
 							<button
-								className='search-form-btn'
-								type='submit'
-								onClick={newSearchWeather}>
-								Search
+								className='search-history-btn'
+								onClick={() => setShowHistory(!showHistory)}>
+								Previous Searches
 							</button>
-						</form>
 
-						<div id='alert-modal'>
-							<AlertModal
-								isOpen={error !== null}
-								onClose={handleCloseError}>
-								<p>{error && error.message}</p>
-							</AlertModal>
-
-							<AlertModal
-								isOpen={otherError !== null}
-								onClose={handleCloseOtherError}>
-								<p>{otherError && otherError.message}</p>
-							</AlertModal>
-						</div>
-
-						{searchHistory.length !== 0 && (
-							<div
-								className='search-history'
-								ref={dropdownRef}>
-								<hr className='divider' />
-
-								<button
-									className='search-history-btn'
-									onClick={() => setShowHistory(!showHistory)}>
-									Previous Searches
-								</button>
-
-								{showHistory && (
-									<div className='search-history-list'>
-										{searchHistory.map((search, index) => (
-											<Fragment key={index}>
-												<div className='search-history-list-item-wrapper'>
-													<div
-														className='search-history-list-item'
-														onClick={prevSearchWeather}>
-														{search}
-													</div>
-													<TrashIcon
-														className='search-history-delete-btn'
-														onClick={() => removeHistoryItem(search)}
-													/>
+							{showHistory && (
+								<div className='search-history-list'>
+									{searchHistory.map((search, index) => (
+										<Fragment key={index}>
+											<div className='search-history-list-item-wrapper'>
+												<div
+													className='search-history-list-item'
+													onClick={prevSearchWeather}>
+													{search}
 												</div>
-											</Fragment>
-										))}
-									</div>
-								)}
-							</div>
-						)}
-					</section>
+												<TrashIcon
+													className='search-history-delete-btn'
+													onClick={() => removeHistoryItem(search)}
+												/>
+											</div>
+										</Fragment>
+									))}
+								</div>
+							)}
+						</div>
+					)}
+				</section>
 
-					{currentData.length !== 0 && (
-						<section className='current-weather-container'>
-							<div className='current-weather-card'>
-								<div className='current-weather-card-header'>
-									<div className='current-weather-card-title'>
-										<div className='current-weather-card-location'>
-											{currentLocation}
-										</div>
-										<div className='current-weather-card-date'>
-											{currentDate}
-										</div>
+				{currentData.length !== 0 && (
+					<section className='current-weather-container'>
+						<div className='current-weather-card'>
+							<div className='current-weather-card-header'>
+								<div className='current-weather-card-title'>
+									<div className='current-weather-card-location'>
+										{currentLocation}
 									</div>
 									<img
-										className='current-weather-card-icon'
-										src={currentData[0]}
-										alt='current condition icon'
+										className='current-weather-card-flag'
+										src={currentFlag}
+										alt='country flag icon'
 									/>
-									<div className='current-weather-card-uvi'>
-										<span>UVI</span>
-										<span>►</span>
-										{currentData[1] <= 3 && (
-											<span className='current-weather-card-uvi-badge uvi-low'>
-												{currentData[1]}
-											</span>
-										)}
-										{currentData[1] > 3 && currentData[1] < 7 && (
-											<span className='current-weather-card-uvi-badge uvi-medium'>
-												{currentData[1]}
-											</span>
-										)}
-										{currentData[1] >= 7 && (
-											<span className='current-weather-card-uvi-badge uvi-high'>
-												{currentData[1]}
-											</span>
-										)}
-									</div>
 								</div>
-								<div className='current-weather-card-body'>
-									<div className='current-weather-card-data-label'>
-										Condition:
-										<span className='current-weather-card-data'>
-											{currentData[2]}
+								<div className='current-weather-card-date'>{currentDate}</div>
+								<img
+									className='current-weather-card-icon'
+									src={currentData[0]}
+									alt='current condition icon'
+								/>
+								<div className='current-weather-card-uvi'>
+									<span>UVI</span>
+									{/* <span>►</span> */}
+									{currentData[1] <= 3 && (
+										<span className='current-weather-card-uvi-badge uvi-low'>
+											{currentData[1]}
 										</span>
-									</div>
-									<div className='current-weather-card-data-label'>
-										Humidity:
-										<span className='current-weather-card-data'>
-											{currentData[5]}
+									)}
+									{currentData[1] > 3 && currentData[1] < 7 && (
+										<span className='current-weather-card-uvi-badge uvi-medium'>
+											{currentData[1]}
 										</span>
-									</div>
-									<div className='current-weather-card-data-label'>
-										Temp:
-										<span className='current-weather-card-data'>
-											{currentData[3]}
+									)}
+									{currentData[1] >= 7 && (
+										<span className='current-weather-card-uvi-badge uvi-high'>
+											{currentData[1]}
 										</span>
-									</div>
-									<div className='current-weather-card-data-label'>
-										Wind:
-										<span className='current-weather-card-data'>
-											{currentData[4]}
-										</span>
-									</div>
+									)}
 								</div>
 							</div>
-						</section>
-					)}
+							<div className='current-weather-card-body'>
+								<div className='current-weather-card-data-label'>
+									Condition:
+									<span className='current-weather-card-data'>
+										{currentData[2]}
+									</span>
+								</div>
+								<div className='current-weather-card-data-label'>
+									Humidity:
+									<span className='current-weather-card-data'>
+										{currentData[5]}
+									</span>
+								</div>
+								<div className='current-weather-card-data-label'>
+									Temp:
+									<span className='current-weather-card-data'>
+										{currentData[3]}
+									</span>
+								</div>
+								<div className='current-weather-card-data-label'>
+									Wind:
+									<span className='current-weather-card-data'>
+										{currentData[4]}
+									</span>
+								</div>
+							</div>
+						</div>
+					</section>
+				)}
 
-					{forecastData.length !== 0 && (
-						<section className='forecast-container'>
-							{forecastData.map((info, index) => (
-								<Fragment key={index}>
-									<div className='forecast-card'>
-										<div className='forecast-card-header'>
-											<div className='forecast-card-title'>{info.date}</div>
-											<img
-												className='forecast-card-icon'
-												src={info.condition}
-												alt='forecast condition icon'
-											/>
+				{forecastData.length !== 0 && (
+					<section className='forecast-container'>
+						{forecastData.map((info, index) => (
+							<Fragment key={index}>
+								<div className='forecast-card'>
+									<div className='forecast-card-header'>
+										<div className='forecast-card-title'>{info.date}</div>
+										<img
+											className='forecast-card-icon'
+											src={info.condition}
+											alt='forecast condition icon'
+										/>
+									</div>
+									<div className='forecast-card-body'>
+										<div className='forecast-card-data-label'>
+											High:
+											<span className='forecast-card-data'>
+												{info.tempHigh}
+											</span>
 										</div>
-										<div className='forecast-card-body'>
-											<div className='forecast-card-data-label'>
-												High:
-												<span className='forecast-card-data'>
-													{info.tempHigh}
+										<div className='forecast-card-data-label'>
+											Low:
+											<span className='forecast-card-data'>{info.tempLow}</span>
+										</div>
+										<div className='forecast-card-data-label'>
+											Rain:
+											<span className='forecast-card-data'>{info.rain}</span>
+										</div>
+										<div className='forecast-card-data-label'>
+											UVI:
+											{info.uvi <= 3 && (
+												<span className='forecast-card-uvi-badge uvi-low'>
+													{info.uvi}
 												</span>
-											</div>
-											<div className='forecast-card-data-label'>
-												Low:
-												<span className='forecast-card-data'>
-													{info.tempLow}
+											)}
+											{info.uvi > 3 && info.uvi < 7 && (
+												<span className='forecast-card-uvi-badge uvi-medium'>
+													{info.uvi}
 												</span>
-											</div>
-											<div className='forecast-card-data-label'>
-												Rain:
-												<span className='forecast-card-data'>{info.rain}</span>
-											</div>
-											<div className='forecast-card-data-label'>
-												UVI:
-												{info.uvi <= 3 && (
-													<span className='forecast-card-uvi-badge uvi-low'>
-														{info.uvi}
-													</span>
-												)}
-												{info.uvi > 3 && info.uvi < 7 && (
-													<span className='forecast-card-uvi-badge uvi-medium'>
-														{info.uvi}
-													</span>
-												)}
-												{info.uvi >= 7 && (
-													<span className='forecast-card-uvi-badge uvi-high'>
-														{info.uvi}
-													</span>
-												)}
-											</div>
+											)}
+											{info.uvi >= 7 && (
+												<span className='forecast-card-uvi-badge uvi-high'>
+													{info.uvi}
+												</span>
+											)}
 										</div>
 									</div>
-								</Fragment>
-							))}
-						</section>
-					)}
-				</div>
+								</div>
+							</Fragment>
+						))}
+					</section>
+				)}
 			</main>
 		</Fragment>
 	)
