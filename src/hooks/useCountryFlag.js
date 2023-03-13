@@ -319,8 +319,10 @@ export default function useCountryFlag(countryName) {
 		.join(' ')
 
 	// check if the country exists in the countries object
-	if (countries[countryTitleCase]) {
-		return countries[countryTitleCase]
+	// if (countries[countryTitleCase]) {
+		// 	return countries[countryTitleCase]
+	if (countries[countryName]) {
+		return countries[countryName]
 	} else {
 		return 'Invalid Country Name'
 	}

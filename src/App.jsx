@@ -56,21 +56,12 @@ export default () => {
 							country.includes('USA')
 								? `${name}, ${useStateCode(region)}`
 								: `${name} (${useCountryCode(country)})`
-						const date = `${dayjs(currentData.location.localtime).format(
-							'ddd, M/D/YY @ h:mma'
-						)}`
+						const date = `Current weather @ ${dayjs(
+							currentData.location.localtime
+						).format('h:mma')}`
 
 						const countryCode = useCountryFlag(currentData.location.country)
-						const flag =
-							currentData.location.country.includes(
-								'USA United States of America'
-							) ||
-							currentData.location.country.includes(
-								'United States of America'
-							) ||
-							currentData.location.country.includes('USA')
-								? 'https://flagcdn.com/us.svg'
-								: `https://flagcdn.com/${countryCode}.svg`
+						const flag = `https://flagcdn.com/${countryCode}.svg`
 
 						const condition = currentData.current.condition.icon
 						const conditionText = currentData.current.condition.text
@@ -88,7 +79,7 @@ export default () => {
 						]
 
 						const forecastInfo = forecastData.forecast.forecastday
-							.slice(1)
+							// .slice(1)
 							.map((info) => ({
 								date: dayjs(info.date).format('ddd, M/D'),
 								condition: info.day.condition.icon,
@@ -139,8 +130,10 @@ export default () => {
 	}
 
 	const prevSearchWeather = (e) => {
-		const location = e.target.innerHTML
-		console.log(location)
+		const location =
+			e.target.innerHTML === 'Washington, D.C.'
+				? 'Washington'
+				: e.target.innerHTML
 		setSearchLocation(location)
 		getWeatherData(location)
 		setSearchLocation('')
