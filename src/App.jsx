@@ -10,6 +10,7 @@ import { useWindowSize } from './hooks/useWindowSize.js'
 
 import AlertModal from './components/AlertModal.jsx'
 
+import LogoIcon from './icons/LogoIcon.jsx'
 import TrashIcon from './icons/TrashIcon.jsx'
 import RightArrowIcon from './icons/RightArrowIcon.jsx'
 
@@ -209,7 +210,10 @@ export default () => {
 		<Fragment>
 			<header>
 				<div className='header-container'>
-					<div className='header-title'>Weather Dashboard 2.0</div>
+					<div className='title-wrapper'>
+						<LogoIcon className='title-logo'/>
+						<div className='title-text'>Weather 2.0</div>
+					</div>
 
 					<div className='search-container'>
 						<form className='search-form'>
