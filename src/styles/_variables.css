@@ -8,6 +8,7 @@ $color-white: hsl(0, 0%, 100%);
 $color-red: hsl(0, 100%, 50%);
 $color-light-red: hsl(9, 100%, 64%);
 $color-light-blue: hsl(200, 100%, 50%);
+$color-light-gray: hsl(0, 0%, 85%);
 $color-gray: hsl(0, 0%, 50%);
 $color-dark-gray: hsl(0, 0%, 20%);
 $color-yellow: hsl(60, 100%, 50%);

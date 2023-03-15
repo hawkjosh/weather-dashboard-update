@@ -5,36 +5,46 @@ import dayjs from 'dayjs'
 import { weatherApiKey, weatherApiBaseUrl } from '../config.js'
 
 import useStateCode from './hooks/useStateCode.js'
-import useCountryCode from './hooks/useCountryCode.js'
 import useCountryFlag from './hooks/useCountryFlag.js'
+import { useWindowSize } from './hooks/useWindowSize.js'
 
 import AlertModal from './components/AlertModal.jsx'
 
 import TrashIcon from './icons/TrashIcon.jsx'
+import RightArrowIcon from './icons/RightArrowIcon.jsx'
 
 import './App.css'
 
 export default () => {
+	const { isMobile, isTabletSm, isTabletLg, isLaptop } = useWindowSize()
+
 	const [searchLocation, setSearchLocation] = useState('')
+
 	const [searchHistory, setSearchHistory] = useState(
 		JSON.parse(localStorage.getItem('searchHistory')) || []
 	)
+
+	const [showHistory, setShowHistory] = useState(false)
+
 	const [currentLocation, setCurrentLocation] = useState('')
-	const [currentDate, setCurrentDate] = useState('')
 	const [currentFlag, setCurrentFlag] = useState('')
+	const [currentCountry, setCurrentCountry] = useState('')
+	const [currentTimeMsg, setCurrentTimeMsg] = useState('')
+
 	const [currentData, setCurrentData] = useState([])
 	const [forecastData, setForecastData] = useState([])
-	const [error, setError] = useState(null)
-	const [otherError, setOtherError] = useState(null)
-	const [showHistory, setShowHistory] = useState(false)
+
+	const [errorOne, setErrorOne] = useState(null)
+	const [errorTwo, setErrorTwo] = useState(null)
+
 	const dropdownRef = useRef(null)
 
 	const getWeatherData = (location) => {
 		if (!location) {
-			const error = new Error(
+			const errorOne = new Error(
 				'Empty search field. Please enter valid city or zip code.'
 			)
-			setError(error)
+			setErrorOne(errorOne)
 		} else {
 			Promise.all([
 				axios.get(
@@ -47,59 +57,78 @@ export default () => {
 				.then(
 					axios.spread((currentResponse, forecastResponse) => {
 						const currentData = currentResponse.data
+
 						const forecastData = forecastResponse.data
 
-						const { name, region, country } = currentData.location
-						const location =
-							country.includes('USA United States of America') ||
-							country.includes('United States of America') ||
-							country.includes('USA')
-								? `${name}, ${useStateCode(region)}`
-								: `${name} (${useCountryCode(country)})`
-						const date = `Current weather @ ${dayjs(
-							currentData.location.localtime
+						console.log(currentData)
+						console.log(forecastData)
+
+						const { country, name, region } = currentData.location
+						const current = currentData.current
+						const countryCode = useCountryFlag(country)
+
+						const location = name
+
+						const time = `Current weather @ ${dayjs(
+							currentData.location.localTime
 						).format('h:mma')}`
 
-						const countryCode = useCountryFlag(currentData.location.country)
-						const flag = `https://flagcdn.com/${countryCode}.svg`
+						const countryName =
+							country.includes('USA') ||
+							country.includes('USA United States of America') ||
+							country.includes('United States of America') ||
+							country.includes('United States')
+								? `${region}, USA`
+								: country
 
-						const condition = currentData.current.condition.icon
-						const conditionText = currentData.current.condition.text
-						const temp = `${currentData.current.temp_f} °F`
-						const wind = `${currentData.current.wind_mph} MPH`
-						const humidity = `${currentData.current.humidity}%`
-						const uv = currentData.current.uv
+						const flag = `https://flagcdn.com/256x192/${countryCode}.webp`
+
+						const condition = current.condition.icon
+						const uv = current.uv
+						const conditionText = current.condition.text
+						const humidity = `${current.humidity}%`
+						const temp = `${current.temp_f} °F`
+						const wind = `${current.wind_mph} MPH`
 						const currentVals = [
 							condition,
 							uv,
 							conditionText,
+							humidity,
 							temp,
 							wind,
-							humidity,
 						]
 
-						const forecastInfo = forecastData.forecast.forecastday
-							// .slice(1)
-							.map((info) => ({
+						const forecastInfo = forecastData.forecast.forecastday.map(
+							(info) => ({
 								date: dayjs(info.date).format('ddd, M/D'),
 								condition: info.day.condition.icon,
 								tempHigh: `${info.day.maxtemp_f} °F`,
 								tempLow: `${info.day.mintemp_f} °F`,
 								rain: `${info.day.daily_chance_of_rain}%`,
 								uvi: info.day.uv,
-							}))
+							})
+						)
 
 						setCurrentLocation(location)
-						setCurrentDate(date)
+						setCurrentCountry(countryName)
 						setCurrentFlag(flag)
+						setCurrentTimeMsg(time)
 						setCurrentData(currentVals)
 						setForecastData(forecastInfo)
 
-						if (!searchHistory.includes(location)) {
-							setSearchHistory([...searchHistory, location])
+						const searchHistoryName =
+							country.includes('USA') ||
+							country.includes('USA United States of America') ||
+							country.includes('United States of America') ||
+							country.includes('United States')
+								? `${name}, ${useStateCode(region)}`
+								: `${name}, ${country}`
+
+						if (!searchHistory.includes(searchHistoryName)) {
+							setSearchHistory([...searchHistory, searchHistoryName])
 							localStorage.setItem(
 								'searchHistory',
-								JSON.stringify([...searchHistory, location])
+								JSON.stringify([...searchHistory, searchHistoryName])
 							)
 						}
 					})
@@ -107,7 +136,7 @@ export default () => {
 				.catch((err) => {
 					console.error(err)
 					if (err.response && err.response.status === 400) {
-						setOtherError({
+						setErrorTwo({
 							message: 'Invalid entry. Please enter valid city or zip code.',
 						})
 					}
@@ -115,12 +144,12 @@ export default () => {
 		}
 	}
 
-	const handleCloseError = () => {
-		setError(null)
+	const handleCloseErrorOne = () => {
+		setErrorOne(null)
 	}
 
-	const handleCloseOtherError = () => {
-		setOtherError(null)
+	const handleCloseErrorTwo = () => {
+		setErrorTwo(null)
 	}
 
 	const newSearchWeather = (e) => {
@@ -180,199 +209,547 @@ export default () => {
 		<Fragment>
 			<header>
 				<div className='header-container'>
-					<div className='header-content'>Weather Dashboard</div>
+					<div className='header-title'>Weather Dashboard 2.0</div>
+
+					<div className='search-container'>
+						<form className='search-form'>
+							<input
+								className='search-input'
+								type='text'
+								placeholder='Enter city name or zip code...'
+								value={searchLocation}
+								onChange={(e) => setSearchLocation(e.target.value)}
+							/>
+
+							<button
+								className='search-btn'
+								type='submit'
+								onClick={newSearchWeather}>
+								Search
+							</button>
+						</form>
+
+						<div id='alert-modal'>
+							<AlertModal
+								isOpen={errorOne !== null}
+								onClose={handleCloseErrorOne}>
+								<p>{errorOne && errorOne.message}</p>
+							</AlertModal>
+							<AlertModal
+								isOpen={errorTwo !== null}
+								onClose={handleCloseErrorTwo}>
+								<p>{errorTwo && errorTwo.message}</p>
+							</AlertModal>
+						</div>
+
+						{searchHistory.length !== 0 && (
+							<div
+								className='search-history'
+								ref={dropdownRef}>
+								{/* <hr className='divider' /> */}
+
+								<button
+									className='search-dropdown'
+									onClick={() => setShowHistory(!showHistory)}>
+									Previous Searches
+								</button>
+
+								{showHistory && (
+									<div className='search-list'>
+										{searchHistory.map((search, index) => (
+											<Fragment key={index}>
+												<div className='list-item-wrapper'>
+													<div
+														className='list-item'
+														// title={search}
+														onClick={prevSearchWeather}>
+														{search}
+													</div>
+													<TrashIcon
+														className='delete-btn'
+														onClick={() => removeHistoryItem(search)}
+													/>
+												</div>
+											</Fragment>
+										))}
+									</div>
+								)}
+							</div>
+						)}
+					</div>
 				</div>
 			</header>
 
 			<main>
-				<section className='search-container'>
-					<div className='search-label'>Search for a location:</div>
-					<form className='search-form'>
-						<input
-							className='search-form-input'
-							type='text'
-							placeholder='Enter city name or zip code...'
-							value={searchLocation}
-							onChange={(e) => setSearchLocation(e.target.value)}
-						/>
-
-						<button
-							className='search-form-btn'
-							type='submit'
-							onClick={newSearchWeather}>
-							Search
-						</button>
-					</form>
-
-					<div id='alert-modal'>
-						<AlertModal
-							isOpen={error !== null}
-							onClose={handleCloseError}>
-							<p>{error && error.message}</p>
-						</AlertModal>
-
-						<AlertModal
-							isOpen={otherError !== null}
-							onClose={handleCloseOtherError}>
-							<p>{otherError && otherError.message}</p>
-						</AlertModal>
-					</div>
-
-					{searchHistory.length !== 0 && (
-						<div
-							className='search-history'
-							ref={dropdownRef}>
-							<hr className='divider' />
-
-							<button
-								className='search-history-btn'
-								onClick={() => setShowHistory(!showHistory)}>
-								Previous Searches
-							</button>
-
-							{showHistory && (
-								<div className='search-history-list'>
-									{searchHistory.map((search, index) => (
-										<Fragment key={index}>
-											<div className='search-history-list-item-wrapper'>
-												<div
-													className='search-history-list-item'
-													onClick={prevSearchWeather}>
-													{search}
-												</div>
-												<TrashIcon
-													className='search-history-delete-btn'
-													onClick={() => removeHistoryItem(search)}
-												/>
-											</div>
-										</Fragment>
-									))}
-								</div>
-							)}
-						</div>
-					)}
-				</section>
-
 				{currentData.length !== 0 && (
 					<section className='current-weather-container'>
-						<div className='current-weather-card'>
-							<div className='current-weather-card-header'>
-								<div className='current-weather-card-title'>
-									<div className='current-weather-card-location'>
-										{currentLocation}
-									</div>
+						{isLaptop && (
+							<div className='cwc-card'>
+								<div className='cwc-time'>{currentTimeMsg}</div>
+
+								<div className='cwc-location'>{currentLocation}</div>
+
+								<div className='cwc-country'>
+									<div className='cwc-name'>{currentCountry}</div>
 									<img
-										className='current-weather-card-flag'
+										className='cwc-flag'
 										src={currentFlag}
-										alt='country flag icon'
+										alt='Flag Icon'
 									/>
 								</div>
-								<div className='current-weather-card-date'>{currentDate}</div>
-								<img
-									className='current-weather-card-icon'
-									src={currentData[0]}
-									alt='current condition icon'
-								/>
-								<div className='current-weather-card-uvi'>
-									<span>UVI</span>
-									{/* <span>►</span> */}
+
+								<div className='cwc-uvi'>
+									<div>UVI</div>
+									<RightArrowIcon className='cwc-right-arrow' />
 									{currentData[1] <= 3 && (
-										<span className='current-weather-card-uvi-badge uvi-low'>
+										<span className='cwc-uvi-badge uvi-low'>
 											{currentData[1]}
 										</span>
 									)}
 									{currentData[1] > 3 && currentData[1] < 7 && (
-										<span className='current-weather-card-uvi-badge uvi-medium'>
+										<span className='cwc-uvi-badge uvi-medium'>
 											{currentData[1]}
 										</span>
 									)}
 									{currentData[1] >= 7 && (
-										<span className='current-weather-card-uvi-badge uvi-high'>
+										<span className='cwc-uvi-badge uvi-high'>
 											{currentData[1]}
 										</span>
 									)}
 								</div>
-							</div>
-							<div className='current-weather-card-body'>
-								<div className='current-weather-card-data-label'>
+
+								<img
+									className='cwc-icon'
+									src={currentData[0]}
+									alt='Current Condition Icon'
+								/>
+
+								<div className='cwc-data'>
 									Condition:
-									<span className='current-weather-card-data'>
-										{currentData[2]}
-									</span>
+									<span className='cwc-data-item'>{currentData[2]}</span>
 								</div>
-								<div className='current-weather-card-data-label'>
+
+								<div className='cwc-data'>
 									Humidity:
-									<span className='current-weather-card-data'>
-										{currentData[5]}
-									</span>
+									<span className='cwc-data-item'>{currentData[3]}</span>
 								</div>
-								<div className='current-weather-card-data-label'>
+
+								<div className='cwc-data'>
 									Temp:
-									<span className='current-weather-card-data'>
-										{currentData[3]}
-									</span>
+									<span className='cwc-data-item'>{currentData[4]}</span>
 								</div>
-								<div className='current-weather-card-data-label'>
+
+								<div className='cwc-data'>
 									Wind:
-									<span className='current-weather-card-data'>
-										{currentData[4]}
-									</span>
+									<span className='cwc-data-item'>{currentData[5]}</span>
 								</div>
 							</div>
-						</div>
+						)}
+
+						{isTabletLg && (
+							<div className='cwc-card'>
+								<div className='cwc-time'>{currentTimeMsg}</div>
+
+								<div className='cwc-location'>{currentLocation}</div>
+
+								<div className='cwc-country'>
+									<div className='cwc-name'>{currentCountry}</div>
+									<img
+										className='cwc-flag'
+										src={currentFlag}
+										alt='Flag Icon'
+									/>
+								</div>
+
+								<div className='cwc-uvi'>
+									<div>UVI</div>
+									<RightArrowIcon className='cwc-right-arrow' />
+									{currentData[1] <= 3 && (
+										<span className='cwc-uvi-badge uvi-low'>
+											{currentData[1]}
+										</span>
+									)}
+									{currentData[1] > 3 && currentData[1] < 7 && (
+										<span className='cwc-uvi-badge uvi-medium'>
+											{currentData[1]}
+										</span>
+									)}
+									{currentData[1] >= 7 && (
+										<span className='cwc-uvi-badge uvi-high'>
+											{currentData[1]}
+										</span>
+									)}
+								</div>
+
+								<img
+									className='cwc-icon'
+									src={currentData[0]}
+									alt='Current Condition Icon'
+								/>
+
+								<div className='cwc-data'>
+									Condition:
+									<span className='cwc-data-item'>{currentData[2]}</span>
+								</div>
+
+								<div className='cwc-data'>
+									Humidity:
+									<span className='cwc-data-item'>{currentData[3]}</span>
+								</div>
+
+								<div className='cwc-data'>
+									Temp:
+									<span className='cwc-data-item'>{currentData[4]}</span>
+								</div>
+
+								<div className='cwc-data'>
+									Wind:
+									<span className='cwc-data-item'>{currentData[5]}</span>
+								</div>
+							</div>
+						)}
+
+						{isTabletSm && (
+							<div className='cwc-card'>
+								<div className='cwc-time'>{currentTimeMsg}</div>
+
+								<div className='cwc-location'>{currentLocation}</div>
+
+								<div className='cwc-country'>
+									<div className='cwc-name'>{currentCountry}</div>
+									<img
+										className='cwc-flag'
+										src={currentFlag}
+										alt='Flag Icon'
+									/>
+								</div>
+
+								<div className='cwc-uvi'>
+									<div>UVI</div>
+									<RightArrowIcon className='cwc-right-arrow' />
+									{currentData[1] <= 3 && (
+										<span className='cwc-uvi-badge uvi-low'>
+											{currentData[1]}
+										</span>
+									)}
+									{currentData[1] > 3 && currentData[1] < 7 && (
+										<span className='cwc-uvi-badge uvi-medium'>
+											{currentData[1]}
+										</span>
+									)}
+									{currentData[1] >= 7 && (
+										<span className='cwc-uvi-badge uvi-high'>
+											{currentData[1]}
+										</span>
+									)}
+								</div>
+
+								<img
+									className='cwc-icon'
+									src={currentData[0]}
+									alt='Current Condition Icon'
+								/>
+
+								<div className='cwc-data'>
+									Condition:
+									<span className='cwc-data-item'>{currentData[2]}</span>
+								</div>
+
+								<div className='cwc-data'>
+									Humidity:
+									<span className='cwc-data-item'>{currentData[3]}</span>
+								</div>
+
+								<div className='cwc-data'>
+									Temp:
+									<span className='cwc-data-item'>{currentData[4]}</span>
+								</div>
+
+								<div className='cwc-data'>
+									Wind:
+									<span className='cwc-data-item'>{currentData[5]}</span>
+								</div>
+							</div>
+						)}
+
+						{isMobile && (
+							<div className='cwc-card'>
+								<div className='cwc-time'>{currentTimeMsg}</div>
+
+								<div className='cwc-location'>{currentLocation}</div>
+
+								<div className='cwc-country'>
+									<div className='cwc-name'>{currentCountry}</div>
+									<img
+										className='cwc-flag'
+										src={currentFlag}
+										alt='Flag Icon'
+									/>
+								</div>
+
+								<div className='cwc-uvi'>
+									<div>UVI</div>
+									<RightArrowIcon className='cwc-right-arrow' />
+									{currentData[1] <= 3 && (
+										<span className='cwc-uvi-badge uvi-low'>
+											{currentData[1]}
+										</span>
+									)}
+									{currentData[1] > 3 && currentData[1] < 7 && (
+										<span className='cwc-uvi-badge uvi-medium'>
+											{currentData[1]}
+										</span>
+									)}
+									{currentData[1] >= 7 && (
+										<span className='cwc-uvi-badge uvi-high'>
+											{currentData[1]}
+										</span>
+									)}
+								</div>
+
+								<img
+									className='cwc-icon'
+									src={currentData[0]}
+									alt='Current Condition Icon'
+								/>
+
+								<div className='cwc-data'>
+									Condition:
+									<span className='cwc-data-item'>{currentData[2]}</span>
+								</div>
+
+								<div className='cwc-data'>
+									Humidity:
+									<span className='cwc-data-item'>{currentData[3]}</span>
+								</div>
+
+								<div className='cwc-data'>
+									Temp:
+									<span className='cwc-data-item'>{currentData[4]}</span>
+								</div>
+
+								<div className='cwc-data'>
+									Wind:
+									<span className='cwc-data-item'>{currentData[5]}</span>
+								</div>
+							</div>
+						)}
 					</section>
 				)}
 
 				{forecastData.length !== 0 && (
 					<section className='forecast-container'>
-						{forecastData.map((info, index) => (
-							<Fragment key={index}>
-								<div className='forecast-card'>
-									<div className='forecast-card-header'>
-										<div className='forecast-card-title'>{info.date}</div>
-										<img
-											className='forecast-card-icon'
-											src={info.condition}
-											alt='forecast condition icon'
-										/>
-									</div>
-									<div className='forecast-card-body'>
-										<div className='forecast-card-data-label'>
-											High:
-											<span className='forecast-card-data'>
-												{info.tempHigh}
-											</span>
+						{isLaptop && (
+							<Fragment>
+								{forecastData.map((info, index) => (
+									<Fragment key={index}>
+										<div className='fc-card'>
+											<div className='fc-date'>{info.date}</div>
+
+											<img
+												className='fc-icon'
+												src={info.condition}
+												alt='Forecast Condition Icon'
+											/>
+
+											<div className='fc-data'>
+												High:
+												<span className='fc-data-item'>{info.tempHigh}</span>
+											</div>
+
+											<div className='fc-data'>
+												Low:
+												<span className='fc-data-item'>{info.tempLow}</span>
+											</div>
+
+											<div className='fc-data'>
+												Rain:
+												<span className='fc-data-item'>{info.rain}</span>
+											</div>
+
+											<div className='fc-uvi'>
+												<div>UVI</div>
+												<RightArrowIcon className='fc-right-arrow' />
+												{info.uvi <= 3 && (
+													<span className='fc-uvi-badge uvi-low'>
+														{info.uvi}
+													</span>
+												)}
+												{info.uvi > 3 && info.uvi < 7 && (
+													<span className='fc-uvi-badge uvi-medium'>
+														{info.uvi}
+													</span>
+												)}
+												{info.uvi >= 7 && (
+													<span className='fc-uvi-badge uvi-high'>
+														{info.uvi}
+													</span>
+												)}
+											</div>
 										</div>
-										<div className='forecast-card-data-label'>
-											Low:
-											<span className='forecast-card-data'>{info.tempLow}</span>
-										</div>
-										<div className='forecast-card-data-label'>
-											Rain:
-											<span className='forecast-card-data'>{info.rain}</span>
-										</div>
-										<div className='forecast-card-data-label'>
-											UVI:
-											{info.uvi <= 3 && (
-												<span className='forecast-card-uvi-badge uvi-low'>
-													{info.uvi}
-												</span>
-											)}
-											{info.uvi > 3 && info.uvi < 7 && (
-												<span className='forecast-card-uvi-badge uvi-medium'>
-													{info.uvi}
-												</span>
-											)}
-											{info.uvi >= 7 && (
-												<span className='forecast-card-uvi-badge uvi-high'>
-													{info.uvi}
-												</span>
-											)}
-										</div>
-									</div>
-								</div>
+									</Fragment>
+								))}
 							</Fragment>
-						))}
+						)}
+
+						{isTabletLg && (
+							<Fragment>
+								{forecastData.map((info, index) => (
+									<Fragment key={index}>
+										<div className='fc-card'>
+											<div className='fc-date'>{info.date}</div>
+
+											<img
+												className='fc-icon'
+												src={info.condition}
+												alt='Forecast Condition Icon'
+											/>
+
+											<div className='fc-data'>
+												High:
+												<span className='fc-data-item'>{info.tempHigh}</span>
+											</div>
+
+											<div className='fc-data'>
+												Low:
+												<span className='fc-data-item'>{info.tempLow}</span>
+											</div>
+
+											<div className='fc-data'>
+												Rain:
+												<span className='fc-data-item'>{info.rain}</span>
+											</div>
+
+											<div className='fc-uvi'>
+												<div>UVI</div>
+												<RightArrowIcon className='fc-right-arrow' />
+												{info.uvi <= 3 && (
+													<span className='fc-uvi-badge uvi-low'>
+														{info.uvi}
+													</span>
+												)}
+												{info.uvi > 3 && info.uvi < 7 && (
+													<span className='fc-uvi-badge uvi-medium'>
+														{info.uvi}
+													</span>
+												)}
+												{info.uvi >= 7 && (
+													<span className='fc-uvi-badge uvi-high'>
+														{info.uvi}
+													</span>
+												)}
+											</div>
+										</div>
+									</Fragment>
+								))}
+							</Fragment>
+						)}
+
+						{isTabletSm && (
+							<Fragment>
+								{forecastData.map((info, index) => (
+									<Fragment key={index}>
+										<div className='fc-card'>
+											<div className='fc-date'>{info.date}</div>
+
+											<img
+												className='fc-icon'
+												src={info.condition}
+												alt='Forecast Condition Icon'
+											/>
+
+											<div className='fc-data'>
+												High:
+												<span className='fc-data-item'>{info.tempHigh}</span>
+											</div>
+
+											<div className='fc-data'>
+												Low:
+												<span className='fc-data-item'>{info.tempLow}</span>
+											</div>
+
+											<div className='fc-data'>
+												Rain:
+												<span className='fc-data-item'>{info.rain}</span>
+											</div>
+
+											<div className='fc-uvi'>
+												<div>UVI</div>
+												<RightArrowIcon className='fc-right-arrow' />
+												{info.uvi <= 3 && (
+													<span className='fc-uvi-badge uvi-low'>
+														{info.uvi}
+													</span>
+												)}
+												{info.uvi > 3 && info.uvi < 7 && (
+													<span className='fc-uvi-badge uvi-medium'>
+														{info.uvi}
+													</span>
+												)}
+												{info.uvi >= 7 && (
+													<span className='fc-uvi-badge uvi-high'>
+														{info.uvi}
+													</span>
+												)}
+											</div>
+										</div>
+									</Fragment>
+								))}
+							</Fragment>
+						)}
+
+						{isMobile && (
+							<Fragment>
+								{forecastData.map((info, index) => (
+									<Fragment key={index}>
+										<div className='fc-card'>
+											<div className='fc-date'>{info.date}</div>
+
+											<img
+												className='fc-icon'
+												src={info.condition}
+												alt='Forecast Condition Icon'
+											/>
+
+											<div className='fc-data'>
+												High:
+												<span className='fc-data-item'>{info.tempHigh}</span>
+											</div>
+
+											<div className='fc-data'>
+												Low:
+												<span className='fc-data-item'>{info.tempLow}</span>
+											</div>
+
+											<div className='fc-data'>
+												Rain:
+												<span className='fc-data-item'>{info.rain}</span>
+											</div>
+
+											<div className='fc-uvi'>
+												<div>UVI</div>
+												<RightArrowIcon className='fc-right-arrow' />
+												{info.uvi <= 3 && (
+													<span className='fc-uvi-badge uvi-low'>
+														{info.uvi}
+													</span>
+												)}
+												{info.uvi > 3 && info.uvi < 7 && (
+													<span className='fc-uvi-badge uvi-medium'>
+														{info.uvi}
+													</span>
+												)}
+												{info.uvi >= 7 && (
+													<span className='fc-uvi-badge uvi-high'>
+														{info.uvi}
+													</span>
+												)}
+											</div>
+										</div>
+									</Fragment>
+								))}
+							</Fragment>
+						)}
 					</section>
 				)}
 			</main>

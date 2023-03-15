@@ -1,9 +1,11 @@
 main {
 	width: 100%;
+	max-width: 1440px;
 	margin: 0 auto;
 	padding: 1rem 1rem 2rem;
 
 	@media (--laptop) {
+		width: 75%;
 		display: grid;
 		grid-template-columns: 4fr 6fr;
 		grid-template-rows: auto;

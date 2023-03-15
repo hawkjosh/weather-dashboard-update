@@ -311,19 +311,29 @@ export default function useCountryFlag(countryName) {
 		Zimbabwe: 'zw',
 	}
 
+	if (countryName === 'USA' || countryName === 'USA United States of America') {
+		return 'us'
+	}
+
+	// define array of words to not capitalize
+	const doNotCapitalize = ['and', 'of', 'the']
+
 	// convert country name to title case for better matching
 	const countryTitleCase = countryName
 		.toLowerCase()
 		.split(' ')
-		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+		.map((word) => {
+			if (doNotCapitalize.includes(word)) {
+				return word.toLowerCase()
+			}
+			return word.charAt(0).toUpperCase() + word.slice(1)
+		})
 		.join(' ')
 
 	// check if the country exists in the countries object
-	// if (countries[countryTitleCase]) {
-		// 	return countries[countryTitleCase]
-	if (countries[countryName]) {
-		return countries[countryName]
+	if (countries[countryTitleCase]) {
+		return countries[countryTitleCase]
 	} else {
-		return 'Invalid Country Name'
+		return
 	}
 }

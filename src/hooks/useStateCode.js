@@ -8,6 +8,7 @@ export default function useStateCode(stateName) {
 		Colorado: 'CO',
 		Connecticut: 'CT',
 		Delaware: 'DE',
+		'District of Columbia': 'D.C.',
 		Florida: 'FL',
 		Georgia: 'GA',
 		Hawaii: 'HI',
@@ -50,24 +51,31 @@ export default function useStateCode(stateName) {
 		'West Virginia': 'WV',
 		Wisconsin: 'WI',
 		Wyoming: 'WY',
-		'District of Columbia': 'D.C.',
 	}
 
 	if (stateName === 'District of Columbia') {
 		return 'D.C.'
 	}
 
+	// define array of words to not capitalize
+	const doNotCapitalize = ['and', 'of', 'the']
+
 	// convert state name to title case for better matching
 	const stateTitleCase = stateName
 		.toLowerCase()
 		.split(' ')
-		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+		.map((word) => {
+			if (doNotCapitalize.includes(word)) {
+				return word.toLowerCase()
+			}
+			return word.charAt(0).toUpperCase() + word.slice(1)
+		})
 		.join(' ')
 
 	// check if the state exists in the states object
 	if (states[stateTitleCase]) {
 		return states[stateTitleCase]
 	} else {
-		return 'Invalid State Name'
+		return
 	}
 }
