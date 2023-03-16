@@ -3,7 +3,6 @@
 	height: 100%;
 
 	@media (--laptop) {
-		width: 95%;
 		grid-column: 2 / 3;
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
@@ -121,67 +120,6 @@
 				font-size: 1.5rem;
 				font-weight: 600;
 				color: $color-light-blue;
-
-				@media (--laptop) {
-
-				}
-				@media (--tablet-lg) {
-
-				}
-				@media (--tablet-sm) {
-
-				}
-				@media (--mobile) {
-
-				}
-			}
-		}
-
-		& .fc-uvi {
-			display: flex;
-			align-items: center;
-			gap: 0.5rem;
-			font-size: 1.25rem;
-
-			@media (--laptop) {
-
-			}
-			@media (--tablet-lg) {
-
-			}
-			@media (--tablet-sm) {
-
-			}
-			@media (--mobile) {
-
-			}
-
-			& .fc-right-arrow {
-				width: 1rem;
-				fill: $color-secondary;
-				stroke: $color-primary;
-				stroke-width: 0.5;
-
-				@media (--laptop) {
-
-				}
-				@media (--tablet-lg) {
-
-				}
-				@media (--tablet-sm) {
-
-				}
-				@media (--mobile) {
-
-				}
-			}
-
-			& .fc-uvi-badge {
-				font-size: 1.5rem;
-				font-weight: 800;
-				line-height: 1.25;
-				border-radius: 50%;
-				padding: 0.25rem 0.5rem;
 
 				@media (--laptop) {
 

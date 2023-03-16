@@ -12,7 +12,8 @@ import AlertModal from './components/AlertModal.jsx'
 
 import LogoIcon from './icons/LogoIcon.jsx'
 import TrashIcon from './icons/TrashIcon.jsx'
-import RightArrowIcon from './icons/RightArrowIcon.jsx'
+import WindIcon from './icons/WindIcon.jsx'
+import UviNumberIcon from './icons/UviNumberIcon.jsx'
 
 import './App.css'
 
@@ -90,6 +91,7 @@ export default () => {
 						const humidity = `${current.humidity}%`
 						const temp = `${current.temp_f} °F`
 						const wind = `${current.wind_mph} MPH`
+						const windDir = current.wind_dir
 						const currentVals = [
 							condition,
 							uv,
@@ -97,16 +99,18 @@ export default () => {
 							humidity,
 							temp,
 							wind,
+							windDir,
 						]
 
 						const forecastInfo = forecastData.forecast.forecastday.map(
 							(info) => ({
-								date: dayjs(info.date).format('ddd, M/D'),
+								date: info.date,
 								condition: info.day.condition.icon,
+								sunrise: info.astro.sunrise,
+								sunset: info.astro.sunset,
 								tempHigh: `${info.day.maxtemp_f} °F`,
 								tempLow: `${info.day.mintemp_f} °F`,
 								rain: `${info.day.daily_chance_of_rain}%`,
-								uvi: info.day.uv,
 							})
 						)
 
@@ -211,7 +215,7 @@ export default () => {
 			<header>
 				<div className='header-container'>
 					<div className='title-wrapper'>
-						<LogoIcon className='title-logo'/>
+						<LogoIcon className='title-logo' />
 						<div className='title-text'>Weather 2.0</div>
 					</div>
 
@@ -250,8 +254,6 @@ export default () => {
 							<div
 								className='search-history'
 								ref={dropdownRef}>
-								{/* <hr className='divider' /> */}
-
 								<button
 									className='search-dropdown'
 									onClick={() => setShowHistory(!showHistory)}>
@@ -303,22 +305,29 @@ export default () => {
 								</div>
 
 								<div className='cwc-uvi'>
-									<div>UVI</div>
-									<RightArrowIcon className='cwc-right-arrow' />
 									{currentData[1] <= 3 && (
-										<span className='cwc-uvi-badge uvi-low'>
-											{currentData[1]}
-										</span>
+										<UviNumberIcon
+											className='cwc-uvi-icon'
+											bgColor='hsl(39, 100%, 50%)'
+											numColor='hsl(0, 100%, 50%)'
+											number={currentData[1]}
+										/>
 									)}
 									{currentData[1] > 3 && currentData[1] < 7 && (
-										<span className='cwc-uvi-badge uvi-medium'>
-											{currentData[1]}
-										</span>
+										<UviNumberIcon
+											className='cwc-uvi-icon'
+											bgColor='hsl(39, 100%, 50%)'
+											numColor='hsl(0, 100%, 50%)'
+											number={currentData[1]}
+										/>
 									)}
 									{currentData[1] >= 7 && (
-										<span className='cwc-uvi-badge uvi-high'>
-											{currentData[1]}
-										</span>
+										<UviNumberIcon
+											className='cwc-uvi-icon'
+											bgColor='hsl(39, 100%, 50%)'
+											numColor='hsl(0, 100%, 50%)'
+											number={currentData[1]}
+										/>
 									)}
 								</div>
 
@@ -343,9 +352,15 @@ export default () => {
 									<span className='cwc-data-item'>{currentData[4]}</span>
 								</div>
 
-								<div className='cwc-data'>
+								<div className='cwc-wind-wrapper'>
 									Wind:
-									<span className='cwc-data-item'>{currentData[5]}</span>
+									<span className='cwc-wind-data'>{currentData[5]}</span>
+									<div>
+										<WindIcon
+											className='cwc-wind-icon'
+											direction={currentData[6]}
+										/>
+									</div>
 								</div>
 							</div>
 						)}
@@ -366,22 +381,29 @@ export default () => {
 								</div>
 
 								<div className='cwc-uvi'>
-									<div>UVI</div>
-									<RightArrowIcon className='cwc-right-arrow' />
 									{currentData[1] <= 3 && (
-										<span className='cwc-uvi-badge uvi-low'>
-											{currentData[1]}
-										</span>
+										<UviNumberIcon
+											className='cwc-uvi-icon'
+											bgColor='hsl(39, 100%, 50%)'
+											numColor='hsl(0, 100%, 50%)'
+											number={currentData[1]}
+										/>
 									)}
 									{currentData[1] > 3 && currentData[1] < 7 && (
-										<span className='cwc-uvi-badge uvi-medium'>
-											{currentData[1]}
-										</span>
+										<UviNumberIcon
+											className='cwc-uvi-icon'
+											bgColor='hsl(39, 100%, 50%)'
+											numColor='hsl(0, 100%, 50%)'
+											number={currentData[1]}
+										/>
 									)}
 									{currentData[1] >= 7 && (
-										<span className='cwc-uvi-badge uvi-high'>
-											{currentData[1]}
-										</span>
+										<UviNumberIcon
+											className='cwc-uvi-icon'
+											bgColor='hsl(39, 100%, 50%)'
+											numColor='hsl(0, 100%, 50%)'
+											number={currentData[1]}
+										/>
 									)}
 								</div>
 
@@ -406,9 +428,15 @@ export default () => {
 									<span className='cwc-data-item'>{currentData[4]}</span>
 								</div>
 
-								<div className='cwc-data'>
+								<div className='cwc-wind-wrapper'>
 									Wind:
-									<span className='cwc-data-item'>{currentData[5]}</span>
+									<span className='cwc-wind-data'>{currentData[5]}</span>
+									<div>
+										<WindIcon
+											className='cwc-wind-icon'
+											direction={currentData[6]}
+										/>
+									</div>
 								</div>
 							</div>
 						)}
@@ -429,22 +457,29 @@ export default () => {
 								</div>
 
 								<div className='cwc-uvi'>
-									<div>UVI</div>
-									<RightArrowIcon className='cwc-right-arrow' />
 									{currentData[1] <= 3 && (
-										<span className='cwc-uvi-badge uvi-low'>
-											{currentData[1]}
-										</span>
+										<UviNumberIcon
+											className='cwc-uvi-icon'
+											bgColor='hsl(39, 100%, 50%)'
+											numColor='hsl(0, 100%, 50%)'
+											number={currentData[1]}
+										/>
 									)}
 									{currentData[1] > 3 && currentData[1] < 7 && (
-										<span className='cwc-uvi-badge uvi-medium'>
-											{currentData[1]}
-										</span>
+										<UviNumberIcon
+											className='cwc-uvi-icon'
+											bgColor='hsl(39, 100%, 50%)'
+											numColor='hsl(0, 100%, 50%)'
+											number={currentData[1]}
+										/>
 									)}
 									{currentData[1] >= 7 && (
-										<span className='cwc-uvi-badge uvi-high'>
-											{currentData[1]}
-										</span>
+										<UviNumberIcon
+											className='cwc-uvi-icon'
+											bgColor='hsl(39, 100%, 50%)'
+											numColor='hsl(0, 100%, 50%)'
+											number={currentData[1]}
+										/>
 									)}
 								</div>
 
@@ -469,9 +504,15 @@ export default () => {
 									<span className='cwc-data-item'>{currentData[4]}</span>
 								</div>
 
-								<div className='cwc-data'>
+								<div className='cwc-wind-wrapper'>
 									Wind:
-									<span className='cwc-data-item'>{currentData[5]}</span>
+									<span className='cwc-wind-data'>{currentData[5]}</span>
+									<div>
+										<WindIcon
+											className='cwc-wind-icon'
+											direction={currentData[6]}
+										/>
+									</div>
 								</div>
 							</div>
 						)}
@@ -492,22 +533,29 @@ export default () => {
 								</div>
 
 								<div className='cwc-uvi'>
-									<div>UVI</div>
-									<RightArrowIcon className='cwc-right-arrow' />
 									{currentData[1] <= 3 && (
-										<span className='cwc-uvi-badge uvi-low'>
-											{currentData[1]}
-										</span>
+										<UviNumberIcon
+											className='cwc-uvi-icon'
+											bgColor='hsl(39, 100%, 50%)'
+											numColor='hsl(0, 100%, 50%)'
+											number={currentData[1]}
+										/>
 									)}
 									{currentData[1] > 3 && currentData[1] < 7 && (
-										<span className='cwc-uvi-badge uvi-medium'>
-											{currentData[1]}
-										</span>
+										<UviNumberIcon
+											className='cwc-uvi-icon'
+											bgColor='hsl(39, 100%, 50%)'
+											numColor='hsl(0, 100%, 50%)'
+											number={currentData[1]}
+										/>
 									)}
 									{currentData[1] >= 7 && (
-										<span className='cwc-uvi-badge uvi-high'>
-											{currentData[1]}
-										</span>
+										<UviNumberIcon
+											className='cwc-uvi-icon'
+											bgColor='hsl(39, 100%, 50%)'
+											numColor='hsl(0, 100%, 50%)'
+											number={currentData[1]}
+										/>
 									)}
 								</div>
 
@@ -532,9 +580,15 @@ export default () => {
 									<span className='cwc-data-item'>{currentData[4]}</span>
 								</div>
 
-								<div className='cwc-data'>
+								<div className='cwc-wind-wrapper'>
 									Wind:
-									<span className='cwc-data-item'>{currentData[5]}</span>
+									<span className='cwc-wind-data'>{currentData[5]}</span>
+									<div>
+										<WindIcon
+											className='cwc-wind-icon'
+											direction={currentData[6]}
+										/>
+									</div>
 								</div>
 							</div>
 						)}
@@ -557,6 +611,16 @@ export default () => {
 											/>
 
 											<div className='fc-data'>
+												Sunrise:
+												<span className='fc-data-item'>{info.sunrise}</span>
+											</div>
+
+											<div className='fc-data'>
+												Sunset:
+												<span className='fc-data-item'>{info.sunset}</span>
+											</div>
+
+											<div className='fc-data'>
 												High:
 												<span className='fc-data-item'>{info.tempHigh}</span>
 											</div>
@@ -569,26 +633,6 @@ export default () => {
 											<div className='fc-data'>
 												Rain:
 												<span className='fc-data-item'>{info.rain}</span>
-											</div>
-
-											<div className='fc-uvi'>
-												<div>UVI</div>
-												<RightArrowIcon className='fc-right-arrow' />
-												{info.uvi <= 3 && (
-													<span className='fc-uvi-badge uvi-low'>
-														{info.uvi}
-													</span>
-												)}
-												{info.uvi > 3 && info.uvi < 7 && (
-													<span className='fc-uvi-badge uvi-medium'>
-														{info.uvi}
-													</span>
-												)}
-												{info.uvi >= 7 && (
-													<span className='fc-uvi-badge uvi-high'>
-														{info.uvi}
-													</span>
-												)}
 											</div>
 										</div>
 									</Fragment>
@@ -623,26 +667,6 @@ export default () => {
 												Rain:
 												<span className='fc-data-item'>{info.rain}</span>
 											</div>
-
-											<div className='fc-uvi'>
-												<div>UVI</div>
-												<RightArrowIcon className='fc-right-arrow' />
-												{info.uvi <= 3 && (
-													<span className='fc-uvi-badge uvi-low'>
-														{info.uvi}
-													</span>
-												)}
-												{info.uvi > 3 && info.uvi < 7 && (
-													<span className='fc-uvi-badge uvi-medium'>
-														{info.uvi}
-													</span>
-												)}
-												{info.uvi >= 7 && (
-													<span className='fc-uvi-badge uvi-high'>
-														{info.uvi}
-													</span>
-												)}
-											</div>
 										</div>
 									</Fragment>
 								))}
@@ -676,26 +700,6 @@ export default () => {
 												Rain:
 												<span className='fc-data-item'>{info.rain}</span>
 											</div>
-
-											<div className='fc-uvi'>
-												<div>UVI</div>
-												<RightArrowIcon className='fc-right-arrow' />
-												{info.uvi <= 3 && (
-													<span className='fc-uvi-badge uvi-low'>
-														{info.uvi}
-													</span>
-												)}
-												{info.uvi > 3 && info.uvi < 7 && (
-													<span className='fc-uvi-badge uvi-medium'>
-														{info.uvi}
-													</span>
-												)}
-												{info.uvi >= 7 && (
-													<span className='fc-uvi-badge uvi-high'>
-														{info.uvi}
-													</span>
-												)}
-											</div>
 										</div>
 									</Fragment>
 								))}
@@ -728,26 +732,6 @@ export default () => {
 											<div className='fc-data'>
 												Rain:
 												<span className='fc-data-item'>{info.rain}</span>
-											</div>
-
-											<div className='fc-uvi'>
-												<div>UVI</div>
-												<RightArrowIcon className='fc-right-arrow' />
-												{info.uvi <= 3 && (
-													<span className='fc-uvi-badge uvi-low'>
-														{info.uvi}
-													</span>
-												)}
-												{info.uvi > 3 && info.uvi < 7 && (
-													<span className='fc-uvi-badge uvi-medium'>
-														{info.uvi}
-													</span>
-												)}
-												{info.uvi >= 7 && (
-													<span className='fc-uvi-badge uvi-high'>
-														{info.uvi}
-													</span>
-												)}
 											</div>
 										</div>
 									</Fragment>

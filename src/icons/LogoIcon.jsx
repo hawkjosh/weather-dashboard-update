@@ -1,6 +1,6 @@
 export default ({ ...props }) => (
 	<svg
-		viewBox='0 0 48 48'
+		viewBox='0 0 42 42'
 		{...props}>
 		<path
 			transform='translate(-3, -3)'
