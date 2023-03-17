@@ -135,9 +135,10 @@
 
 		& .cwc-icon {
 			width: 7.25rem;
-			border: 0.125rem solid $color-white;
-			border-radius: 25%;
-			box-shadow: 0 0.5rem 1rem 0 $bs-color-light;
+			width: 50%;
+			/* border: 0.125rem solid $color-white; */
+			/* border-radius: 25%; */
+			/* box-shadow: 0 0.5rem 1rem 0 $bs-color-light; */
 
 			@media (--laptop) {
 

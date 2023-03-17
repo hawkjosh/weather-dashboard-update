@@ -10,10 +10,12 @@ import { useWindowSize } from './hooks/useWindowSize.js'
 
 import AlertModal from './components/AlertModal.jsx'
 
-import LogoIcon from './icons/LogoIcon.jsx'
-import TrashIcon from './icons/TrashIcon.jsx'
-import WindIcon from './icons/WindIcon.jsx'
-import UviNumberIcon from './icons/UviNumberIcon.jsx'
+import LogoIcon from './components/icons/LogoIcon.jsx'
+import TrashIcon from './components/icons/TrashIcon.jsx'
+import WindIcon from './components/icons/WindIcon.jsx'
+import UviNumberIcon from './components/icons/UviNumberIcon.jsx'
+
+import Weather from '../Weather.jsx'
 
 import './App.css'
 
@@ -331,11 +333,13 @@ export default () => {
 									)}
 								</div>
 
-								<img
+								{/* <img
 									className='cwc-icon'
 									src={currentData[0]}
 									alt='Current Condition Icon'
-								/>
+								/> */}
+
+								<Weather className='cwc-icon' width='50%' fill='red' />
 
 								<div className='cwc-data'>
 									Condition:
