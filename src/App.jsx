@@ -7,6 +7,7 @@ import { weatherApiKey, weatherApiBaseUrl } from '../config.js'
 import useStateCode from './hooks/useStateCode.js'
 import useCountryFlag from './hooks/useCountryFlag.js'
 import useConditionIcon from './hooks/useConditionIcon.js'
+import useConditionText from './hooks/useConditionText.js'
 import { useWindowSize } from './hooks/useWindowSize.js'
 
 import AlertModal from './components/AlertModal.jsx'
@@ -33,7 +34,8 @@ export default () => {
 	const [currentFlag, setCurrentFlag] = useState('')
 	const [currentCountry, setCurrentCountry] = useState('')
 	const [currentTimeMsg, setCurrentTimeMsg] = useState('')
-	const [conditionIcon, setConditionIcon] = useState('')
+	const [currentConditionIcon, setCurrentConditionIcon] = useState('')
+	const [currentConditionText, setCurrentConditionText] = useState('')
 
 	const [currentData, setCurrentData] = useState([])
 	const [forecastData, setForecastData] = useState([])
@@ -64,8 +66,6 @@ export default () => {
 
 						const forecastData = forecastResponse.data
 
-						console.log(currentData)
-
 						const { country, name, region } = currentData.location
 						const current = currentData.current
 						const countryCode = useCountryFlag(country)
@@ -89,26 +89,19 @@ export default () => {
 						const iconCode = current.condition.code
 						const isDay = current.is_day
 
-						const conditionIcon = useConditionIcon(iconCode, isDay)
+						const currentConditionIcon = useConditionIcon(iconCode, isDay)
+						const currentConditionText = useConditionText(iconCode)
 
 						const uv = current.uv
-						const conditionText = current.condition.text
 						const humidity = `${current.humidity}%`
 						const temp = `${current.temp_f} °F`
 						const wind = `${current.wind_mph} MPH`
 						const windDir = current.wind_dir
-						const currentVals = [
-							uv,
-							conditionText,
-							humidity,
-							temp,
-							wind,
-							windDir,
-						]
+						const currentVals = [uv, humidity, temp, wind, windDir]
 
 						const forecastInfo = forecastData.forecast.forecastday.map(
 							(info) => ({
-								date: info.date,
+								date: dayjs(info.date).format('ddd, M/D'),
 								condition: info.day.condition.icon,
 								sunrise: info.astro.sunrise,
 								sunset: info.astro.sunset,
@@ -122,7 +115,8 @@ export default () => {
 						setCurrentCountry(countryName)
 						setCurrentFlag(flag)
 						setCurrentTimeMsg(time)
-						setConditionIcon(conditionIcon)
+						setCurrentConditionIcon(currentConditionIcon)
+						setCurrentConditionText(currentConditionText)
 						setCurrentData(currentVals)
 						setForecastData(forecastInfo)
 
@@ -336,30 +330,30 @@ export default () => {
 									)}
 								</div>
 
-								<div className='cwc-icon'>{conditionIcon}</div>
+								<div className='cwc-icon'>{currentConditionIcon}</div>
 
 								<div className='cwc-data'>
 									Condition:
-									<span className='cwc-data-item'>{currentData[1]}</span>
+									<span className='cwc-data-item'>{currentConditionText}</span>
 								</div>
 
 								<div className='cwc-data'>
 									Humidity:
-									<span className='cwc-data-item'>{currentData[2]}</span>
+									<span className='cwc-data-item'>{currentData[1]}</span>
 								</div>
 
 								<div className='cwc-data'>
 									Temp:
-									<span className='cwc-data-item'>{currentData[3]}</span>
+									<span className='cwc-data-item'>{currentData[2]}</span>
 								</div>
 
 								<div className='cwc-wind-wrapper'>
 									Wind:
-									<span className='cwc-wind-data'>{currentData[4]}</span>
+									<span className='cwc-wind-data'>{currentData[3]}</span>
 									<div>
 										<WindIcon
 											className='cwc-wind-icon'
-											direction={currentData[5]}
+											direction={currentData[4]}
 										/>
 									</div>
 								</div>
@@ -408,30 +402,30 @@ export default () => {
 									)}
 								</div>
 
-								<div className='cwc-icon'>{conditionIcon}</div>
+								<div className='cwc-icon'>{currentConditionIcon}</div>
 
 								<div className='cwc-data'>
 									Condition:
-									<span className='cwc-data-item'>{currentData[1]}</span>
+									<span className='cwc-data-item'>{currentConditionText}</span>
 								</div>
 
 								<div className='cwc-data'>
 									Humidity:
-									<span className='cwc-data-item'>{currentData[2]}</span>
+									<span className='cwc-data-item'>{currentData[1]}</span>
 								</div>
 
 								<div className='cwc-data'>
 									Temp:
-									<span className='cwc-data-item'>{currentData[3]}</span>
+									<span className='cwc-data-item'>{currentData[2]}</span>
 								</div>
 
 								<div className='cwc-wind-wrapper'>
 									Wind:
-									<span className='cwc-wind-data'>{currentData[4]}</span>
+									<span className='cwc-wind-data'>{currentData[3]}</span>
 									<div>
 										<WindIcon
 											className='cwc-wind-icon'
-											direction={currentData[5]}
+											direction={currentData[4]}
 										/>
 									</div>
 								</div>
@@ -480,30 +474,30 @@ export default () => {
 									)}
 								</div>
 
-								<div className='cwc-icon'>{conditionIcon}</div>
+								<div className='cwc-icon'>{currentConditionIcon}</div>
 
 								<div className='cwc-data'>
 									Condition:
-									<span className='cwc-data-item'>{currentData[1]}</span>
+									<span className='cwc-data-item'>{currentConditionText}</span>
 								</div>
 
 								<div className='cwc-data'>
 									Humidity:
-									<span className='cwc-data-item'>{currentData[2]}</span>
+									<span className='cwc-data-item'>{currentData[1]}</span>
 								</div>
 
 								<div className='cwc-data'>
 									Temp:
-									<span className='cwc-data-item'>{currentData[3]}</span>
+									<span className='cwc-data-item'>{currentData[2]}</span>
 								</div>
 
 								<div className='cwc-wind-wrapper'>
 									Wind:
-									<span className='cwc-wind-data'>{currentData[4]}</span>
+									<span className='cwc-wind-data'>{currentData[3]}</span>
 									<div>
 										<WindIcon
 											className='cwc-wind-icon'
-											direction={currentData[5]}
+											direction={currentData[4]}
 										/>
 									</div>
 								</div>
@@ -552,30 +546,30 @@ export default () => {
 									)}
 								</div>
 
-								<div className='cwc-icon'>{conditionIcon}</div>
+								<div className='cwc-icon'>{currentConditionIcon}</div>
 
 								<div className='cwc-data'>
 									Condition:
-									<span className='cwc-data-item'>{currentData[1]}</span>
+									<span className='cwc-data-item'>{currentConditionText}</span>
 								</div>
 
 								<div className='cwc-data'>
 									Humidity:
-									<span className='cwc-data-item'>{currentData[2]}</span>
+									<span className='cwc-data-item'>{currentData[1]}</span>
 								</div>
 
 								<div className='cwc-data'>
 									Temp:
-									<span className='cwc-data-item'>{currentData[3]}</span>
+									<span className='cwc-data-item'>{currentData[2]}</span>
 								</div>
 
 								<div className='cwc-wind-wrapper'>
 									Wind:
-									<span className='cwc-wind-data'>{currentData[4]}</span>
+									<span className='cwc-wind-data'>{currentData[3]}</span>
 									<div>
 										<WindIcon
 											className='cwc-wind-icon'
-											direction={currentData[5]}
+											direction={currentData[4]}
 										/>
 									</div>
 								</div>
