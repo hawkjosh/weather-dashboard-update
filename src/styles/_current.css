@@ -3,16 +3,12 @@
 	height: 100%;
 
 	@media (--laptop) {
-
 	}
 	@media (--tablet-lg) {
-
 	}
 	@media (--tablet-sm) {
-
 	}
 	@media (--mobile) {
-
 	}
 
 	& .cwc-card {
@@ -27,18 +23,14 @@
 		border-radius: 0.5rem;
 		box-shadow: 0 0.5rem 1rem 0 $bs-color-dark;
 		padding: 1rem;
-		
-		@media (--laptop) {
 
+		@media (--laptop) {
 		}
 		@media (--tablet-lg) {
-
 		}
 		@media (--tablet-sm) {
-
 		}
 		@media (--mobile) {
-
 		}
 
 		& .cwc-time {
@@ -49,16 +41,12 @@
 			color: $color-yellow;
 
 			@media (--laptop) {
-
 			}
 			@media (--tablet-lg) {
-	
 			}
 			@media (--tablet-sm) {
-	
 			}
 			@media (--mobile) {
-	
 			}
 		}
 
@@ -70,18 +58,14 @@
 			color: $color-white;
 
 			@media (--laptop) {
-
 			}
 			@media (--tablet-lg) {
-	
 			}
 			@media (--tablet-sm) {
-	
 			}
 			@media (--mobile) {
-	
 			}
-			}
+		}
 
 		& .cwc-country {
 			display: flex;
@@ -102,16 +86,12 @@
 				width: 2.5rem;
 
 				@media (--laptop) {
-
 				}
 				@media (--tablet-lg) {
-
 				}
 				@media (--tablet-sm) {
-
 				}
 				@media (--mobile) {
-
 				}
 			}
 		}
@@ -120,37 +100,28 @@
 			width: 4rem;
 
 			@media (--laptop) {
-
 			}
 			@media (--tablet-lg) {
-
 			}
 			@media (--tablet-sm) {
-
 			}
 			@media (--mobile) {
-
 			}
 		}
 
 		& .cwc-icon {
 			width: 7.25rem;
 			width: 50%;
-			/* border: 0.125rem solid $color-white; */
-			/* border-radius: 25%; */
-			/* box-shadow: 0 0.5rem 1rem 0 $bs-color-light; */
+			border-radius: 25%;
+			box-shadow: 0 0.5rem 1rem 0 $bs-color-light;
 
 			@media (--laptop) {
-
 			}
 			@media (--tablet-lg) {
-
 			}
 			@media (--tablet-sm) {
-
 			}
 			@media (--mobile) {
-
 			}
 		}
 
@@ -163,16 +134,12 @@
 			color: $color-white;
 
 			@media (--laptop) {
-
 			}
 			@media (--tablet-lg) {
-
 			}
 			@media (--tablet-sm) {
-
 			}
 			@media (--mobile) {
-
 			}
 
 			& .cwc-data-item {
@@ -181,16 +148,12 @@
 				color: $color-light-blue;
 
 				@media (--laptop) {
-
 				}
 				@media (--tablet-lg) {
-	
 				}
 				@media (--tablet-sm) {
-	
 				}
 				@media (--mobile) {
-	
 				}
 			}
 		}
@@ -204,16 +167,12 @@
 			color: $color-white;
 
 			@media (--laptop) {
-
 			}
 			@media (--tablet-lg) {
-
 			}
 			@media (--tablet-sm) {
-
 			}
 			@media (--mobile) {
-
 			}
 
 			& .cwc-wind-data {
@@ -222,16 +181,12 @@
 				color: $color-light-blue;
 
 				@media (--laptop) {
-
 				}
 				@media (--tablet-lg) {
-	
 				}
 				@media (--tablet-sm) {
-	
 				}
 				@media (--mobile) {
-	
 				}
 			}
 
@@ -239,16 +194,12 @@
 				width: 2.5rem;
 
 				@media (--laptop) {
-
 				}
 				@media (--tablet-lg) {
-	
 				}
 				@media (--tablet-sm) {
-	
 				}
 				@media (--mobile) {
-	
 				}
 			}
 		}

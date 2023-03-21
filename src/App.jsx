@@ -6,6 +6,7 @@ import { weatherApiKey, weatherApiBaseUrl } from '../config.js'
 
 import useStateCode from './hooks/useStateCode.js'
 import useCountryFlag from './hooks/useCountryFlag.js'
+import useConditionIcon from './hooks/useConditionIcon.js'
 import { useWindowSize } from './hooks/useWindowSize.js'
 
 import AlertModal from './components/AlertModal.jsx'
@@ -14,8 +15,6 @@ import LogoIcon from './components/icons/LogoIcon.jsx'
 import TrashIcon from './components/icons/TrashIcon.jsx'
 import WindIcon from './components/icons/WindIcon.jsx'
 import UviNumberIcon from './components/icons/UviNumberIcon.jsx'
-
-import Weather from '../Weather.jsx'
 
 import './App.css'
 
@@ -34,6 +33,7 @@ export default () => {
 	const [currentFlag, setCurrentFlag] = useState('')
 	const [currentCountry, setCurrentCountry] = useState('')
 	const [currentTimeMsg, setCurrentTimeMsg] = useState('')
+	const [conditionIcon, setConditionIcon] = useState('')
 
 	const [currentData, setCurrentData] = useState([])
 	const [forecastData, setForecastData] = useState([])
@@ -65,7 +65,6 @@ export default () => {
 						const forecastData = forecastResponse.data
 
 						console.log(currentData)
-						console.log(forecastData)
 
 						const { country, name, region } = currentData.location
 						const current = currentData.current
@@ -74,7 +73,7 @@ export default () => {
 						const location = name
 
 						const time = `Current weather @ ${dayjs(
-							currentData.location.localTime
+							currentData.location.localtime
 						).format('h:mma')}`
 
 						const countryName =
@@ -87,7 +86,11 @@ export default () => {
 
 						const flag = `https://flagcdn.com/256x192/${countryCode}.webp`
 
-						const condition = current.condition.icon
+						const iconCode = current.condition.code
+						const isDay = current.is_day
+
+						const conditionIcon = useConditionIcon(iconCode, isDay)
+
 						const uv = current.uv
 						const conditionText = current.condition.text
 						const humidity = `${current.humidity}%`
@@ -95,7 +98,6 @@ export default () => {
 						const wind = `${current.wind_mph} MPH`
 						const windDir = current.wind_dir
 						const currentVals = [
-							condition,
 							uv,
 							conditionText,
 							humidity,
@@ -120,6 +122,7 @@ export default () => {
 						setCurrentCountry(countryName)
 						setCurrentFlag(flag)
 						setCurrentTimeMsg(time)
+						setConditionIcon(conditionIcon)
 						setCurrentData(currentVals)
 						setForecastData(forecastInfo)
 
@@ -307,62 +310,56 @@ export default () => {
 								</div>
 
 								<div className='cwc-uvi'>
-									{currentData[1] <= 3 && (
+									{currentData[0] <= 3 && (
 										<UviNumberIcon
 											className='cwc-uvi-icon'
 											bgColor='hsl(39, 100%, 50%)'
 											numColor='hsl(0, 100%, 50%)'
-											number={currentData[1]}
+											number={currentData[0]}
 										/>
 									)}
-									{currentData[1] > 3 && currentData[1] < 7 && (
+									{currentData[0] > 3 && currentData[0] < 7 && (
 										<UviNumberIcon
 											className='cwc-uvi-icon'
 											bgColor='hsl(39, 100%, 50%)'
 											numColor='hsl(0, 100%, 50%)'
-											number={currentData[1]}
+											number={currentData[0]}
 										/>
 									)}
-									{currentData[1] >= 7 && (
+									{currentData[0] >= 7 && (
 										<UviNumberIcon
 											className='cwc-uvi-icon'
 											bgColor='hsl(39, 100%, 50%)'
 											numColor='hsl(0, 100%, 50%)'
-											number={currentData[1]}
+											number={currentData[0]}
 										/>
 									)}
 								</div>
 
-								{/* <img
-									className='cwc-icon'
-									src={currentData[0]}
-									alt='Current Condition Icon'
-								/> */}
-
-								<Weather className='cwc-icon' width='50%' fill='red' />
+								<div className='cwc-icon'>{conditionIcon}</div>
 
 								<div className='cwc-data'>
 									Condition:
-									<span className='cwc-data-item'>{currentData[2]}</span>
+									<span className='cwc-data-item'>{currentData[1]}</span>
 								</div>
 
 								<div className='cwc-data'>
 									Humidity:
-									<span className='cwc-data-item'>{currentData[3]}</span>
+									<span className='cwc-data-item'>{currentData[2]}</span>
 								</div>
 
 								<div className='cwc-data'>
 									Temp:
-									<span className='cwc-data-item'>{currentData[4]}</span>
+									<span className='cwc-data-item'>{currentData[3]}</span>
 								</div>
 
 								<div className='cwc-wind-wrapper'>
 									Wind:
-									<span className='cwc-wind-data'>{currentData[5]}</span>
+									<span className='cwc-wind-data'>{currentData[4]}</span>
 									<div>
 										<WindIcon
 											className='cwc-wind-icon'
-											direction={currentData[6]}
+											direction={currentData[5]}
 										/>
 									</div>
 								</div>
@@ -385,60 +382,56 @@ export default () => {
 								</div>
 
 								<div className='cwc-uvi'>
-									{currentData[1] <= 3 && (
+									{currentData[0] <= 3 && (
 										<UviNumberIcon
 											className='cwc-uvi-icon'
 											bgColor='hsl(39, 100%, 50%)'
 											numColor='hsl(0, 100%, 50%)'
-											number={currentData[1]}
+											number={currentData[0]}
 										/>
 									)}
-									{currentData[1] > 3 && currentData[1] < 7 && (
+									{currentData[0] > 3 && currentData[0] < 7 && (
 										<UviNumberIcon
 											className='cwc-uvi-icon'
 											bgColor='hsl(39, 100%, 50%)'
 											numColor='hsl(0, 100%, 50%)'
-											number={currentData[1]}
+											number={currentData[0]}
 										/>
 									)}
-									{currentData[1] >= 7 && (
+									{currentData[0] >= 7 && (
 										<UviNumberIcon
 											className='cwc-uvi-icon'
 											bgColor='hsl(39, 100%, 50%)'
 											numColor='hsl(0, 100%, 50%)'
-											number={currentData[1]}
+											number={currentData[0]}
 										/>
 									)}
 								</div>
 
-								<img
-									className='cwc-icon'
-									src={currentData[0]}
-									alt='Current Condition Icon'
-								/>
+								<div className='cwc-icon'>{conditionIcon}</div>
 
 								<div className='cwc-data'>
 									Condition:
-									<span className='cwc-data-item'>{currentData[2]}</span>
+									<span className='cwc-data-item'>{currentData[1]}</span>
 								</div>
 
 								<div className='cwc-data'>
 									Humidity:
-									<span className='cwc-data-item'>{currentData[3]}</span>
+									<span className='cwc-data-item'>{currentData[2]}</span>
 								</div>
 
 								<div className='cwc-data'>
 									Temp:
-									<span className='cwc-data-item'>{currentData[4]}</span>
+									<span className='cwc-data-item'>{currentData[3]}</span>
 								</div>
 
 								<div className='cwc-wind-wrapper'>
 									Wind:
-									<span className='cwc-wind-data'>{currentData[5]}</span>
+									<span className='cwc-wind-data'>{currentData[4]}</span>
 									<div>
 										<WindIcon
 											className='cwc-wind-icon'
-											direction={currentData[6]}
+											direction={currentData[5]}
 										/>
 									</div>
 								</div>
@@ -461,60 +454,56 @@ export default () => {
 								</div>
 
 								<div className='cwc-uvi'>
-									{currentData[1] <= 3 && (
+									{currentData[0] <= 3 && (
 										<UviNumberIcon
 											className='cwc-uvi-icon'
 											bgColor='hsl(39, 100%, 50%)'
 											numColor='hsl(0, 100%, 50%)'
-											number={currentData[1]}
+											number={currentData[0]}
 										/>
 									)}
-									{currentData[1] > 3 && currentData[1] < 7 && (
+									{currentData[0] > 3 && currentData[0] < 7 && (
 										<UviNumberIcon
 											className='cwc-uvi-icon'
 											bgColor='hsl(39, 100%, 50%)'
 											numColor='hsl(0, 100%, 50%)'
-											number={currentData[1]}
+											number={currentData[0]}
 										/>
 									)}
-									{currentData[1] >= 7 && (
+									{currentData[0] >= 7 && (
 										<UviNumberIcon
 											className='cwc-uvi-icon'
 											bgColor='hsl(39, 100%, 50%)'
 											numColor='hsl(0, 100%, 50%)'
-											number={currentData[1]}
+											number={currentData[0]}
 										/>
 									)}
 								</div>
 
-								<img
-									className='cwc-icon'
-									src={currentData[0]}
-									alt='Current Condition Icon'
-								/>
+								<div className='cwc-icon'>{conditionIcon}</div>
 
 								<div className='cwc-data'>
 									Condition:
-									<span className='cwc-data-item'>{currentData[2]}</span>
+									<span className='cwc-data-item'>{currentData[1]}</span>
 								</div>
 
 								<div className='cwc-data'>
 									Humidity:
-									<span className='cwc-data-item'>{currentData[3]}</span>
+									<span className='cwc-data-item'>{currentData[2]}</span>
 								</div>
 
 								<div className='cwc-data'>
 									Temp:
-									<span className='cwc-data-item'>{currentData[4]}</span>
+									<span className='cwc-data-item'>{currentData[3]}</span>
 								</div>
 
 								<div className='cwc-wind-wrapper'>
 									Wind:
-									<span className='cwc-wind-data'>{currentData[5]}</span>
+									<span className='cwc-wind-data'>{currentData[4]}</span>
 									<div>
 										<WindIcon
 											className='cwc-wind-icon'
-											direction={currentData[6]}
+											direction={currentData[5]}
 										/>
 									</div>
 								</div>
@@ -537,60 +526,56 @@ export default () => {
 								</div>
 
 								<div className='cwc-uvi'>
-									{currentData[1] <= 3 && (
+									{currentData[0] <= 3 && (
 										<UviNumberIcon
 											className='cwc-uvi-icon'
 											bgColor='hsl(39, 100%, 50%)'
 											numColor='hsl(0, 100%, 50%)'
-											number={currentData[1]}
+											number={currentData[0]}
 										/>
 									)}
-									{currentData[1] > 3 && currentData[1] < 7 && (
+									{currentData[0] > 3 && currentData[0] < 7 && (
 										<UviNumberIcon
 											className='cwc-uvi-icon'
 											bgColor='hsl(39, 100%, 50%)'
 											numColor='hsl(0, 100%, 50%)'
-											number={currentData[1]}
+											number={currentData[0]}
 										/>
 									)}
-									{currentData[1] >= 7 && (
+									{currentData[0] >= 7 && (
 										<UviNumberIcon
 											className='cwc-uvi-icon'
 											bgColor='hsl(39, 100%, 50%)'
 											numColor='hsl(0, 100%, 50%)'
-											number={currentData[1]}
+											number={currentData[0]}
 										/>
 									)}
 								</div>
 
-								<img
-									className='cwc-icon'
-									src={currentData[0]}
-									alt='Current Condition Icon'
-								/>
+								<div className='cwc-icon'>{conditionIcon}</div>
 
 								<div className='cwc-data'>
 									Condition:
-									<span className='cwc-data-item'>{currentData[2]}</span>
+									<span className='cwc-data-item'>{currentData[1]}</span>
 								</div>
 
 								<div className='cwc-data'>
 									Humidity:
-									<span className='cwc-data-item'>{currentData[3]}</span>
+									<span className='cwc-data-item'>{currentData[2]}</span>
 								</div>
 
 								<div className='cwc-data'>
 									Temp:
-									<span className='cwc-data-item'>{currentData[4]}</span>
+									<span className='cwc-data-item'>{currentData[3]}</span>
 								</div>
 
 								<div className='cwc-wind-wrapper'>
 									Wind:
-									<span className='cwc-wind-data'>{currentData[5]}</span>
+									<span className='cwc-wind-data'>{currentData[4]}</span>
 									<div>
 										<WindIcon
 											className='cwc-wind-icon'
-											direction={currentData[6]}
+											direction={currentData[5]}
 										/>
 									</div>
 								</div>
