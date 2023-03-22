@@ -8,6 +8,8 @@ import useStateCode from './hooks/useStateCode.js'
 import useCountryFlag from './hooks/useCountryFlag.js'
 import useConditionIcon from './hooks/useConditionIcon.js'
 import useConditionText from './hooks/useConditionText.js'
+import useForecastIcon from './hooks/useForecastIcon.js'
+import useTimeConvert from './hooks/useTimeConvert.js'
 import { useWindowSize } from './hooks/useWindowSize.js'
 
 import AlertModal from './components/AlertModal.jsx'
@@ -102,9 +104,9 @@ export default () => {
 						const forecastInfo = forecastData.forecast.forecastday.map(
 							(info) => ({
 								date: dayjs(info.date).format('ddd, M/D'),
-								condition: info.day.condition.icon,
-								sunrise: info.astro.sunrise,
-								sunset: info.astro.sunset,
+								condition: useForecastIcon(info.day.condition.code),
+								sunrise: useTimeConvert(info.astro.sunrise),
+								sunset: useTimeConvert(info.astro.sunset),
 								tempHigh: `${info.day.maxtemp_f} °F`,
 								tempLow: `${info.day.mintemp_f} °F`,
 								rain: `${info.day.daily_chance_of_rain}%`,
@@ -587,11 +589,7 @@ export default () => {
 										<div className='fc-card'>
 											<div className='fc-date'>{info.date}</div>
 
-											<img
-												className='fc-icon'
-												src={info.condition}
-												alt='Forecast Condition Icon'
-											/>
+											<div className='fc-icon'>{info.condition()}</div>
 
 											<div className='fc-data'>
 												Sunrise:
@@ -630,11 +628,13 @@ export default () => {
 										<div className='fc-card'>
 											<div className='fc-date'>{info.date}</div>
 
-											<img
+											{/* <img
 												className='fc-icon'
 												src={info.condition}
 												alt='Forecast Condition Icon'
-											/>
+											/> */}
+											<div className='fc-icon'>helloWorld</div>
+											{/* <div className='fc-icon'>{info.condition}</div> */}
 
 											<div className='fc-data'>
 												High:
@@ -663,11 +663,13 @@ export default () => {
 										<div className='fc-card'>
 											<div className='fc-date'>{info.date}</div>
 
-											<img
+											{/* <img
 												className='fc-icon'
 												src={info.condition}
 												alt='Forecast Condition Icon'
-											/>
+											/> */}
+											<div className='fc-icon'>helloWorld</div>
+											{/* <div className='fc-icon'>{info.condition}</div> */}
 
 											<div className='fc-data'>
 												High:
@@ -696,11 +698,13 @@ export default () => {
 										<div className='fc-card'>
 											<div className='fc-date'>{info.date}</div>
 
-											<img
+											{/* <img
 												className='fc-icon'
 												src={info.condition}
 												alt='Forecast Condition Icon'
-											/>
+											/> */}
+											<div className='fc-icon'>helloWorld</div>
+											{/* <div className='fc-icon'>{info.condition}</div> */}
 
 											<div className='fc-data'>
 												High:

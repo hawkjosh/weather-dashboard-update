@@ -36,64 +36,59 @@
 		grid-auto-rows: auto;
 		place-items: center;
 		gap: 1rem;
-		background-color: $bg-color-light-gray;
+		background: linear-gradient(to left, $bg-color-white, $bg-color-light-gray);
 		border-radius: 0.5rem;
 		box-shadow: 0 0.5rem 1rem 0 $bs-color-dark;
 		padding: 0.75rem;
 
 		&:nth-child(1) {
 			grid-column: 1 / 3;
-			grid-row: 1 / 2
+			grid-row: 1 / 2;
 		}
 
 		@media (--laptop) {
-
 		}
 		@media (--tablet-lg) {
-	
 		}
 		@media (--tablet-sm) {
-	
 		}
 		@media (--mobile) {
-	
-		}	
+		}
 
 		& .fc-date {
 			font-size: 1.75rem;
 			font-weight: 600;
 
 			@media (--laptop) {
-
 			}
 			@media (--tablet-lg) {
-
 			}
 			@media (--tablet-sm) {
-
 			}
 			@media (--mobile) {
-
 			}
 		}
 
 		& .fc-icon {
-			width: 3.5rem;
-			border: 0.125rem solid $color-primary;
-			border-radius: 25%;
-			box-shadow: 0 0.5rem 1rem 0 $bs-color-medium;
+			display: flex;
+			width: 7.5rem;
 
 			@media (--laptop) {
-
 			}
 			@media (--tablet-lg) {
-
 			}
 			@media (--tablet-sm) {
-
 			}
 			@media (--mobile) {
+			}
 
+			& svg {
+				filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
+
+				& rect {
+					stroke: $color-primary;
+					stroke-width: 1.25;
+				}
 			}
 		}
 
@@ -104,16 +99,12 @@
 			font-size: 1.25rem;
 
 			@media (--laptop) {
-
 			}
 			@media (--tablet-lg) {
-
 			}
 			@media (--tablet-sm) {
-
 			}
 			@media (--mobile) {
-
 			}
 
 			& .fc-data-item {
@@ -122,16 +113,12 @@
 				color: $color-light-blue;
 
 				@media (--laptop) {
-
 				}
 				@media (--tablet-lg) {
-
 				}
 				@media (--tablet-sm) {
-
 				}
 				@media (--mobile) {
-
 				}
 			}
 		}

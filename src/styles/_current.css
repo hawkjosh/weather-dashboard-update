@@ -110,9 +110,8 @@
 		}
 
 		& .cwc-icon {
-			width: 10rem;
-			/* border-radius: 25%; */
-			/* box-shadow: 0 0.5rem 1rem 0 $bs-color-light; */
+			display: flex;
+			width: 15rem;
 
 			@media (--laptop) {
 			}
@@ -121,6 +120,15 @@
 			@media (--tablet-sm) {
 			}
 			@media (--mobile) {
+			}
+
+			& svg {
+				filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
+
+				& rect {
+					stroke: $color-white;
+					stroke-width: 1.75;
+				}
 			}
 		}
 

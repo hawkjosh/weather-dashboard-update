@@ -13,7 +13,9 @@ $color-gray: hsl(0, 0%, 50%);
 $color-dark-gray: hsl(0, 0%, 20%);
 $color-yellow: hsl(60, 100%, 50%);
 
+$bg-color-white: hsl(0, 0%, 100%);
 $bg-color-light-gray: hsl(0, 0%, 85%);
+$bg-color-medium-gray: hsl(0, 0%, 75%);
 $bg-color-light-gray-transparent: hsla(0, 0%, 85%, 0.875);
 $bg-color-green: hsl(120, 100%, 25%);
 $bg-color-orange: hsl(39, 100%, 50%);
