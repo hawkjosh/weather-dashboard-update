@@ -1,5 +1,5 @@
-export default function useTimeConvert(dateStr) {
-	const date = new Date(dateStr)
+export default function useTimeFormat(timeStr) {
+	const date = new Date(`01/01/2000 ${timeStr}`)
 	const hours = date.getHours()
 	const minutes = date.getMinutes()
 	const ampm = hours >= 12 ? 'pm' : 'am'

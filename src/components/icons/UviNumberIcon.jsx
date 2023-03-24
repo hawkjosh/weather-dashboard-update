@@ -15,29 +15,22 @@ export default ({ bgColor, numColor, number, ...props }) => (
 			fill={bgColor}
 		/>
 		<text
-			fill={numColor}
-			fontSize='16'
-			fontWeight='bold'
-			fontFamily="'Open Sans', sans-serif">
-			<textPath
-				href='#arc'
-				startOffset='50%'
-				textAnchor='middle'>
-				UV Index
-			</textPath>
-		</text>
-		<path
-			id='arc'
-			d='M 20 60 A 30 30 0 0 1 92 60'
-			fill='none'
-		/>
-		<text
 			x='50%'
-			y='77.5%'
+			y='30%'
 			fill={numColor}
 			fontSize='3.75rem'
 			fontWeight='bold'
-			fontFamily="'Open Sans', sans-serif"
+			fontFamily="'Farsan', cursive"
+			textAnchor='middle'>
+			UVI
+		</text>
+		<text
+			x='50%'
+			y='85%'
+			fill={numColor}
+			fontSize='3.75rem'
+			fontWeight='bold'
+			fontFamily="'Farsan', cursive"
 			textAnchor='middle'>
 			{number}
 		</text>
