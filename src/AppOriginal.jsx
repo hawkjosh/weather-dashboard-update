@@ -18,8 +18,6 @@ import LogoIcon from './components/icons/LogoIcon.jsx'
 import TrashIcon from './components/icons/TrashIcon.jsx'
 import WindIcon from './components/icons/WindIcon.jsx'
 import UviNumberIcon from './components/icons/UviNumberIcon.jsx'
-import SearchIcon from './components/icons/SearchIcon.jsx'
-import SearchHistoryIcon from './components/icons/SearchHistoryIcon.jsx'
 
 import './App.css'
 
@@ -220,7 +218,7 @@ export default () => {
 						<div className='title-text'>Weather 2.0</div>
 					</div>
 
-					<div className='search-wrapper'>
+					<div className='search-container'>
 						<form className='search-form'>
 							<input
 								className='search-input'
@@ -234,71 +232,71 @@ export default () => {
 								className='search-btn'
 								type='submit'
 								onClick={newSearchWeather}>
-								<SearchIcon />
+								Search
 							</button>
 						</form>
-					</div>
 
-					{searchHistory.length !== 0 && (
-						<div
-							className='search-history-wrapper'
-							ref={dropdownRef}>
-							<button
-								className='search-dropdown'
-								onClick={() => setShowHistory(!showHistory)}>
-								<SearchHistoryIcon />
-							</button>
-
-							{showHistory && (
-								<div className='search-list'>
-									{searchHistory.map((search, index) => (
-										<Fragment key={index}>
-											<div className='list-item-wrapper'>
-												<div
-													className='list-item'
-													// title={search}
-													onClick={prevSearchWeather}>
-													{search}
-												</div>
-												<TrashIcon
-													className='delete-btn'
-													onClick={() => removeHistoryItem(search)}
-												/>
-											</div>
-										</Fragment>
-									))}
-								</div>
-							)}
+						<div id='alert-modal'>
+							<AlertModal
+								isOpen={errorOne !== null}
+								onClose={handleCloseErrorOne}>
+								<p>{errorOne && errorOne.message}</p>
+							</AlertModal>
+							<AlertModal
+								isOpen={errorTwo !== null}
+								onClose={handleCloseErrorTwo}>
+								<p>{errorTwo && errorTwo.message}</p>
+							</AlertModal>
 						</div>
-					)}
+
+						{searchHistory.length !== 0 && (
+							<div
+								className='search-history'
+								ref={dropdownRef}>
+								<button
+									className='search-dropdown'
+									onClick={() => setShowHistory(!showHistory)}>
+									Previous Searches
+								</button>
+
+								{showHistory && (
+									<div className='search-list'>
+										{searchHistory.map((search, index) => (
+											<Fragment key={index}>
+												<div className='list-item-wrapper'>
+													<div
+														className='list-item'
+														// title={search}
+														onClick={prevSearchWeather}>
+														{search}
+													</div>
+													<TrashIcon
+														className='delete-btn'
+														onClick={() => removeHistoryItem(search)}
+													/>
+												</div>
+											</Fragment>
+										))}
+									</div>
+								)}
+							</div>
+						)}
+					</div>
 				</div>
 			</header>
-
-			<div id='alert-modal'>
-				<AlertModal
-					isOpen={errorOne !== null}
-					onClose={handleCloseErrorOne}>
-					<p>{errorOne && errorOne.message}</p>
-				</AlertModal>
-				<AlertModal
-					isOpen={errorTwo !== null}
-					onClose={handleCloseErrorTwo}>
-					<p>{errorTwo && errorTwo.message}</p>
-				</AlertModal>
-			</div>
 
 			<main>
 				{currentData.length !== 0 && (
 					<section className='current-weather-container'>
 						{isLaptop && (
 							<div className='cwc-card'>
-								
+
 								<div className='cwc-location'>{currentLocation}</div>
 
 								<div className='cwc-country'>
-									<div className='country-name'>{currentCountry}</div>
+									<div className='cwc-name'>{currentCountry}</div>
 									<img
-										className='country-flag'
+										className='cwc-flag'
 										src={currentFlag}
 										alt='Flag Icon'
 									/>
@@ -306,9 +304,10 @@ export default () => {
 
 								<div className='cwc-time'>{currentTimeMsg}</div>
 
-								<div className='cwc-uvi-icon'>
+								<div className='cwc-uvi'>
 									{currentData[0] <= 3 && (
 										<UviNumberIcon
+											className='cwc-uvi-icon'
 											bgColor='hsl(120, 100%, 25%)'
 											numColor='hsl(0, 0%, 100%)'
 											number={currentData[0]}
@@ -316,6 +315,7 @@ export default () => {
 									)}
 									{currentData[0] > 3 && currentData[0] < 7 && (
 										<UviNumberIcon
+											className='cwc-uvi-icon'
 											bgColor='hsl(39, 100%, 50%)'
 											numColor='hsl(0, 100%, 50%)'
 											number={currentData[0]}
@@ -323,6 +323,7 @@ export default () => {
 									)}
 									{currentData[0] >= 7 && (
 										<UviNumberIcon
+											className='cwc-uvi-icon'
 											bgColor='hsl(0, 100%, 50%)'
 											numColor='hsl(60, 100%, 50%)'
 											number={currentData[0]}
@@ -330,28 +331,31 @@ export default () => {
 									)}
 								</div>
 
-								<div className='cwc-condition-icon'>{currentConditionIcon}</div>
+								<div className='cwc-icon'>{currentConditionIcon}</div>
 
-								<div className='cwc-data-item'>
+								<div className='cwc-data'>
 									Current Conditions:
-									<span className='cwc-api-info'>{currentConditionText}</span>
+									<span className='cwc-data-item'>{currentConditionText}</span>
 								</div>
 
-								<div className='cwc-data-item'>
+								<div className='cwc-data'>
 									Humidity:
-									<span className='cwc-api-info'>{currentData[1]}</span>
+									<span className='cwc-data-item'>{currentData[1]}</span>
 								</div>
 
-								<div className='cwc-data-item'>
+								<div className='cwc-data'>
 									Temp:
-									<span className='cwc-api-info'>{currentData[2]}</span>
+									<span className='cwc-data-item'>{currentData[2]}</span>
 								</div>
 
-								<div className='cwc-data-item'>
+								<div className='cwc-wind-wrapper'>
 									Wind:
-									<span className='cwc-api-info'>{currentData[3]}</span>
-									<div className='wind-icon'>
-										<WindIcon direction={currentData[4]} />
+									<span className='cwc-wind-data'>{currentData[3]}</span>
+									<div>
+										<WindIcon
+											className='cwc-wind-icon'
+											direction={currentData[4]}
+										/>
 									</div>
 								</div>
 							</div>
@@ -362,9 +366,9 @@ export default () => {
 								<div className='cwc-location'>{currentLocation}</div>
 
 								<div className='cwc-country'>
-									<div className='country-name'>{currentCountry}</div>
+									<div className='cwc-name'>{currentCountry}</div>
 									<img
-										className='country-flag'
+										className='cwc-flag'
 										src={currentFlag}
 										alt='Flag Icon'
 									/>
@@ -372,9 +376,10 @@ export default () => {
 
 								<div className='cwc-time'>{currentTimeMsg}</div>
 
-								<div className='cwc-uvi-icon'>
+								<div className='cwc-uvi'>
 									{currentData[0] <= 3 && (
 										<UviNumberIcon
+											className='cwc-uvi-icon'
 											bgColor='hsl(120, 100%, 25%)'
 											numColor='hsl(0, 0%, 100%)'
 											number={currentData[0]}
@@ -382,6 +387,7 @@ export default () => {
 									)}
 									{currentData[0] > 3 && currentData[0] < 7 && (
 										<UviNumberIcon
+											className='cwc-uvi-icon'
 											bgColor='hsl(39, 100%, 50%)'
 											numColor='hsl(0, 100%, 50%)'
 											number={currentData[0]}
@@ -389,6 +395,7 @@ export default () => {
 									)}
 									{currentData[0] >= 7 && (
 										<UviNumberIcon
+											className='cwc-uvi-icon'
 											bgColor='hsl(0, 100%, 50%)'
 											numColor='hsl(60, 100%, 50%)'
 											number={currentData[0]}
@@ -396,28 +403,31 @@ export default () => {
 									)}
 								</div>
 
-								<div className='cwc-condition-icon'>{currentConditionIcon}</div>
+								<div className='cwc-icon'>{currentConditionIcon}</div>
 
-								<div className='cwc-data-item'>
+								<div className='cwc-data'>
 									Current Conditions:
-									<span className='cwc-api-info'>{currentConditionText}</span>
+									<span className='cwc-data-item'>{currentConditionText}</span>
 								</div>
 
-								<div className='cwc-data-item'>
+								<div className='cwc-data'>
 									Humidity:
-									<span className='cwc-api-info'>{currentData[1]}</span>
+									<span className='cwc-data-item'>{currentData[1]}</span>
 								</div>
 
-								<div className='cwc-data-item'>
+								<div className='cwc-data'>
 									Temp:
-									<span className='cwc-api-info'>{currentData[2]}</span>
+									<span className='cwc-data-item'>{currentData[2]}</span>
 								</div>
 
-								<div className='cwc-data-item'>
+								<div className='cwc-wind-wrapper'>
 									Wind:
-									<span className='cwc-api-info'>{currentData[3]}</span>
-									<div className='wind-icon'>
-										<WindIcon direction={currentData[4]} />
+									<span className='cwc-wind-data'>{currentData[3]}</span>
+									<div>
+										<WindIcon
+											className='cwc-wind-icon'
+											direction={currentData[4]}
+										/>
 									</div>
 								</div>
 							</div>
@@ -428,9 +438,9 @@ export default () => {
 								<div className='cwc-location'>{currentLocation}</div>
 
 								<div className='cwc-country'>
-									<div className='country-name'>{currentCountry}</div>
+									<div className='cwc-name'>{currentCountry}</div>
 									<img
-										className='country-flag'
+										className='cwc-flag'
 										src={currentFlag}
 										alt='Flag Icon'
 									/>
@@ -438,9 +448,10 @@ export default () => {
 
 								<div className='cwc-time'>{currentTimeMsg}</div>
 
-								<div className='cwc-uvi-icon'>
+								<div className='cwc-uvi'>
 									{currentData[0] <= 3 && (
 										<UviNumberIcon
+											className='cwc-uvi-icon'
 											bgColor='hsl(120, 100%, 25%)'
 											numColor='hsl(0, 0%, 100%)'
 											number={currentData[0]}
@@ -448,6 +459,7 @@ export default () => {
 									)}
 									{currentData[0] > 3 && currentData[0] < 7 && (
 										<UviNumberIcon
+											className='cwc-uvi-icon'
 											bgColor='hsl(39, 100%, 50%)'
 											numColor='hsl(0, 100%, 50%)'
 											number={currentData[0]}
@@ -455,6 +467,7 @@ export default () => {
 									)}
 									{currentData[0] >= 7 && (
 										<UviNumberIcon
+											className='cwc-uvi-icon'
 											bgColor='hsl(0, 100%, 50%)'
 											numColor='hsl(60, 100%, 50%)'
 											number={currentData[0]}
@@ -462,28 +475,31 @@ export default () => {
 									)}
 								</div>
 
-								<div className='cwc-condition-icon'>{currentConditionIcon}</div>
+								<div className='cwc-icon'>{currentConditionIcon}</div>
 
-								<div className='cwc-data-item'>
+								<div className='cwc-data'>
 									Current Conditions:
-									<span className='cwc-api-info'>{currentConditionText}</span>
+									<span className='cwc-data-item'>{currentConditionText}</span>
 								</div>
 
-								<div className='cwc-data-item'>
+								<div className='cwc-data'>
 									Humidity:
-									<span className='cwc-api-info'>{currentData[1]}</span>
+									<span className='cwc-data-item'>{currentData[1]}</span>
 								</div>
 
-								<div className='cwc-data-item'>
+								<div className='cwc-data'>
 									Temp:
-									<span className='cwc-api-info'>{currentData[2]}</span>
+									<span className='cwc-data-item'>{currentData[2]}</span>
 								</div>
 
-								<div className='cwc-data-item'>
+								<div className='cwc-wind-wrapper'>
 									Wind:
-									<span className='cwc-api-info'>{currentData[3]}</span>
-									<div className='wind-icon'>
-										<WindIcon direction={currentData[4]} />
+									<span className='cwc-wind-data'>{currentData[3]}</span>
+									<div>
+										<WindIcon
+											className='cwc-wind-icon'
+											direction={currentData[4]}
+										/>
 									</div>
 								</div>
 							</div>
@@ -494,9 +510,9 @@ export default () => {
 								<div className='cwc-location'>{currentLocation}</div>
 
 								<div className='cwc-country'>
-									<div className='country-name'>{currentCountry}</div>
+									<div className='cwc-name'>{currentCountry}</div>
 									<img
-										className='country-flag'
+										className='cwc-flag'
 										src={currentFlag}
 										alt='Flag Icon'
 									/>
@@ -504,9 +520,10 @@ export default () => {
 
 								<div className='cwc-time'>{currentTimeMsg}</div>
 
-								<div className='cwc-uvi-icon'>
+								<div className='cwc-uvi'>
 									{currentData[0] <= 3 && (
 										<UviNumberIcon
+											className='cwc-uvi-icon'
 											bgColor='hsl(120, 100%, 25%)'
 											numColor='hsl(0, 0%, 100%)'
 											number={currentData[0]}
@@ -514,6 +531,7 @@ export default () => {
 									)}
 									{currentData[0] > 3 && currentData[0] < 7 && (
 										<UviNumberIcon
+											className='cwc-uvi-icon'
 											bgColor='hsl(39, 100%, 50%)'
 											numColor='hsl(0, 100%, 50%)'
 											number={currentData[0]}
@@ -521,6 +539,7 @@ export default () => {
 									)}
 									{currentData[0] >= 7 && (
 										<UviNumberIcon
+											className='cwc-uvi-icon'
 											bgColor='hsl(0, 100%, 50%)'
 											numColor='hsl(60, 100%, 50%)'
 											number={currentData[0]}
@@ -528,28 +547,31 @@ export default () => {
 									)}
 								</div>
 
-								<div className='cwc-condition-icon'>{currentConditionIcon}</div>
+								<div className='cwc-icon'>{currentConditionIcon}</div>
 
-								<div className='cwc-data-item'>
+								<div className='cwc-data'>
 									Current Conditions:
-									<span className='cwc-api-info'>{currentConditionText}</span>
+									<span className='cwc-data-item'>{currentConditionText}</span>
 								</div>
 
-								<div className='cwc-data-item'>
+								<div className='cwc-data'>
 									Humidity:
-									<span className='cwc-api-info'>{currentData[1]}</span>
+									<span className='cwc-data-item'>{currentData[1]}</span>
 								</div>
 
-								<div className='cwc-data-item'>
+								<div className='cwc-data'>
 									Temp:
-									<span className='cwc-api-info'>{currentData[2]}</span>
+									<span className='cwc-data-item'>{currentData[2]}</span>
 								</div>
 
-								<div className='cwc-data-item'>
+								<div className='cwc-wind-wrapper'>
 									Wind:
-									<span className='cwc-api-info'>{currentData[3]}</span>
-									<div className='wind-icon'>
-										<WindIcon direction={currentData[4]} />
+									<span className='cwc-wind-data'>{currentData[3]}</span>
+									<div>
+										<WindIcon
+											className='cwc-wind-icon'
+											direction={currentData[4]}
+										/>
 									</div>
 								</div>
 							</div>
@@ -566,33 +588,31 @@ export default () => {
 										<div className='fc-card'>
 											<div className='fc-date'>{info.date}</div>
 
-											<div className='fc-condition-icon'>
-												{info.condition()}
-											</div>
+											<div className='fc-icon'>{info.condition()}</div>
 
-											<div className='fc-data-item'>
+											<div className='fc-data'>
 												Sunrise:
-												<span className='fc-api-info'>{info.sunrise}</span>
+												<span className='fc-data-item'>{info.sunrise}</span>
 											</div>
 
-											<div className='fc-data-item'>
+											<div className='fc-data'>
 												Sunset:
-												<span className='fc-api-info'>{info.sunset}</span>
+												<span className='fc-data-item'>{info.sunset}</span>
 											</div>
 
-											<div className='fc-data-item'>
+											<div className='fc-data'>
 												High:
-												<span className='fc-api-info'>{info.tempHigh}</span>
+												<span className='fc-data-item'>{info.tempHigh}</span>
 											</div>
 
-											<div className='fc-data-item'>
+											<div className='fc-data'>
 												Low:
-												<span className='fc-api-info'>{info.tempLow}</span>
+												<span className='fc-data-item'>{info.tempLow}</span>
 											</div>
 
-											<div className='fc-data-item'>
+											<div className='fc-data'>
 												Rain:
-												<span className='fc-api-info'>{info.rain}</span>
+												<span className='fc-data-item'>{info.rain}</span>
 											</div>
 										</div>
 									</Fragment>
@@ -607,33 +627,27 @@ export default () => {
 										<div className='fc-card'>
 											<div className='fc-date'>{info.date}</div>
 
-											<div className='fc-condition-icon'>
-												{info.condition()}
-											</div>
+											{/* <img
+												className='fc-icon'
+												src={info.condition}
+												alt='Forecast Condition Icon'
+											/> */}
+											<div className='fc-icon'>helloWorld</div>
+											{/* <div className='fc-icon'>{info.condition}</div> */}
 
-											<div className='fc-data-item'>
-												Sunrise:
-												<span className='fc-api-info'>{info.sunrise}</span>
-											</div>
-
-											<div className='fc-data-item'>
-												Sunset:
-												<span className='fc-api-info'>{info.sunset}</span>
-											</div>
-
-											<div className='fc-data-item'>
+											<div className='fc-data'>
 												High:
-												<span className='fc-api-info'>{info.tempHigh}</span>
+												<span className='fc-data-item'>{info.tempHigh}</span>
 											</div>
 
-											<div className='fc-data-item'>
+											<div className='fc-data'>
 												Low:
-												<span className='fc-api-info'>{info.tempLow}</span>
+												<span className='fc-data-item'>{info.tempLow}</span>
 											</div>
 
-											<div className='fc-data-item'>
+											<div className='fc-data'>
 												Rain:
-												<span className='fc-api-info'>{info.rain}</span>
+												<span className='fc-data-item'>{info.rain}</span>
 											</div>
 										</div>
 									</Fragment>
@@ -648,33 +662,27 @@ export default () => {
 										<div className='fc-card'>
 											<div className='fc-date'>{info.date}</div>
 
-											<div className='fc-condition-icon'>
-												{info.condition()}
-											</div>
+											{/* <img
+												className='fc-icon'
+												src={info.condition}
+												alt='Forecast Condition Icon'
+											/> */}
+											<div className='fc-icon'>helloWorld</div>
+											{/* <div className='fc-icon'>{info.condition}</div> */}
 
-											<div className='fc-data-item'>
-												Sunrise:
-												<span className='fc-api-info'>{info.sunrise}</span>
-											</div>
-
-											<div className='fc-data-item'>
-												Sunset:
-												<span className='fc-api-info'>{info.sunset}</span>
-											</div>
-
-											<div className='fc-data-item'>
+											<div className='fc-data'>
 												High:
-												<span className='fc-api-info'>{info.tempHigh}</span>
+												<span className='fc-data-item'>{info.tempHigh}</span>
 											</div>
 
-											<div className='fc-data-item'>
+											<div className='fc-data'>
 												Low:
-												<span className='fc-api-info'>{info.tempLow}</span>
+												<span className='fc-data-item'>{info.tempLow}</span>
 											</div>
 
-											<div className='fc-data-item'>
+											<div className='fc-data'>
 												Rain:
-												<span className='fc-api-info'>{info.rain}</span>
+												<span className='fc-data-item'>{info.rain}</span>
 											</div>
 										</div>
 									</Fragment>
@@ -689,33 +697,27 @@ export default () => {
 										<div className='fc-card'>
 											<div className='fc-date'>{info.date}</div>
 
-											<div className='fc-condition-icon'>
-												{info.condition()}
-											</div>
+											{/* <img
+												className='fc-icon'
+												src={info.condition}
+												alt='Forecast Condition Icon'
+											/> */}
+											<div className='fc-icon'>helloWorld</div>
+											{/* <div className='fc-icon'>{info.condition}</div> */}
 
-											<div className='fc-data-item'>
-												Sunrise:
-												<span className='fc-api-info'>{info.sunrise}</span>
-											</div>
-
-											<div className='fc-data-item'>
-												Sunset:
-												<span className='fc-api-info'>{info.sunset}</span>
-											</div>
-
-											<div className='fc-data-item'>
+											<div className='fc-data'>
 												High:
-												<span className='fc-api-info'>{info.tempHigh}</span>
+												<span className='fc-data-item'>{info.tempHigh}</span>
 											</div>
 
-											<div className='fc-data-item'>
+											<div className='fc-data'>
 												Low:
-												<span className='fc-api-info'>{info.tempLow}</span>
+												<span className='fc-data-item'>{info.tempLow}</span>
 											</div>
 
-											<div className='fc-data-item'>
+											<div className='fc-data'>
 												Rain:
-												<span className='fc-api-info'>{info.rain}</span>
+												<span className='fc-data-item'>{info.rain}</span>
 											</div>
 										</div>
 									</Fragment>

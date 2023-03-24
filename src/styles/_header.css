@@ -1,74 +1,68 @@
 header {
 	background: linear-gradient(to left, $color-primary, $color-secondary);
+}
 
-	& .header-container {
+@media (--laptop) {
+	.header-container {
 		width: 95%;
-		max-width: 1440px;
+		max-width: 1280px;
 		display: flex;
-		justify-content: space-between;
+		justify-content: center;
 		align-items: center;
+		gap: 1rem;
 		margin: 0 auto;
 		padding: 1rem 0;
 
 		& .title-wrapper {
-			flex-basis: 30%;
-			display: flex;
-			align-items: center;
-			gap: 0.75rem;
-
-			& .title-logo {
-				width: 4rem;
-				fill: $color-yellow;
-				stroke-width: 3rem;
-			}
-
-			& .title-text {
-				font-weight: 600;
-				letter-spacing: 0.25rem;
-				text-transform: uppercase;
-				text-align: center;
-				color: $color-white;
-
-				@media (--laptop) {
-					font-size: 1.5rem;
-				}
-				@media (--tablet-lg) {
-					font-size: 1.375rem;
-				}
-				@media (--tablet-sm) {
-					font-size: 1.25rem;
-				}
-				@media (--mobile) {
-					font-size: 1.125rem;
-				}
-			}
-		}
-
-		& .search-container {
-			flex-basis: 70%;
+			flex-basis: 32.5%;
 			display: flex;
 			align-items: center;
 			gap: 1rem;
 
+			& .title-logo {
+				width: 4rem;
+				fill: $color-yellow;
+				stroke: $color-yellow;
+				stroke-width: 1.25;
+			}
+
+			& .title-text {
+				font-size: 1.625rem;
+				font-weight: 600;
+				letter-spacing: 0.25rem;
+				text-transform: uppercase;
+				color: $color-white;
+			}
+		}
+
+		& .search-wrapper {
+			flex-basis: 60%;
+			display: flex;
+			justify-content: center;
+
 			& .search-form {
-				flex-basis: 60%;
-				place-content: center;
+				width: 90%;
 				display: flex;
 				align-items: center;
-				gap: 0.75rem;
+				gap: 1rem;
 
 				& .search-input {
-					width: 750%;
-					font-size: 1rem;
+					width: 100%;
+					font-size: 1.375rem;
 					color: $color-primary;
 					background-color: $color-light-gray;
-					border: 0.125rem solid $color-secondary;
+					border: 0.125rem solid $color-light-blue;
 					border-radius: 0.5rem;
 					padding: 0.75rem;
 
 					&::placeholder {
+						font-size: 1.25rem;
 						font-style: italic;
 						color: $color-dark-gray;
+					}
+
+					&:focus {
+						outline: none;
 					}
 				}
 
@@ -77,97 +71,621 @@ header {
 					text-transform: uppercase;
 					color: $color-white;
 					background-color: $color-light-blue;
-					border: 0.25rem solid transparent;
+					border: 0.125rem solid transparent;
 					border-radius: 0.5rem;
 					padding: 0.25rem;
 
+					& svg {
+						width: 2rem;
+					}
+
 					&:hover {
-						transition: all 0.5s ease-in-out;
-						box-shadow: 0.5rem 0.5rem 1rem 0 $bs-color-light;
+						box-shadow: 0.25rem 0.25rem 0.75rem 0 $bs-color-light,
+							-0.25rem -0.25rem 0.75rem 0 $bs-color-light;
 						cursor: pointer;
 					}
 				}
 			}
+		}
 
-			& .search-history {
-				flex-basis: 40%;
-				display: inline-block;
+		& .search-history-wrapper {
+			flex-basis: 7.5%;
+			display: flex;
+			justify-content: flex-end;
+			position: relative;
+
+			& .search-dropdown {
+				color: $color-white;
+				background-color: transparent;
+				border: 0.125rem solid transparent;
+				border-radius: 0.5rem;
+				padding: 0.25rem;
 				position: relative;
-				text-align: center;
 
-				& .search-dropdown {
+				& svg {
+					width: 2.5rem;
+				}
+
+				&:is(:hover, :focus-within) {
+					color: $color-primary;
+					background-color: $color-white;
+					border-color: $color-light-blue;
+					cursor: pointer;
+				}
+			}
+
+			& .search-list {
+				width: 450px;
+				max-width: 75vw;
+				max-height: 33vh;
+				position: absolute;
+				top: calc(100% + 0.5rem);
+				right: 0;
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				gap: 0.25rem;
+				background-color: $bg-color-white;
+				border: 0.125rem solid $color-light-blue;
+				border-radius: 0.5rem;
+				box-shadow: 0 0.5rem 1rem 0 $bs-color-medium;
+				padding: 0.75rem;
+				overflow-y: scroll;
+				z-index: 1;
+
+				& .list-item-wrapper {
+					width: 100%;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					padding-right: 0.5rem;
+
+					& .list-item {
+						width: 85%;
+						font-size: 1.375rem;
+						line-height: 1.5;
+						text-align: left;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						color: $color-primary;
+						border: 0.125rem solid transparent;
+						border-radius: 0.5rem;
+						padding: 0.25rem 0;
+
+						&::before {
+							content: '▸ ';
+						}
+
+						&:hover {
+							border-color: $color-secondary;
+							cursor: pointer;
+						}
+					}
+
+					& .delete-btn {
+						width: 1.25rem;
+						fill: $color-dark-gray;
+						z-index: 1;
+
+						&:hover {
+							fill: $color-light-red;
+							cursor: pointer;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+@media (--tablet-lg) {
+	.header-container {
+		width: 95%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 0.75rem;
+		margin: 0 auto;
+		padding: 1rem 0;
+
+		& .title-wrapper {
+			flex-basis: 35%;
+			display: flex;
+			align-items: center;
+			gap: 1rem;
+
+			& .title-logo {
+				width: 3.5rem;
+				fill: $color-yellow;
+				stroke: $color-yellow;
+				stroke-width: 1.25;
+			}
+
+			& .title-text {
+				font-size: 1.375rem;
+				font-weight: 600;
+				letter-spacing: 0.125rem;
+				text-transform: uppercase;
+				color: $color-white;
+			}
+		}
+
+		& .search-wrapper {
+			flex-basis: 55%;
+			display: flex;
+			justify-content: center;
+
+			& .search-form {
+				width: 90%;
+				display: flex;
+				align-items: center;
+				gap: 1rem;
+
+				& .search-input {
 					width: 100%;
 					font-size: 1.25rem;
-					color: $color-white;
-					background-color: $color-primary;
-					border: 0.125rem solid $color-white;
+					color: $color-primary;
+					background-color: $color-light-gray;
+					border: 0.125rem solid $color-light-blue;
 					border-radius: 0.5rem;
-					padding: 0.625rem 0;
+					padding: 0.75rem;
 
-					&:is(:hover, :focus-within) {
-						transition: all 0.5s ease-in-out;
-						color: $color-primary;
-						background-color: $color-white;
-						border-color: $color-light-blue;
-						cursor: pointer;
+					&::placeholder {
+						font-size: 1.125rem;
+						font-style: italic;
+						color: $color-dark-gray;
+					}
+
+					&:focus {
+						outline: none;
 					}
 				}
 
-				& .search-list {
-					width: 100%;
-					max-height: 33vh;
-					position: absolute;
-					top: calc(100% + 0.25rem);
-					display: flex;
-					flex-direction: column;
-					align-items: flex-start;
-					gap: 0.5rem;
-					background-color: $bg-color-light-gray-transparent;
-					border: 0.125rem solid $color-light-blue;
+				& .search-btn {
+					color: $color-white;
+					background-color: $color-light-blue;
+					border: 0.125rem solid transparent;
 					border-radius: 0.5rem;
-					box-shadow: 0 0.5rem 1rem 0 $bs-color-medium;
-					padding: 0.75rem;
-					overflow-y: scroll;
-					z-index: 1;
+					padding: 0.25rem;
 
-					& .list-item-wrapper {
-						width: 100%;
-						display: flex;
-						justify-content: space-between;
-						align-items: center;
-						padding-right: 0.5rem;
+					& svg {
+						width: 1.75rem;
+					}
 
-						& .list-item {
-							width: 85%;
-							font-size: 1rem;
-							line-height: 1.5;
-							text-align: left;
-							white-space: nowrap;
-							overflow: hidden;
-							text-overflow: ellipsis;
-							color: $color-primary;
-							border: 0.125rem solid transparent;
-							border-radius: 0.5rem;
+					&:hover {
+						box-shadow: 0.25rem 0.25rem 0.75rem 0 $bs-color-light,
+							-0.25rem -0.25rem 0.75rem 0 $bs-color-light;
+						cursor: pointer;
+					}
+				}
+			}
+		}
 
-							&::before {
-								content: '▸ ';
-							}
+		& .search-history-wrapper {
+			flex-basis: 10%;
+			display: flex;
+			justify-content: flex-end;
+			position: relative;
 
-							&:hover {
-								border-color: $color-primary;
-								cursor: pointer;
-							}
+			& .search-dropdown {
+				color: $color-white;
+				background-color: transparent;
+				border: 0.125rem solid transparent;
+				border-radius: 0.5rem;
+				padding: 0.25rem;
+				position: relative;
+
+				& svg {
+					width: 2.25rem;
+				}
+
+				&:is(:hover, :focus-within) {
+					color: $color-primary;
+					background-color: $color-white;
+					border-color: $color-light-blue;
+					cursor: pointer;
+				}
+			}
+
+			& .search-list {
+				width: 400px;
+				max-width: 75vw;
+				max-height: 33vh;
+				position: absolute;
+				top: calc(100% + 0.5rem);
+				right: 0;
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				gap: 0.25rem;
+				background-color: $bg-color-white;
+				border: 0.125rem solid $color-light-blue;
+				border-radius: 0.5rem;
+				box-shadow: 0 0.5rem 1rem 0 $bs-color-medium;
+				padding: 0.75rem;
+				overflow-y: scroll;
+				z-index: 1;
+
+				& .list-item-wrapper {
+					width: 100%;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					padding-right: 0.5rem;
+
+					& .list-item {
+						width: 85%;
+						font-size: 1.25rem;
+						line-height: 1.5;
+						text-align: left;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						color: $color-primary;
+						border: 0.125rem solid transparent;
+						border-radius: 0.5rem;
+						padding: 0.25rem 0;
+
+						&::before {
+							content: '▸ ';
 						}
 
-						& .delete-btn {
-							width: 1rem;
-							fill: $color-dark-gray;
-							z-index: 1;
+						&:hover {
+							border-color: $color-secondary;
+							cursor: pointer;
+						}
+					}
 
-							&:hover {
-								fill: $color-light-red;
-								cursor: pointer;
-							}
+					& .delete-btn {
+						width: 1.125rem;
+						fill: $color-dark-gray;
+						z-index: 1;
+
+						&:hover {
+							fill: $color-light-red;
+							cursor: pointer;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+@media (--tablet-sm) {
+	.header-container {
+		width: 95%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 0.75rem;
+		margin: 0 auto;
+		padding: 1rem 0;
+
+		& .title-wrapper {
+			flex-basis: 15%;
+			display: flex;
+			align-items: center;
+			gap: 1rem;
+
+			& .title-logo {
+				width: 4rem;
+				fill: $color-yellow;
+				stroke: $color-yellow;
+				stroke-width: 1.25;
+			}
+
+			& .title-text {
+				display: none;
+			}
+		}
+
+		& .search-wrapper {
+			flex-basis: 75%;
+			display: flex;
+			justify-content: center;
+
+			& .search-form {
+				width: 90%;
+				display: flex;
+				align-items: center;
+				gap: 1rem;
+
+				& .search-input {
+					width: 100%;
+					font-size: 1.125rem;
+					color: $color-primary;
+					background-color: $color-light-gray;
+					border: 0.125rem solid $color-light-blue;
+					border-radius: 0.5rem;
+					padding: 0.75rem;
+
+					&::placeholder {
+						font-size: 1rem;
+						font-style: italic;
+						color: $color-dark-gray;
+					}
+
+					&:focus {
+						outline: none;
+					}
+				}
+
+				& .search-btn {
+					color: $color-white;
+					background-color: $color-light-blue;
+					border: 0.125rem solid transparent;
+					border-radius: 0.5rem;
+					padding: 0.25rem;
+
+					& svg {
+						width: 1.75rem;
+					}
+
+					&:hover {
+						box-shadow: 0.25rem 0.25rem 0.75rem 0 $bs-color-light,
+							-0.25rem -0.25rem 0.75rem 0 $bs-color-light;
+						cursor: pointer;
+					}
+				}
+			}
+		}
+
+		& .search-history-wrapper {
+			flex-basis: 10%;
+			display: flex;
+			justify-content: flex-end;
+			position: relative;
+
+			& .search-dropdown {
+				color: $color-white;
+				background-color: transparent;
+				border: 0.125rem solid transparent;
+				border-radius: 0.5rem;
+				padding: 0.25rem;
+				position: relative;
+
+				& svg {
+					width: 2.25rem;
+				}
+
+				&:is(:hover, :focus-within) {
+					color: $color-primary;
+					background-color: $color-white;
+					border-color: $color-light-blue;
+					cursor: pointer;
+				}
+			}
+
+			& .search-list {
+				width: 350px;
+				max-width: 75vw;
+				max-height: 33vh;
+				position: absolute;
+				top: calc(100% + 0.5rem);
+				right: 0;
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				gap: 0.25rem;
+				background-color: $bg-color-white;
+				border: 0.125rem solid $color-light-blue;
+				border-radius: 0.5rem;
+				box-shadow: 0 0.5rem 1rem 0 $bs-color-medium;
+				padding: 0.75rem;
+				overflow-y: scroll;
+				z-index: 1;
+
+				& .list-item-wrapper {
+					width: 100%;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					padding-right: 0.5rem;
+
+					& .list-item {
+						width: 85%;
+						font-size: 1.125rem;
+						line-height: 1.5;
+						text-align: left;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						color: $color-primary;
+						border: 0.125rem solid transparent;
+						border-radius: 0.5rem;
+						padding: 0.25rem 0;
+
+						&::before {
+							content: '▸ ';
+						}
+
+						&:hover {
+							border-color: $color-secondary;
+							cursor: pointer;
+						}
+					}
+
+					& .delete-btn {
+						width: 1rem;
+						fill: $color-dark-gray;
+						z-index: 1;
+
+						&:hover {
+							fill: $color-light-red;
+							cursor: pointer;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+@media (--mobile) {
+	.header-container {
+		width: 97.5%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 0.5rem;
+		margin: 0 auto;
+		padding: 0.75rem 0;
+
+		& .title-wrapper {
+			flex-basis: 12.5%;
+
+			& .title-logo {
+				width: 4rem;
+				fill: $color-yellow;
+				stroke: $color-yellow;
+				stroke-width: 1;
+			}
+
+			& .title-text {
+				display: none;
+			}
+		}
+
+		& .search-wrapper {
+			flex-basis: 80%;
+			display: flex;
+			justify-content: center;
+
+			& .search-form {
+				width: 90%;
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+
+				& .search-input {
+					width: 100%;
+					font-size: 1rem;
+					color: $color-primary;
+					background-color: $color-light-gray;
+					border: 0.125rem solid $color-light-blue;
+					border-radius: 0.5rem;
+					padding: 0.625rem;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+
+					&::placeholder {
+						font-size: 0.875rem;
+						font-style: italic;
+						color: $color-dark-gray;
+					}
+
+					&:focus {
+						outline: none;
+					}
+				}
+
+				& .search-btn {
+					color: $color-white;
+					background-color: $color-light-blue;
+					border: 0.125rem solid transparent;
+					border-radius: 0.5rem;
+					padding: 0.25rem;
+
+					& svg {
+						width: 1.5rem;
+					}
+
+					&:hover {
+						box-shadow: 0.25rem 0.25rem 0.75rem 0 $bs-color-light,
+							-0.25rem -0.25rem 0.75rem 0 $bs-color-light;
+						cursor: pointer;
+					}
+				}
+			}
+		}
+
+		& .search-history-wrapper {
+			flex-basis: 7.5%;
+			display: flex;
+			justify-content: flex-end;
+			position: relative;
+
+			& .search-dropdown {
+				color: $color-white;
+				background-color: transparent;
+				border: 0.125rem solid transparent;
+				border-radius: 0.5rem;
+				padding: 0.25rem;
+				position: relative;
+
+				& svg {
+					width: 2rem;
+				}
+
+				&:is(:hover, :focus-within) {
+					color: $color-primary;
+					background-color: $color-white;
+					background-color: $bg-color-white;
+					border-color: $color-light-blue;
+					cursor: pointer;
+				}
+			}
+
+			& .search-list {
+				width: 300px;
+				max-width: 75vw;
+				max-height: 33vh;
+				position: absolute;
+				top: calc(100% + 0.5rem);
+				right: 0;
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				gap: 0.25rem;
+				background-color: $bg-color-white;
+				border: 0.125rem solid $color-light-blue;
+				border-radius: 0.5rem;
+				box-shadow: 0 0.5rem 1rem 0 $bs-color-medium;
+				padding: 0.75rem;
+				overflow-y: scroll;
+				z-index: 1;
+
+				& .list-item-wrapper {
+					width: 100%;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					padding-right: 0.5rem;
+
+					& .list-item {
+						width: 85%;
+						font-size: 1rem;
+						line-height: 1.5;
+						text-align: left;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						color: $color-primary;
+						border: 0.125rem solid transparent;
+						border-radius: 0.5rem;
+						padding: 0.25rem 0;
+
+						&::before {
+							content: '▸ ';
+						}
+
+						&:hover {
+							border-color: $color-secondary;
+							cursor: pointer;
+						}
+					}
+
+					& .delete-btn {
+						width: 0.875rem;
+						fill: $color-dark-gray;
+						z-index: 1;
+
+						&:hover {
+							fill: $color-light-red;
+							cursor: pointer;
 						}
 					}
 				}

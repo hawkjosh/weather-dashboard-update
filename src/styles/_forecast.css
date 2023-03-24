@@ -1,124 +1,353 @@
-.forecast-container {
-	width: 100%;
-	height: 100%;
-
-	@media (--laptop) {
-		grid-column: 2 / 3;
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		grid-auto-rows: auto;
-		gap: 1rem;
-	}
-	@media (--tablet-lg) {
-		width: 95%;
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 1rem;
-	}
-	@media (--tablet-sm) {
-		width: 80%;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-	@media (--mobile) {
-		width: 90%;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-
-	& .fc-card {
+@media (--laptop) {
+	.forecast-container {
 		width: 100%;
 		height: 100%;
-		display: grid;
-		grid-auto-columns: auto;
-		grid-auto-rows: auto;
-		place-items: center;
-		gap: 1rem;
-		background: linear-gradient(to left, $bg-color-white, $bg-color-light-gray);
-		border-radius: 0.5rem;
-		box-shadow: 0 0.5rem 1rem 0 $bs-color-dark;
-		padding: 0.75rem;
 
-		&:nth-child(1) {
-			grid-column: 1 / 3;
-			grid-row: 1 / 2;
-		}
+		& .fc-card {
+			background: linear-gradient(
+				to left,
+				$bg-color-white,
+				$bg-color-light-gray
+			);
+			border-radius: 0.5rem;
+			box-shadow: 0 0.5rem 1rem 0 $bs-color-dark;
+			padding: 1rem;
 
-		@media (--laptop) {
-		}
-		@media (--tablet-lg) {
-		}
-		@media (--tablet-sm) {
-		}
-		@media (--mobile) {
-		}
+			& .fc-date {
+				font-size: 1.5rem;
+				font-weight: 600;
+				text-align: center;
 
-		& .fc-date {
-			font-size: 1.75rem;
-			font-weight: 600;
-
-			@media (--laptop) {
-			}
-			@media (--tablet-lg) {
-			}
-			@media (--tablet-sm) {
-			}
-			@media (--mobile) {
-			}
-		}
-
-		& .fc-icon {
-			display: flex;
-			width: 7.5rem;
-
-			@media (--laptop) {
-			}
-			@media (--tablet-lg) {
-			}
-			@media (--tablet-sm) {
-			}
-			@media (--mobile) {
+				outline: 2px dashed magenta;
 			}
 
-			& svg {
-				filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
+			& .fc-condition-icon {
+				display: flex;
+				justify-content: center;
+				align-items: center;
 
-				& rect {
-					stroke: $color-primary;
-					stroke-width: 1.25;
+				outline: 2px dashed magenta;
+
+				& svg {
+					width: 7.5rem;
+					filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
+
+					& rect {
+						stroke: $color-primary;
+						stroke-width: 1;
+					}
 				}
-			}
-		}
-
-		& .fc-data {
-			display: flex;
-			align-items: center;
-			gap: 1rem;
-			font-size: 1.25rem;
-
-			@media (--laptop) {
-			}
-			@media (--tablet-lg) {
-			}
-			@media (--tablet-sm) {
-			}
-			@media (--mobile) {
 			}
 
 			& .fc-data-item {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				font-size: 1rem;
+				font-weight: 300;
+				color: $color-primary;
+
+				/* Sunrise */
+				&:nth-of-type(3) {
+
+					outline: 2px dashed magenta;
+				}
+
+				/* Sunset */
+				&:nth-of-type(4) {
+
+					outline: 2px dashed magenta;
+				}
+
+				/* High */
+				&:nth-of-type(5) {
+
+					outline: 2px dashed magenta;
+				}
+
+				/* Low */
+				&:nth-of-type(6) {
+
+					outline: 2px dashed magenta;
+				}
+
+				/* Rain */
+				&:nth-of-type(7) {
+					
+					outline: 2px dashed magenta;
+				}
+
+				& .fc-api-info {
+					font-size: 1.25rem;
+					font-weight: 600;
+					color: $color-light-blue;
+				}
+			}
+		}
+	}
+}
+
+@media (--tablet-lg) {
+	.forecast-container {
+		width: 100%;
+		height: 100%;
+
+		& .fc-card {
+			background: linear-gradient(
+				to left,
+				$bg-color-white,
+				$bg-color-light-gray
+			);
+			border-radius: 0.5rem;
+			box-shadow: 0 0.5rem 1rem 0 $bs-color-dark;
+			padding: 1rem;
+
+			& .fc-date {
 				font-size: 1.5rem;
 				font-weight: 600;
-				color: $color-light-blue;
+				text-align: center;
 
-				@media (--laptop) {
+				outline: 2px dashed magenta;
+			}
+
+			& .fc-condition-icon {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				outline: 2px dashed magenta;
+
+				& svg {
+					width: 7.5rem;
+					filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
+
+					& rect {
+						stroke: $color-primary;
+						stroke-width: 1;
+					}
 				}
-				@media (--tablet-lg) {
+			}
+
+			& .fc-data-item {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				font-size: 1rem;
+				font-weight: 300;
+				color: $color-primary;
+
+				/* Sunrise */
+				&:nth-of-type(3) {
+
+					outline: 2px dashed magenta;
 				}
-				@media (--tablet-sm) {
+
+				/* Sunset */
+				&:nth-of-type(4) {
+
+					outline: 2px dashed magenta;
 				}
-				@media (--mobile) {
+
+				/* High */
+				&:nth-of-type(5) {
+
+					outline: 2px dashed magenta;
+				}
+
+				/* Low */
+				&:nth-of-type(6) {
+
+					outline: 2px dashed magenta;
+				}
+
+				/* Rain */
+				&:nth-of-type(7) {
+					
+					outline: 2px dashed magenta;
+				}
+
+				& .fc-api-info {
+					font-size: 1.25rem;
+					font-weight: 600;
+					color: $color-light-blue;
+				}
+			}
+		}
+	}
+}
+
+@media (--tablet-sm) {
+	.forecast-container {
+		width: 100%;
+		height: 100%;
+
+		& .fc-card {
+			background: linear-gradient(
+				to left,
+				$bg-color-white,
+				$bg-color-light-gray
+			);
+			border-radius: 0.5rem;
+			box-shadow: 0 0.5rem 1rem 0 $bs-color-dark;
+			padding: 1rem;
+
+			& .fc-date {
+				font-size: 1.5rem;
+				font-weight: 600;
+				text-align: center;
+
+				outline: 2px dashed magenta;
+			}
+
+			& .fc-condition-icon {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				outline: 2px dashed magenta;
+
+				& svg {
+					width: 7.5rem;
+					filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
+
+					& rect {
+						stroke: $color-primary;
+						stroke-width: 1;
+					}
+				}
+			}
+
+			& .fc-data-item {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				font-size: 1rem;
+				font-weight: 300;
+				color: $color-primary;
+
+				/* Sunrise */
+				&:nth-of-type(3) {
+
+					outline: 2px dashed magenta;
+				}
+
+				/* Sunset */
+				&:nth-of-type(4) {
+
+					outline: 2px dashed magenta;
+				}
+
+				/* High */
+				&:nth-of-type(5) {
+
+					outline: 2px dashed magenta;
+				}
+
+				/* Low */
+				&:nth-of-type(6) {
+
+					outline: 2px dashed magenta;
+				}
+
+				/* Rain */
+				&:nth-of-type(7) {
+					
+					outline: 2px dashed magenta;
+				}
+
+				& .fc-api-info {
+					font-size: 1.25rem;
+					font-weight: 600;
+					color: $color-light-blue;
+				}
+			}
+		}
+	}
+}
+
+@media (--mobile) {
+	.forecast-container {
+		width: 100%;
+		height: 100%;
+
+		& .fc-card {
+			background: linear-gradient(
+				to left,
+				$bg-color-white,
+				$bg-color-light-gray
+			);
+			border-radius: 0.5rem;
+			box-shadow: 0 0.5rem 1rem 0 $bs-color-dark;
+			padding: 1rem;
+
+			& .fc-date {
+				font-size: 1.5rem;
+				font-weight: 600;
+				text-align: center;
+
+				outline: 2px dashed magenta;
+			}
+
+			& .fc-condition-icon {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				outline: 2px dashed magenta;
+
+				& svg {
+					width: 7.5rem;
+					filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
+
+					& rect {
+						stroke: $color-primary;
+						stroke-width: 1;
+					}
+				}
+			}
+
+			& .fc-data-item {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				font-size: 1rem;
+				font-weight: 300;
+				color: $color-primary;
+
+				/* Sunrise */
+				&:nth-of-type(3) {
+
+					outline: 2px dashed magenta;
+				}
+
+				/* Sunset */
+				&:nth-of-type(4) {
+
+					outline: 2px dashed magenta;
+				}
+
+				/* High */
+				&:nth-of-type(5) {
+
+					outline: 2px dashed magenta;
+				}
+
+				/* Low */
+				&:nth-of-type(6) {
+
+					outline: 2px dashed magenta;
+				}
+
+				/* Rain */
+				&:nth-of-type(7) {
+					
+					outline: 2px dashed magenta;
+				}
+
+				& .fc-api-info {
+					font-size: 1.25rem;
+					font-weight: 600;
+					color: $color-light-blue;
 				}
 			}
 		}
