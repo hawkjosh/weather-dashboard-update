@@ -6,6 +6,7 @@ import useStateCode from './hooks/useStateCode.js'
 import useCountryFlag from './hooks/useCountryFlag.js'
 import useConditionIcon from './hooks/useConditionIcon.js'
 import useConditionText from './hooks/useConditionText.js'
+import useUviNumberIcon from './hooks/useUviNumberIcon.js'
 import useForecastIcon from './hooks/useForecastIcon.js'
 import useTimeFormat from './hooks/useTimeFormat.js'
 import useTimeConvert from './hooks/useTimeConvert.js'
@@ -17,7 +18,6 @@ import AlertModal from './components/AlertModal.jsx'
 import LogoIcon from './components/icons/LogoIcon.jsx'
 import TrashIcon from './components/icons/TrashIcon.jsx'
 import WindIcon from './components/icons/WindIcon.jsx'
-import UviNumberIcon from './components/icons/UviNumberIcon.jsx'
 import SearchIcon from './components/icons/SearchIcon.jsx'
 import SearchHistoryIcon from './components/icons/SearchHistoryIcon.jsx'
 
@@ -40,6 +40,7 @@ export default () => {
 	const [currentTimeMsg, setCurrentTimeMsg] = useState('')
 	const [currentConditionIcon, setCurrentConditionIcon] = useState('')
 	const [currentConditionText, setCurrentConditionText] = useState('')
+	const [currentUvi, setCurrentUvi] = useState('')
 
 	const [currentData, setCurrentData] = useState([])
 	const [forecastData, setForecastData] = useState([])
@@ -83,6 +84,7 @@ export default () => {
 					const currentConditionText = useConditionText(iconCode)
 
 					const uv = currentData.uv
+					const currentUvi = useUviNumberIcon(currentData.uv)
 					const humidity = `${currentData.humidity}%`
 					const temp = `${currentData.temp_f} °F`
 					const wind = `${currentData.wind_mph}mph`
@@ -105,6 +107,7 @@ export default () => {
 					setCurrentTimeMsg(time)
 					setCurrentConditionIcon(currentConditionIcon)
 					setCurrentConditionText(currentConditionText)
+					setCurrentUvi(currentUvi)
 					setCurrentData(currentVals)
 					setForecastData(forecastInfo)
 
@@ -290,7 +293,7 @@ export default () => {
 
 								<div className='cwc-time'>{currentTimeMsg}</div>
 
-								<div className='cwc-uvi-icon'>
+								{/* <div className='cwc-uvi-icon'>
 									{currentData[0] <= 3 && (
 										<UviNumberIcon
 											bgColor='hsl(120, 100%, 25%)'
@@ -312,7 +315,9 @@ export default () => {
 											number={currentData[0]}
 										/>
 									)}
-								</div>
+								</div> */}
+
+								<div className='cwc-uvi-icon'>{currentUvi}</div>
 
 								<div className='cwc-condition-icon'>{currentConditionIcon}</div>
 
@@ -356,7 +361,7 @@ export default () => {
 
 								<div className='cwc-time'>{currentTimeMsg}</div>
 
-								<div className='cwc-uvi-icon'>
+								{/* <div className='cwc-uvi-icon'>
 									{currentData[0] <= 3 && (
 										<UviNumberIcon
 											bgColor='hsl(120, 100%, 25%)'
@@ -378,7 +383,9 @@ export default () => {
 											number={currentData[0]}
 										/>
 									)}
-								</div>
+								</div> */}
+
+								<div className='cwc-uvi-icon'>{currentUvi}</div>
 
 								<div className='cwc-condition-icon'>{currentConditionIcon}</div>
 
@@ -422,7 +429,7 @@ export default () => {
 
 								<div className='cwc-time'>{currentTimeMsg}</div>
 
-								<div className='cwc-uvi-icon'>
+								{/* <div className='cwc-uvi-icon'>
 									{currentData[0] <= 3 && (
 										<UviNumberIcon
 											bgColor='hsl(120, 100%, 25%)'
@@ -444,7 +451,9 @@ export default () => {
 											number={currentData[0]}
 										/>
 									)}
-								</div>
+								</div> */}
+
+								<div className='cwc-uvi-icon'>{currentUvi}</div>
 
 								<div className='cwc-condition-icon'>{currentConditionIcon}</div>
 
@@ -478,7 +487,7 @@ export default () => {
 								<div className='cwc-card-header'>
 									<div className='cwc-card-title'>
 										<div className='cwc-location'>{currentLocation}</div>
-	
+
 										<div className='cwc-country'>
 											<div className='country-name'>{currentCountry}</div>
 											<img
@@ -489,33 +498,11 @@ export default () => {
 										</div>
 									</div>
 
-								<div className='uvi-time-wrapper'>
-									<div className='cwc-uvi-icon'>
-										{currentData[0] <= 3 && (
-											<UviNumberIcon
-												bgColor='hsl(120, 100%, 25%)'
-												numColor='hsl(0, 0%, 100%)'
-												number={currentData[0]}
-											/>
-										)}
-										{currentData[0] > 3 && currentData[0] < 7 && (
-											<UviNumberIcon
-												bgColor='hsl(39, 100%, 50%)'
-												numColor='hsl(0, 100%, 50%)'
-												number={currentData[0]}
-											/>
-										)}
-										{currentData[0] >= 7 && (
-											<UviNumberIcon
-												bgColor='hsl(0, 100%, 50%)'
-												numColor='hsl(60, 100%, 50%)'
-												number={currentData[0]}
-											/>
-										)}
+									<div className='uvi-time-wrapper'>
+										<div className='cwc-uvi-icon'>{currentUvi}</div>
+
+										<div className='cwc-time'>{currentTimeMsg}</div>
 									</div>
-	
-									<div className='cwc-time'>{currentTimeMsg}</div>
-								</div>
 								</div>
 
 								<div className='cwc-condition-wrapper'>
@@ -523,7 +510,9 @@ export default () => {
 										{currentConditionIcon}
 									</div>
 
-									<div className='cwc-condition-text'>{currentConditionText}</div>
+									<div className='cwc-condition-text'>
+										{currentConditionText}
+									</div>
 								</div>
 
 								<div className='cwc-data-wrapper'>
@@ -531,12 +520,12 @@ export default () => {
 										Humidity:
 										<span className='cwc-api-info'>{currentData[1]}</span>
 									</div>
-	
+
 									<div className='cwc-data-item'>
 										Temp:
 										<span className='cwc-api-info'>{currentData[2]}</span>
 									</div>
-	
+
 									<div className='cwc-data-item'>
 										Wind:
 										<span className='cwc-api-info'>{currentData[3]}</span>
