@@ -7,13 +7,12 @@
 		</g>
 		<path id='cloud' fill='hsl(0, 0%, 50%)' stroke='hsl(0, 0%, 25%)' stroke-width='2'
 			d='M56 51h-37a1 1 0 0 1 -1 -14a10 10 0 0 1 12 -10a5 5 0 0 1 24 7a8.7 8.7 0 0 1 2 17z' />
-		<path id='lightning' fill='hsl(60, 100%, 50%)' stroke='hsl(60, 100%, 50%)' stroke-width='0.75'
-			d='M37 44.5h4l-3 8h2l-4 10l1 -8h-2l2 -10z' />
-		<path id='snowflake' stroke='hsl(0, 0%, 90%)' stroke-width='1.125' stroke-linecap='round'
-			d='M30 55v5M27.5 57.5h5M28 59.5l4 -4M32 59.5l-4 -4' />
+		<path id='lightning' fill='hsl(60, 100%, 50%)' d='M39.5 53h3l-2 4h1l-3 6l1 -4.5h-1l1 -5.5z' />
+		<path id='snowflake' stroke='hsl(0, 0%, 90%)' stroke-width='0.75' stroke-linecap='round'
+			d='M30.5 58h5m-2.5 -2.5v5m-2 -0.5l4 -4m0 4l-4 -4' />
 	</g>
 
-	<text x='58%' y='62%' fill='hsl(263, 80%, 22%)' font-size='0.5rem' font-family='"Open Sans", sans-serif'
+	<text x='58%' y='68%' fill='hsl(263, 80%, 22%)' font-size='0.5rem' font-family='"Open Sans", sans-serif'
 		font-weight='bold' text-anchor='middle' textLength='24'>
 		77.6 °F
 	</text>

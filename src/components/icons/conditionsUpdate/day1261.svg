@@ -7,10 +7,10 @@
 		</g>
 		<path id='cloud' fill='hsl(0, 0%, 75%)' stroke='hsl(0, 0%, 50%)' stroke-width='2'
 			d='M56 51h-37a1 1 0 0 1 -1 -14a10 10 0 0 1 12 -10a5 5 0 0 1 24 7a8.7 8.7 0 0 1 2 17z' />
-		<circle id='hail' fill='hsl(0, 0%, 90%)' r='2.75' cx='37' cy='58' fill='red' />
+		<circle id='hail' fill='hsl(0, 0%, 90%)' r='2.5' cx='37' cy='58' />
 	</g>
 
-	<text x='58%' y='62%' fill='hsl(263, 80%, 22%)' font-size='0.5rem' font-family='"Open Sans", sans-serif'
+	<text x='58%' y='68%' fill='hsl(263, 80%, 22%)' font-size='0.5rem' font-family='"Open Sans", sans-serif'
 		font-weight='bold' text-anchor='middle' textLength='24'>
 		77.6 °F
 	</text>

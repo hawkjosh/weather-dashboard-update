@@ -1,0 +1,18 @@
+<svg viewBox='0 0 64 64' style='border: 0.125rem solid hsl(0, 0%, 100%); border-radius: 25%'>
+	<g id='weather-icon'>
+		<path id='cloud' fill='hsl(0, 0%, 75%)' stroke='hsl(0, 0%, 50%)' stroke-width='2'
+			d='M54,47h-42.5a1,1,0,0,1,-1,-16a11.5,11.5,0,0,1,14,-11.5a5,5,0,0,1,27.5,8a10,10,0,0,1,2,19.5z' />
+		<path id='arrow-down' fill='none' stroke='hsl(0, 0%, 90%)' stroke-width='1' stroke-linejoin='round'
+			d='M24 53.5l-2 5l-2 -5h4z' />
+		<g id='freezing-rain' fill='hsl(0, 0%, 90%)' stroke='hsl(240, 100%, 50%)' stroke-width='0.5'>
+			<path d='M29 53c-2 2 -2 6 0 6c2 0 2 -4 0 -6z' />
+			<path d='M35 53c-2 2 -2 6 0 6c2 0 2 -4 0 -6z' />
+			<path d='M41 53c-2 2 -2 6 0 6c2 0 2 -4 0 -6z' />
+		</g>
+	</g>
+
+	<text font-size='0.5rem' font-family='"Open Sans", sans-serif' font-weight='bold' fill='hsl(263, 80%, 22%)'
+		text-anchor='middle' textLength='24' x='50%' y='60%'>
+		77.6 °F
+	</text>
+</svg>
