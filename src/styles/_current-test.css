@@ -133,7 +133,8 @@
 						width: 2rem;
 
 						& text {
-							font-size: 1.25rem;
+							font-size: 1rem;
+							font-weight: 600;
 						}
 					}
 				}
@@ -275,7 +276,8 @@
 						width: 2rem;
 
 						& text {
-							font-size: 1.25rem;
+							font-size: 1rem;
+							font-weight: 600;
 						}
 					}
 				}
@@ -417,7 +419,8 @@
 						width: 2rem;
 
 						& text {
-							font-size: 1.25rem;
+							font-size: 1rem;
+							font-weight: 600;
 						}
 					}
 				}
@@ -587,10 +590,11 @@
 						align-items: center;
 
 						& svg {
-							width: 1.875rem;
+							width: 2rem;
 
 							& text {
-								font-size: 1.25rem;
+								font-size: 1rem;
+								font-weight: 600;
 							}
 						}
 					}

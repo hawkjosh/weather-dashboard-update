@@ -1,93 +1,80 @@
 export default () => (
-	<svg viewBox='-25 -25 50 47.5'>
-		<g transform='scale(21.5)'>
+	<svg viewBox='0 0 50 47.5'>
+		<g
+			id='uvi-icon'
+			fill='transparent'
+			strokeWidth='6.5'
+			strokeLinecap='round'>
 			<path
-				fill='none'
-				stroke='hsl(0, 0%, 100%)'
-				strokeLinecap='round'
-				strokeWidth='0.3'
-				d='M-0.5 0.8660254 A1 1 0 1 1 0.5 0.8660254'
+				id='uvi-scale'
+				stroke='hsl(0, 0%, 80%)'
+				d='M14.25 43.6195461 A 21.5 21.5 0 1 1 35.75 43.6195461'
 			/>
 			<path
-				fill='none'
+				id='uvi-nine'
 				stroke='hsl(10, 100%, 50%)'
-				strokeLinecap='round'
-				strokeWidth='0.3'
-				d='M-0.5 0.8660254 A1 1 0 1 1 0.8660254 0.5'
+				d='M14.25 43.6195461 A 21.5 21.5 0 1 1 43.6195461 35.75'
 			/>
 			<path
-				fill='none'
+				id='uvi-eight'
 				stroke='hsl(20, 100%, 50%)'
-				strokeLinecap='round'
-				strokeWidth='0.3'
-				d='M-0.5 0.8660254 A1 1 0 1 1 1 0'
+				d='M14.25 43.6195461 A 21.5 21.5 0 1 1 46.5 25'
 			/>
 			<path
-				fill='none'
+				id='uvi-seven'
 				stroke='hsl(30, 100%, 50%)'
-				strokeLinecap='round'
-				strokeWidth='0.3'
-				d='M-0.5 0.8660254 A1 1 0 1 1 0.8660254 -0.5'
+				d='M14.25 43.6195461 A 21.5 21.5 0 1 1 43.6195461 14.25'
 			/>
 			<path
-				fill='none'
+				id='uvi-six'
 				stroke='hsl(40, 100%, 50%)'
-				strokeLinecap='round'
-				strokeWidth='0.3'
-				d='M-0.8660254 0.5 A1 1 0 0 1 0.5 -0.8660254'
+				d='M14.25 43.6195461 A 21.5 21.5 0 1 1 35.75 6.3804539'
 			/>
 			<path
-				fill='none'
+				id='uvi-five'
 				stroke='hsl(50, 100%, 50%)'
-				strokeLinecap='round'
-				strokeWidth='0.3'
-				d='M-0.5 0.8660254 A1 1 0 0 1 0 -1'
+				d='M14.25 43.6195461 A 21.5 21.5 0 0 1 25 3.5'
 			/>
 			<path
-				fill='none'
+				id='uvi-four'
 				stroke='hsl(60, 100%, 50%)'
-				strokeLinecap='round'
-				strokeWidth='0.3'
-				d='M-0.5 0.8660254 A1 1 0 0 1 -0.5 -0.8660254'
+				d='M14.25 43.6195461 A 21.5 21.5 0 0 1 14.25 6.3804539'
 			/>
 			<path
-				fill='none'
+				id='uvi-three'
 				stroke='hsl(80, 100%, 50%)'
-				strokeLinecap='round'
-				strokeWidth='0.3'
-				d='M-0.5 0.8660254 A1 1 0 0 1 -0.8660254 -0.5'
+				d='M14.25 43.6195461 A 21.5 21.5 0 0 1 6.3804539 14.25'
 			/>
 			<path
-				fill='none'
+				id='uvi-two'
 				stroke='hsl(100, 100%, 50%)'
-				strokeLinecap='round'
-				strokeWidth='0.3'
-				d='M-0.5 0.8660254 A1 1 0 0 1 -1 0'
+				d='M14.25 43.6195461 A 21.5 21.5 0 0 1 3.5 25'
 			/>
 			<path
-				fill='none'
+				id='uvi-one'
 				stroke='hsl(120, 100%, 45%)'
-				strokeLinecap='round'
-				strokeWidth='0.3'
-				d='M-0.5 0.8660254 A1 1 0 0 1 -0.8660254 0.5'
+				d='M14.25 43.6195461 A 21.5 21.5 0 0 1 6.3804539 35.75'
 			/>
 		</g>
-		<g>
+
+		<g
+			id='uvi-text'
+			fill='hsl(10, 100%, 50%)'
+			fontFamily='"Farsan", cursive'
+			textAnchor='middle'>
 			<text
-				y='10%'
-				fill='hsl(10, 100%, 50%)'
-				fontSize='1.25rem'
-				fontWeight='bold'
-				fontFamily="'Farsan', cursive"
-				textAnchor='middle'>
+				id='uvi-number'
+				x='50%'
+				y='62.5%'
+				fontSize='1.375rem'
+				fontWeight='bold'>
 				9
 			</text>
 			<text
-				y='30%'
-				fill='hsl(0, 0%, 100%)'
-				fontSize='0.375rem'
-				fontFamily="'Farsan', cursive"
-				textAnchor='middle'>
+				id='uvi-label'
+				x='50%'
+				y='85%'
+				fontSize='0.5rem'>
 				UVI
 			</text>
 		</g>

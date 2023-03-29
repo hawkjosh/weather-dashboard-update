@@ -3,24 +3,17 @@ export default ({ ...props }) => (
 		viewBox='0 0 41 41'
 		{...props}>
 		<g
-			fill='none'
+			id='search-history-icon'
+			fill='transparent'
 			stroke='currentColor'
 			strokeWidth='4'
-			transform='translate(-3.5,-3.5)'>
-			<path
-				strokeLinecap='round'
-				strokeLinejoin='round'
-				d='M42 24V9a3 3 0 0 0-3-3H9a3 3 0 0 0-3 3v30a3 3 0 0 0 3 3h15'
-			/>
+			strokeLinecap='round'
+			strokeLinejoin='round'>
+			<path d='M38.5 20.5v-15a3 3 0 0 0 -3 -3h-30a3 3 0 0 0 -3 3v30a3 3 0 0 0 3 3h15m13 -6l5 4m-28 -24h20m-20 8h8' />
 			<circle
-				cx='32'
-				cy='32'
+				cx='28.5'
+				cy='28.5'
 				r='6'
-			/>
-			<path
-				strokeLinecap='round'
-				strokeLinejoin='round'
-				d='m37 36l5 4M14 16h20m-20 8h8'
 			/>
 		</g>
 	</svg>

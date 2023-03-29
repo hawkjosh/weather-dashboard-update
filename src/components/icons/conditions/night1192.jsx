@@ -1,70 +1,50 @@
-export default () => (
-	<svg viewBox='0 0 64 64'>
-		<path
-			fill='hsl(0, 0%, 100%)'
-			stroke='hsl(240, 100%, 50%)'
-			strokeWidth='1.5'
-			d='M16 5 a5 5 0 1 0 0 20 a15 15 0 0 1 0 -20z
-  '
-		/>
-		<path
-			fill='hsl(0, 0%, 75%)'
-			stroke='hsl(0, 0%, 50%)'
-			strokeWidth='2'
-			d='M 47 44
-      h -31
-      a 6 6 0 0 1 -1 -12
-      a 10 10 0 0 1 11 -9
-      a 5 5 0 0 1 21 6
-      a 7 7 0 0 1 0 15
-      z
-    '
-		/>
-		<path
-			fill='none'
-			stroke='hsl(240, 100%, 50%)'
-			strokeWidth='2'
-			d='M 42 50
-      l -3 5
-      z
-    '
-		/>
-		<path
-			fill='none'
-			stroke='hsl(240, 100%, 50%)'
-			strokeWidth='2'
-			d='M 36 50
-      l -3 5
-      z
-    '
-		/>
-		<path
-			fill='none'
-			stroke='hsl(240, 100%, 50%)'
-			strokeWidth='2'
-			d='M 30 50
-      l -3 5
-        z
-    '
-		/>
-		<path
-			fill='none'
-			stroke='hsl(240, 100%, 50%)'
-			strokeWidth='2'
-			d='M 24 50
-      l -3 5
-        z
-    '
-		/>
+const style = {
+	border: '0.125rem solid hsl(0, 0%, 100%)',
+	borderRadius: '25%',
+}
 
-		<rect
-			width='60'
-			height='60'
-			x='2'
-			y='2'
-			fill='none'
-			stroke='currentColor'
-			rx='15'
-		/>
-	</svg>
-)
+export default (temp) => {
+	return (
+		<svg
+			viewBox='0 0 64 64'
+			style={style}>
+			<g id='weather-icon'>
+				<path
+					id='moon-partial'
+					fill='hsl(0, 0%, 100%)'
+					stroke='hsl(240, 100%, 50%)'
+					strokeWidth='2'
+					d='M27 5a17.5 17.5 0 1 0 0 34a20 20 0 0 1 0 -34z'
+				/>
+				<path
+					id='cloud-small'
+					fill='hsl(0, 0%, 75%)'
+					stroke='hsl(0, 0%, 50%)'
+					strokeWidth='2'
+					d='M56 51h-37a1 1 0 0 1 -1 -14a10 10 0 0 1 12 -10a5 5 0 0 1 24 7a8.7 8.7 0 0 1 2 17z'
+				/>
+				<g
+					id='rain'
+					fill='hsl(240, 100%, 50%)'>
+					<path d='M28 55c-2 2 -2 6 0 6c2 0 2 -4 0 -6z' />
+					<path d='M34 55c-2 2 -2 6 0 6c2 0 2 -4 0 -6z' />
+					<path d='M40 55c-2 2 -2 6 0 6c2 0 2 -4 0 -6z' />
+					<path d='M46 55c-2 2 -2 6 0 6c2 0 2 -4 0 -6z' />
+				</g>
+			</g>
+
+			<text
+				id='current-temp'
+				x='58%'
+				y='68%'
+				fill='hsl(263, 80%, 22%)'
+				fontSize='0.5rem'
+				fontFamily='"Open Sans", sans-serif'
+				fontWeight='bold'
+				textAnchor='middle'
+				textLength='24'>
+				{temp}
+			</text>
+		</svg>
+	)
+}

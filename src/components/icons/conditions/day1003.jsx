@@ -1,104 +1,51 @@
-export default () => (
-	<svg viewBox='0 0 64 64'>
-		<circle
-			r='12'
-			fill='hsl(60, 100%, 50%)'
-			cx='23'
-			cy='23'
-		/>
-		<circle
-			r='12'
-			fill='none'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='1.5'
-			cx='23'
-			cy='23'
-		/>
-		<line
-			x1='13'
-			x2='15'
-			y1='5.5'
-			y2='9'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='1.5'
-			strokeLinecap='round'
-		/>
-		<line
-			x1='23'
-			x2='23'
-			y1='2'
-			y2='7'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='1.5'
-			strokeLinecap='round'
-		/>
-		<line
-			x1='31'
-			x2='33'
-			y1='9'
-			y2='5.5'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='1.5'
-			strokeLinecap='round'
-		/>
-		<line
-			x1='37'
-			x2='40.5'
-			y1='15'
-			y2='13'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='1.5'
-			strokeLinecap='round'
-		/>
-		<line
-			x1='9'
-			x2='5.5'
-			y1='31'
-			y2='33'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='1.5'
-			strokeLinecap='round'
-		/>
-		<line
-			x1='2'
-			x2='7'
-			y1='23'
-			y2='23'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='1.5'
-			strokeLinecap='round'
-		/>
-		<line
-			x1='9'
-			x2='5.5'
-			y1='15'
-			y2='13'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='1.5'
-			strokeLinecap='round'
-		/>
-		<path
-			fill='hsl(0, 0%, 100%)'
-			stroke='hsl(0, 0%, 75%)'
-			strokeWidth='2'
-			d='M 47 44
-      h -31
-      a 6 6 0 0 1 -1 -12
-      a 10 10 0 0 1 11 -9
-      a 5 5 0 0 1 21 6
-      a 7 7 0 0 1 0 15
-      z
-    '
-		/>
+const style = {
+	border: '0.125rem solid hsl(0, 0%, 100%)',
+	borderRadius: '25%'
+}
 
-		<rect
-			width='60'
-			height='60'
-			x='2'
-			y='2'
-			fill='none'
-			stroke='currentColor'
-			rx='15'
-		/>
-	</svg>
-)
+export default (temp) => {
+	return (
+		<svg
+			viewBox='0 0 64 64'
+			style={style}>
+			<g id='weather-icon'>
+				<g id='sun-partial'>
+					<circle
+						fill='hsl(60, 100%, 50%)'
+						stroke='hsl(51, 100%, 50%)'
+						strokeWidth='2'
+						r='12'
+						cx='24'
+						cy='24'
+					/>
+					<path
+						stroke='hsl(51, 100%, 50%)'
+						strokeWidth='2'
+						strokeLinecap='round'
+						d='M37.85640646 16l4.330127019 -2.5M32 10.14359354l2.5 -4.330127019M24 8v-6M16 10.14359354l-2.5 -4.330127019M10.14359354 16l-4.330127019 -2.5M8 24h-6M10.14359354 32l-4.330127019 2.5'
+					/>
+				</g>
+				<path
+					id='cloud-small'
+					fill='hsl(0, 0%, 100%)'
+					stroke='hsl(0, 0%, 75%)'
+					strokeWidth='2'
+					d='M56 51h-37a1 1 0 0 1 -1 -14a10 10 0 0 1 12 -10a5 5 0 0 1 24 7a8.7 8.7 0 0 1 2 17z'
+				/>
+			</g>
+
+			<text
+				id='current-temp'
+				x='58%'
+				y='68%'
+				fill='hsl(263, 80%, 22%)'
+				fontSize='0.5rem'
+				fontFamily='"Open Sans", sans-serif'
+				fontWeight='bold'
+				textAnchor='middle'
+				textLength='24'>
+				{temp}
+			</text>
+		</svg>
+	)
+}

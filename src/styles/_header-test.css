@@ -20,10 +20,16 @@ header {
 			gap: 1rem;
 
 			& .title-logo {
-				width: 4rem;
-				fill: $color-yellow;
-				stroke: $color-yellow;
-				stroke-width: 1.25;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				& svg {
+					width: 4rem;
+					fill: $color-yellow;
+					stroke: $color-yellow;
+					stroke-width: 1.25;
+				}
 			}
 
 			& .title-text {
@@ -95,12 +101,14 @@ header {
 			position: relative;
 
 			& .search-dropdown {
+				position: relative;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 				color: $color-white;
-				background-color: transparent;
 				border: 0.125rem solid transparent;
 				border-radius: 0.5rem;
-				padding: 0.25rem;
-				position: relative;
+				padding: 0.125rem;
 
 				& svg {
 					width: 2.5rem;
@@ -164,13 +172,19 @@ header {
 					}
 
 					& .delete-btn {
-						width: 1.25rem;
-						fill: $color-dark-gray;
-						z-index: 1;
+						display: flex;
+						justify-content: center;
+						align-items: center;
 
-						&:hover {
-							fill: $color-light-red;
-							cursor: pointer;
+						& svg {
+							width: 1.375rem;
+							fill: $color-dark-gray;
+							z-index: 1;
+
+							&:hover {
+								fill: $color-light-red;
+								cursor: pointer;
+							}
 						}
 					}
 				}
@@ -196,10 +210,16 @@ header {
 			gap: 1rem;
 
 			& .title-logo {
-				width: 3.5rem;
-				fill: $color-yellow;
-				stroke: $color-yellow;
-				stroke-width: 1.25;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				& svg {
+					width: 3.5rem;
+					fill: $color-yellow;
+					stroke: $color-yellow;
+					stroke-width: 1.25;
+				}
 			}
 
 			& .title-text {
@@ -269,12 +289,14 @@ header {
 			position: relative;
 
 			& .search-dropdown {
+				position: relative;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 				color: $color-white;
-				background-color: transparent;
 				border: 0.125rem solid transparent;
 				border-radius: 0.5rem;
-				padding: 0.25rem;
-				position: relative;
+				padding: 0.125rem;
 
 				& svg {
 					width: 2.25rem;
@@ -338,13 +360,19 @@ header {
 					}
 
 					& .delete-btn {
-						width: 1.125rem;
-						fill: $color-dark-gray;
-						z-index: 1;
+						display: flex;
+						justify-content: center;
+						align-items: center;
 
-						&:hover {
-							fill: $color-light-red;
-							cursor: pointer;
+						& svg {
+							width: 1.25rem;
+							fill: $color-dark-gray;
+							z-index: 1;
+
+							&:hover {
+								fill: $color-light-red;
+								cursor: pointer;
+							}
 						}
 					}
 				}
@@ -370,10 +398,16 @@ header {
 			gap: 1rem;
 
 			& .title-logo {
-				width: 4rem;
-				fill: $color-yellow;
-				stroke: $color-yellow;
-				stroke-width: 1.25;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				& svg {
+					width: 4rem;
+					fill: $color-yellow;
+					stroke: $color-yellow;
+					stroke-width: 1.25;
+				}
 			}
 
 			& .title-text {
@@ -439,12 +473,14 @@ header {
 			position: relative;
 
 			& .search-dropdown {
+				position: relative;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 				color: $color-white;
-				background-color: transparent;
 				border: 0.125rem solid transparent;
 				border-radius: 0.5rem;
-				padding: 0.25rem;
-				position: relative;
+				padding: 0.125rem;
 
 				& svg {
 					width: 2.25rem;
@@ -508,13 +544,19 @@ header {
 					}
 
 					& .delete-btn {
-						width: 1rem;
-						fill: $color-dark-gray;
-						z-index: 1;
+						display: flex;
+						justify-content: center;
+						align-items: center;
 
-						&:hover {
-							fill: $color-light-red;
-							cursor: pointer;
+						& svg {
+							width: 1.125rem;
+							fill: $color-dark-gray;
+							z-index: 1;
+
+							&:hover {
+								fill: $color-light-red;
+								cursor: pointer;
+							}
 						}
 					}
 				}
@@ -537,10 +579,16 @@ header {
 			flex-basis: 12.5%;
 
 			& .title-logo {
-				width: 4rem;
-				fill: $color-yellow;
-				stroke: $color-yellow;
-				stroke-width: 1;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				& svg {
+					width: 4rem;
+					fill: $color-yellow;
+					stroke: $color-yellow;
+					stroke-width: 1.25;
+				}
 			}
 
 			& .title-text {
@@ -609,12 +657,14 @@ header {
 			position: relative;
 
 			& .search-dropdown {
+				position: relative;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 				color: $color-white;
-				background-color: transparent;
 				border: 0.125rem solid transparent;
 				border-radius: 0.5rem;
-				padding: 0.25rem;
-				position: relative;
+				padding: 0.125rem;
 
 				& svg {
 					width: 2rem;
@@ -679,13 +729,19 @@ header {
 					}
 
 					& .delete-btn {
-						width: 0.875rem;
-						fill: $color-dark-gray;
-						z-index: 1;
+						display: flex;
+						justify-content: center;
+						align-items: center;
 
-						&:hover {
-							fill: $color-light-red;
-							cursor: pointer;
+						& svg {
+							width: 1rem;
+							fill: $color-dark-gray;
+							z-index: 1;
+
+							&:hover {
+								fill: $color-light-red;
+								cursor: pointer;
+							}
 						}
 					}
 				}

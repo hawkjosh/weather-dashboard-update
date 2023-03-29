@@ -14,14 +14,17 @@ export default ({ isOpen, onClose, children }) => {
 	return ReactDOM.createPortal(
 		<div className='modal-overlay'>
 			<div className='modal-container'>
-				<CloseIcon
-					className='modal-close-btn'
-					onClick={onClose}
-				/>
+				<div className='modal-close-btn'>
+					<CloseIcon onClick={onClose} />
+				</div>
 				<div className='modal-title-wrapper'>
-					<WarningIcon className='modal-title-icon' />
+					<div className='modal-title-icon'>
+						<WarningIcon />
+					</div>
 					<div className='modal-title'>Error</div>
-					<WarningIcon className='modal-title-icon' />
+					<div className='modal-title-icon'>
+						<WarningIcon />
+					</div>
 				</div>
 				<div className='modal-content'>{children}</div>
 			</div>

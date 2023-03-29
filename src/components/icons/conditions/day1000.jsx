@@ -1,136 +1,44 @@
-export default () => (
-	<svg viewBox='0 0 64 64'>
-		<circle
-			r='12'
-			fill='hsl(60, 100%, 50%)'
-			cx='32'
-			cy='32'
-		/>
-		<circle
-			r='12'
-			fill='none'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='2'
-			cx='32'
-			cy='32'
-		/>
-		<line
-			x1='22'
-			x2='24'
-			y1='14.5'
-			y2='18'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='2'
-			strokeLinecap='round'
-		/>
-		<line
-			x1='32'
-			x2='32'
-			y1='9'
-			y2='15'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='2'
-			strokeLinecap='round'
-		/>
-		<line
-			x1='40'
-			x2='42'
-			y1='18'
-			y2='14.5'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='2'
-			strokeLinecap='round'
-		/>
-		<line
-			x1='46'
-			x2='49.5'
-			y1='24'
-			y2='22'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='2'
-			strokeLinecap='round'
-		/>
-		<line
-			x1='49'
-			x2='55'
-			y1='32'
-			y2='32'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='2'
-			strokeLinecap='round'
-		/>
-		<line
-			x1='46'
-			x2='49.5'
-			y1='40'
-			y2='42'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='2'
-			strokeLinecap='round'
-		/>
-		<line
-			x1='40'
-			x2='42'
-			y1='46'
-			y2='49.5'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='2'
-			strokeLinecap='round'
-		/>
-		<line
-			x1='32'
-			x2='32'
-			y1='49'
-			y2='55'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='2'
-			strokeLinecap='round'
-		/>
-		<line
-			x1='24'
-			x2='22'
-			y1='46'
-			y2='49.5'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='2'
-			strokeLinecap='round'
-		/>
-		<line
-			x1='18'
-			x2='14.5'
-			y1='40'
-			y2='42'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='2'
-			strokeLinecap='round'
-		/>
-		<line
-			x1='9'
-			x2='15'
-			y1='32'
-			y2='32'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='2'
-			strokeLinecap='round'
-		/>
-		<line
-			x1='18'
-			x2='14.5'
-			y1='24'
-			y2='22'
-			stroke='hsl(51, 100%, 50%)'
-			strokeWidth='2'
-			strokeLinecap='round'
-		/>
+const style = {
+	border: '0.125rem solid hsl(0, 0%, 100%)',
+	borderRadius: '25%'
+}
 
-		<rect
-			width='60'
-			height='60'
-			x='2'
-			y='2'
-			fill='none'
-			stroke='currentColor'
-			rx='15'
-		/>
-	</svg>
-)
+export default (temp) => {
+	return (
+		<svg
+			viewBox='0 0 64 64'
+			style={style}>
+			<g id='weather-icon'>
+				<g id='sun-full'>
+					<circle
+						fill='hsl(60, 100%, 50%)'
+						stroke='hsl(50, 100%, 50%)'
+						strokeWidth='2'
+						r='16'
+						cx='50%'
+						cy='50%'
+					/>
+					<path
+						stroke='hsl(50, 100%, 50%)'
+						strokeWidth='2'
+						strokeLinecap='round'
+						d='M52 32h10M49.32050808 22l6.92820323 -4M42 14.67949192l4 -6.92820323M32 12v-10M22 14.67949192l-4 -6.92820323M14.67949192 22l-6.92820323 -4M12 32h-10M14.67949192 42l-6.92820323 4M22 49.32050808l-4 6.92820323M32 52v10M42 49.32050808l4 6.92820323M49.32050808 42l6.92820323 4'
+					/>
+				</g>
+			</g>
+
+			<text
+				id='current-temp'
+				x='50%'
+				y='55%'
+				fill='hsl(263, 80%, 22%)'
+				fontSize='0.5rem'
+				fontFamily='"Open Sans", sans-serif'
+				fontWeight='bold'
+				textAnchor='middle'
+				textLength='24'>
+				{temp}
+			</text>
+		</svg>
+	)
+}
