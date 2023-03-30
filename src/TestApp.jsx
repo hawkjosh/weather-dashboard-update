@@ -13,6 +13,9 @@ import useTimeConvert from './hooks/useTimeConvert.js'
 import useDateFormat from './hooks/useDateFormat.js'
 import { useWindowSize } from './hooks/useWindowSize.js'
 
+import useCurrentCondition from './hooks/useCurrentCondition.js'
+import CurrentWeatherCondition from './components/CurrentWeatherCondition.jsx'
+
 import AlertModal from './components/AlertModal.jsx'
 
 import LogoIcon from './components/icons/LogoIcon.jsx'
@@ -42,7 +45,7 @@ export default () => {
 	const [currentConditionText, setCurrentConditionText] = useState('')
 	const [currentUvi, setCurrentUvi] = useState('')
 
-	const [CurrentConditionIcon, setCurrentConditionIcon] = useState(null)
+	const [currentConditionIcon, setCurrentConditionIcon] = useState('')
 
 	const [currentData, setCurrentData] = useState([])
 	const [forecastData, setForecastData] = useState([])
@@ -89,8 +92,8 @@ export default () => {
 					const currentVals = [humidity, wind, windDir]
 					setCurrentData(currentVals)
 
-					const temp = `${currentData.temp_f} °F`
-					setCurrentTemperature(temp)
+					const temperature = `${currentData.temp_f} °F`
+					setCurrentTemperature(temperature)
 
 					const currentUvi = useUviNumberIcon(currentData.uv)
 					setCurrentUvi(currentUvi)
@@ -299,7 +302,9 @@ export default () => {
 
 								<div className='cwc-uvi-icon'>{currentUvi}</div>
 
-								<div className='cwc-condition-wrapper'>
+								<CurrentWeatherCondition ConditionIcon={currentConditionIcon} temperature={currentTemperature} ConditionText={currentConditionText} />
+
+								{/* <div className='cwc-condition-wrapper'>
 									<div className='cwc-condition-icon'>
 										{CurrentConditionIcon}
 									</div>
@@ -307,17 +312,17 @@ export default () => {
 									<div className='cwc-condition-text'>
 										{currentConditionText}
 									</div>
-								</div>
+								</div> */}
 
 								<div className='cwc-data-item'>
 									Humidity:
 									<span className='cwc-api-info'>{currentData[0]}</span>
 								</div>
 
-								<div className='cwc-data-item'>
+								{/* <div className='cwc-data-item'>
 									Temp:
 									<span className='cwc-api-info'>{currentTemperature}</span>
-								</div>
+								</div> */}
 
 								<div className='cwc-data-item'>
 									Wind:
@@ -346,7 +351,9 @@ export default () => {
 
 								<div className='cwc-uvi-icon'>{currentUvi}</div>
 
-								<div className='cwc-condition-wrapper'>
+								<CurrentWeatherCondition ConditionIcon={currentConditionIcon} temperature={currentTemperature} ConditionText={currentConditionText} />
+
+								{/* <div className='cwc-condition-wrapper'>
 									<div className='cwc-condition-icon'>
 										{CurrentConditionIcon}
 									</div>
@@ -354,17 +361,17 @@ export default () => {
 									<div className='cwc-condition-text'>
 										{currentConditionText}
 									</div>
-								</div>
+								</div> */}
 
 								<div className='cwc-data-item'>
 									Humidity:
 									<span className='cwc-api-info'>{currentData[0]}</span>
 								</div>
 
-								<div className='cwc-data-item'>
+								{/* <div className='cwc-data-item'>
 									Temp:
 									<span className='cwc-api-info'>{currentTemperature}</span>
-								</div>
+								</div> */}
 
 								<div className='cwc-data-item'>
 									Wind:
@@ -393,7 +400,9 @@ export default () => {
 
 								<div className='cwc-uvi-icon'>{currentUvi}</div>
 
-								<div className='cwc-condition-wrapper'>
+								<CurrentWeatherCondition ConditionIcon={currentConditionIcon} temperature={currentTemperature} ConditionText={currentConditionText} />
+
+								{/* <div className='cwc-condition-wrapper'>
 									<div className='cwc-condition-icon'>
 										{CurrentConditionIcon}
 									</div>
@@ -401,17 +410,17 @@ export default () => {
 									<div className='cwc-condition-text'>
 										{currentConditionText}
 									</div>
-								</div>
+								</div> */}
 
 								<div className='cwc-data-item'>
 									Humidity:
 									<span className='cwc-api-info'>{currentData[0]}</span>
 								</div>
 
-								<div className='cwc-data-item'>
+								{/* <div className='cwc-data-item'>
 									Temp:
 									<span className='cwc-api-info'>{currentTemperature}</span>
-								</div>
+								</div> */}
 
 								<div className='cwc-data-item'>
 									Wind:
@@ -446,7 +455,9 @@ export default () => {
 									</div>
 								</div>
 
-								<div className='cwc-condition-wrapper'>
+								<CurrentWeatherCondition ConditionIcon={currentConditionIcon} temperature={currentTemperature} ConditionText={currentConditionText} />
+
+								{/* <div className='cwc-condition-wrapper'>
 									<div className='cwc-condition-icon'>
 										{CurrentConditionIcon}
 									</div>
@@ -454,18 +465,18 @@ export default () => {
 									<div className='cwc-condition-text'>
 										{currentConditionText}
 									</div>
-								</div>
+								</div> */}
 
 								<div className='cwc-data-wrapper'>
-									<div className='cwc-data-item'>
-										Humidity:
-										<span className='cwc-api-info'>{currentData[0]}</span>
-									</div>
+								<div className='cwc-data-item'>
+									Humidity:
+									<span className='cwc-api-info'>{currentData[0]}</span>
+								</div>
 
-									<div className='cwc-data-item'>
-										Temp:
-										<span className='cwc-api-info'>{currentTemperature}</span>
-									</div>
+								{/* <div className='cwc-data-item'>
+									Temp:
+									<span className='cwc-api-info'>{currentTemperature}</span>
+								</div> */}
 
 									<div className='cwc-data-item'>
 										Wind:
