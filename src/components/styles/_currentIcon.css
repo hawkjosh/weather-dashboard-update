@@ -1,0 +1,27 @@
+.cwc-condition-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	& .cwc-condition-icon {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		& svg {
+			width: 15rem;
+			filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
+
+			& rect {
+				stroke: $color-white;
+				stroke-width: 1.5;
+			}
+		}
+	}
+
+	& .cwc-condition-text {
+		font-size: 1.75rem;
+		font-weight: 600;
+		color: $color-light-blue;
+	}
+}

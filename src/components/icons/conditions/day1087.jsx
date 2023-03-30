@@ -1,9 +1,11 @@
+import React from 'react'
+
 const style = {
 	border: '0.125rem solid hsl(0, 0%, 100%)',
 	borderRadius: '25%',
 }
 
-export default (temp) => {
+const Day1087 = ({ temperature }) => {
 	return (
 		<svg
 			viewBox='0 0 64 64'
@@ -49,8 +51,10 @@ export default (temp) => {
 				fontWeight='bold'
 				textAnchor='middle'
 				textLength='24'>
-				{temp}
+				{temperature}
 			</text>
 		</svg>
 	)
 }
+
+export default Day1087
