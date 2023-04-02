@@ -1,4 +1,6 @@
-export default ({ ...props }) => {
+import React from 'react'
+
+const WarningIcon = ({ ...props }) => {
 	return (
 		<svg
 			viewBox='0 0 80 72'
@@ -16,3 +18,5 @@ export default ({ ...props }) => {
 		</svg>
 	)
 }
+
+export default WarningIcon

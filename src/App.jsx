@@ -1,15 +1,15 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react'
-import axios from 'axios'
-import dayjs from 'dayjs'
 
 import { weatherApiKey, weatherApiBaseUrl } from '../config.js'
 
 import useStateCode from './hooks/useStateCode.js'
 import useCountryFlag from './hooks/useCountryFlag.js'
-import useConditionIcon from './hooks/useConditionIcon.js'
-import useConditionText from './hooks/useConditionText.js'
+import useCurrentCondition from './hooks/useCurrentCondition.jsx'
+import useUviNumberIcon from './hooks/useUviNumberIcon.jsx'
 import useForecastIcon from './hooks/useForecastIcon.js'
+import useTimeFormat from './hooks/useTimeFormat.js'
 import useTimeConvert from './hooks/useTimeConvert.js'
+import useDateFormat from './hooks/useDateFormat.js'
 import { useWindowSize } from './hooks/useWindowSize.js'
 
 import AlertModal from './components/AlertModal.jsx'
@@ -17,7 +17,6 @@ import AlertModal from './components/AlertModal.jsx'
 import LogoIcon from './components/icons/LogoIcon.jsx'
 import TrashIcon from './components/icons/TrashIcon.jsx'
 import WindIcon from './components/icons/WindIcon.jsx'
-import UviNumberIcon from './components/icons/UviNumberIcon.jsx'
 import SearchIcon from './components/icons/SearchIcon.jsx'
 import SearchHistoryIcon from './components/icons/SearchHistoryIcon.jsx'
 
@@ -34,115 +33,104 @@ export default () => {
 
 	const [showHistory, setShowHistory] = useState(false)
 
-	const [currentLocation, setCurrentLocation] = useState('')
-	const [currentFlag, setCurrentFlag] = useState('')
-	const [currentCountry, setCurrentCountry] = useState('')
-	const [currentTimeMsg, setCurrentTimeMsg] = useState('')
-	const [currentConditionIcon, setCurrentConditionIcon] = useState('')
-	const [currentConditionText, setCurrentConditionText] = useState('')
+	const [location, setLocation] = useState('')
+	const [country, setCountry] = useState('')
+	const [flag, setFlag] = useState('')
+	const [localTime, setLocalTime] = useState('')
+	const [Uvi, setUvi] = useState(null)
+	const [CurrentCondition, setCurrentCondition] = useState(null)
+	const [humidity, setHumidity] = useState('')
+	const [windSpeed, setWindSpeed] = useState('')
+	const [windDirection, setWindDirection] = useState('')
 
-	const [currentData, setCurrentData] = useState([])
+	const [weatherData, setWeatherData] = useState([])
 	const [forecastData, setForecastData] = useState([])
 
-	const [errorOne, setErrorOne] = useState(null)
-	const [errorTwo, setErrorTwo] = useState(null)
+	const [emptyError, setEmptyError] = useState(null)
+	const [invalidError, setInvalidError] = useState(null)
 
 	const dropdownRef = useRef(null)
 
 	const getWeatherData = (location) => {
 		if (!location) {
-			const errorOne = new Error(
+			const emptyError = new Error(
 				'Empty search field. Please enter valid city or zip code.'
 			)
-			setErrorOne(errorOne)
+			setEmptyError(emptyError)
 		} else {
-			Promise.all([
-				axios.get(
-					`${weatherApiBaseUrl}/current.json?key=${weatherApiKey}&q=${location}`
-				),
-				axios.get(
-					`${weatherApiBaseUrl}/forecast.json?key=${weatherApiKey}&q=${location}&days=3&aqi=no&alerts=no`
-				),
-			])
-				.then(
-					axios.spread((currentResponse, forecastResponse) => {
-						const currentData = currentResponse.data
-						console.log(currentData)
-						const forecastData = forecastResponse.data
-						console.log(forecastData)
-						const { country, name, region } = currentData.location
-						const current = currentData.current
-						const countryCode = useCountryFlag(country)
+			fetch(
+				`${weatherApiBaseUrl}/forecast.json?key=${weatherApiKey}&q=${location}&days=3&aqi=no&alerts=no`
+			)
+				.then((response) => response.json())
+				.then((data) => {
+					setWeatherData(data)
+					setLocation(data.location.name)
 
-						const location = name
+					const countryName =
+						data.location.country.includes('USA') ||
+						data.location.country.includes('USA United States of America') ||
+						data.location.country.includes('United States of America') ||
+						data.location.country.includes('United States')
+							? `${data.location.region}, USA`
+							: data.location.country
+					setCountry(countryName)
 
-						const time = dayjs(currentData.location.localtime).format('h:mma')
+					const countryCode = useCountryFlag(data.location.country)
+					const flag = `https://flagcdn.com/256x192/${countryCode}.webp`
+					setFlag(flag)
 
-						const countryName =
-							country.includes('USA') ||
-							country.includes('USA United States of America') ||
-							country.includes('United States of America') ||
-							country.includes('United States')
-								? `${region}, USA`
-								: country
+					setLocalTime(useTimeConvert(data.location.localtime))
 
-						const flag = `https://flagcdn.com/256x192/${countryCode}.webp`
+					const UviNumberIcon = useUviNumberIcon(data.current.uv)
+					setUvi(UviNumberIcon)
 
-						const iconCode = current.condition.code
-						const isDay = current.is_day
+					const iconCode = data.current.condition.code
+					const isDay = data.current.is_day
+					const CurrentConditionInfo = useCurrentCondition(
+						iconCode,
+						isDay,
+						`${data.current.temp_f} °F`
+					)
+					setCurrentCondition(CurrentConditionInfo)
 
-						const currentConditionIcon = useConditionIcon(iconCode, isDay)
-						const currentConditionText = useConditionText(iconCode)
+					setHumidity(`${data.current.humidity}%`)
 
-						const uv = current.uv
-						const humidity = `${current.humidity}%`
-						const temp = `${current.temp_f} °F`
-						const wind = `${current.wind_mph} MPH`
-						const windDir = current.wind_dir
-						const currentVals = [uv, humidity, temp, wind, windDir]
+					setWindSpeed(data.current.wind_mph)
 
-						const forecastInfo = forecastData.forecast.forecastday.map(
-							(info) => ({
-								date: dayjs(info.date).format('ddd, M/D'),
-								condition: useForecastIcon(info.day.condition.code),
-								sunrise: useTimeConvert(info.astro.sunrise),
-								sunset: useTimeConvert(info.astro.sunset),
-								tempHigh: `${info.day.maxtemp_f} °F`,
-								tempLow: `${info.day.mintemp_f} °F`,
-								rain: `${info.day.daily_chance_of_rain}%`,
-							})
+					setWindDirection(data.current.wind_dir)
+
+					const forecastData = data.forecast
+					const forecastInfo = forecastData.forecastday.map((info) => ({
+						date: useDateFormat(info.date),
+						condition: useForecastIcon(info.day.condition.code),
+						sunrise: useTimeFormat(info.astro.sunrise),
+						sunset: useTimeFormat(info.astro.sunset),
+						tempHigh: `${info.day.maxtemp_f} °F`,
+						tempLow: `${info.day.mintemp_f} °F`,
+						rain: `${info.day.daily_chance_of_rain}%`,
+					}))
+					setForecastData(forecastInfo)
+
+					const searchHistoryName =
+						data.location.country.includes('USA') ||
+						data.location.country.includes('USA United States of America') ||
+						data.location.country.includes('United States of America') ||
+						data.location.country.includes('United States')
+							? `${data.location.name}, ${useStateCode(data.location.region)}`
+							: `${data.location.name}, ${data.location.country}`
+
+					if (!searchHistory.includes(searchHistoryName)) {
+						setSearchHistory([...searchHistory, searchHistoryName])
+						localStorage.setItem(
+							'searchHistory',
+							JSON.stringify([...searchHistory, searchHistoryName])
 						)
-
-						setCurrentLocation(location)
-						setCurrentCountry(countryName)
-						setCurrentFlag(flag)
-						setCurrentTimeMsg(time)
-						setCurrentConditionIcon(currentConditionIcon)
-						setCurrentConditionText(currentConditionText)
-						setCurrentData(currentVals)
-						setForecastData(forecastInfo)
-
-						const searchHistoryName =
-							country.includes('USA') ||
-							country.includes('USA United States of America') ||
-							country.includes('United States of America') ||
-							country.includes('United States')
-								? `${name}, ${useStateCode(region)}`
-								: `${name}, ${country}`
-
-						if (!searchHistory.includes(searchHistoryName)) {
-							setSearchHistory([...searchHistory, searchHistoryName])
-							localStorage.setItem(
-								'searchHistory',
-								JSON.stringify([...searchHistory, searchHistoryName])
-							)
-						}
-					})
-				)
+					}
+				})
 				.catch((err) => {
 					console.error(err)
 					if (err.response && err.response.status === 400) {
-						setErrorTwo({
+						setInvalidError({
 							message: 'Invalid entry. Please enter valid city or zip code.',
 						})
 					}
@@ -150,27 +138,24 @@ export default () => {
 		}
 	}
 
-	const handleCloseErrorOne = () => {
-		setErrorOne(null)
+	const handleCloseError = () => {
+		setEmptyError(null)
+		setInvalidError(null)
 	}
 
-	const handleCloseErrorTwo = () => {
-		setErrorTwo(null)
-	}
-
-	const newSearchWeather = (e) => {
+	const newSearch = (e) => {
 		e.preventDefault()
 		getWeatherData(searchLocation)
 		setSearchLocation('')
 	}
 
-	const prevSearchWeather = (e) => {
-		const location =
+	const prevSearch = (e) => {
+		const prevLocation =
 			e.target.innerHTML === 'Washington, D.C.'
 				? 'Washington'
 				: e.target.innerHTML
-		setSearchLocation(location)
-		getWeatherData(location)
+		setSearchLocation(prevLocation)
+		getWeatherData(prevLocation)
 		setSearchLocation('')
 		setShowHistory(!showHistory)
 	}
@@ -216,7 +201,9 @@ export default () => {
 			<header>
 				<div className='header-container'>
 					<div className='title-wrapper'>
-						<LogoIcon className='title-logo' />
+						<div className='title-logo'>
+							<LogoIcon />
+						</div>
 						<div className='title-text'>Weather 2.0</div>
 					</div>
 
@@ -233,7 +220,7 @@ export default () => {
 							<button
 								className='search-btn'
 								type='submit'
-								onClick={newSearchWeather}>
+								onClick={newSearch}>
 								<SearchIcon />
 							</button>
 						</form>
@@ -243,11 +230,11 @@ export default () => {
 						<div
 							className='search-history-wrapper'
 							ref={dropdownRef}>
-							<button
-								className='search-dropdown'
-								onClick={() => setShowHistory(!showHistory)}>
-								<SearchHistoryIcon />
-							</button>
+							<div className='search-dropdown'>
+								<SearchHistoryIcon
+									onClick={() => setShowHistory(!showHistory)}
+								/>
+							</div>
 
 							{showHistory && (
 								<div className='search-list'>
@@ -256,14 +243,15 @@ export default () => {
 											<div className='list-item-wrapper'>
 												<div
 													className='list-item'
-													// title={search}
-													onClick={prevSearchWeather}>
+													title={search}
+													onClick={prevSearch}>
 													{search}
 												</div>
-												<TrashIcon
-													className='delete-btn'
-													onClick={() => removeHistoryItem(search)}
-												/>
+												<div className='delete-btn'>
+													<TrashIcon
+														onClick={() => removeHistoryItem(search)}
+													/>
+												</div>
 											</div>
 										</Fragment>
 									))}
@@ -276,81 +264,56 @@ export default () => {
 
 			<div id='alert-modal'>
 				<AlertModal
-					isOpen={errorOne !== null}
-					onClose={handleCloseErrorOne}>
-					<p>{errorOne && errorOne.message}</p>
+					isOpen={emptyError !== null}
+					onClose={handleCloseError}>
+					<p>{emptyError && emptyError.message}</p>
 				</AlertModal>
 				<AlertModal
-					isOpen={errorTwo !== null}
-					onClose={handleCloseErrorTwo}>
-					<p>{errorTwo && errorTwo.message}</p>
+					isOpen={invalidError}
+					onClose={handleCloseError}>
+					<p>{invalidError && invalidError.message}</p>
 				</AlertModal>
 			</div>
 
 			<main>
-				{currentData.length !== 0 && (
+				{weatherData.length !== 0 && (
 					<section className='current-weather-container'>
 						{isLaptop && (
 							<div className='cwc-card'>
-								<div className='cwc-location'>{currentLocation}</div>
+								<div className='cwc-location-condition-wrapper'>
+									<div className='cwc-location-wrapper'>
+										<div className='cwc-location'>{location}</div>
 
-								<div className='cwc-country'>
-									<div className='country-name'>{currentCountry}</div>
-									<img
-										className='country-flag'
-										src={currentFlag}
-										alt='Flag Icon'
-									/>
+										<div className='cwc-country'>
+											<div className='country-name'>{country}</div>
+											<img
+												className='country-flag'
+												src={flag}
+												alt='Flag Icon'
+											/>
+										</div>
+
+										<div className='cwc-time'>{localTime}</div>
+									</div>
+
+									<div className='cwc-condition-wrapper'>
+										{CurrentCondition}
+									</div>
 								</div>
 
-								<div className='cwc-time'>{currentTimeMsg}</div>
+								<div className='cwc-data-wrapper'>
+									<div className='cwc-uvi-icon'>{Uvi}</div>
 
-								<div className='cwc-uvi-icon'>
-									{currentData[0] <= 3 && (
-										<UviNumberIcon
-											bgColor='hsl(120, 100%, 25%)'
-											numColor='hsl(0, 0%, 100%)'
-											number={currentData[0]}
+									<div className='cwc-humidity-wrapper'>
+										<div className='cwc-humidity-label'>Humidity:</div>
+										<div className='cwc-humidity'>{humidity}</div>
+									</div>
+
+									<div className='cwc-wind-icon'>
+										<WindIcon
+											speed={windSpeed}
+											direction={windDirection}
 										/>
-									)}
-									{currentData[0] > 3 && currentData[0] < 7 && (
-										<UviNumberIcon
-											bgColor='hsl(39, 100%, 50%)'
-											numColor='hsl(0, 100%, 50%)'
-											number={currentData[0]}
-										/>
-									)}
-									{currentData[0] >= 7 && (
-										<UviNumberIcon
-											bgColor='hsl(0, 100%, 50%)'
-											numColor='hsl(60, 100%, 50%)'
-											number={currentData[0]}
-										/>
-									)}
-								</div>
-
-								<div className='cwc-condition-icon'>{currentConditionIcon}</div>
-
-								<div className='cwc-data-item'>
-									Current Conditions:
-									<span className='cwc-api-info'>{currentConditionText}</span>
-								</div>
-
-								<div className='cwc-data-item'>
-									Humidity:
-									<span className='cwc-api-info'>{currentData[1]}</span>
-								</div>
-
-								<div className='cwc-data-item'>
-									Temp:
-									<span className='cwc-api-info'>{currentData[2]}</span>
-								</div>
-
-								<div className='cwc-data-item'>
-									Wind:
-									<span className='cwc-api-info'>{currentData[3]}</span>
-									<div className='wind-icon'>
-										<WindIcon direction={currentData[4]} />
 									</div>
 								</div>
 							</div>
@@ -358,65 +321,40 @@ export default () => {
 
 						{isTabletLg && (
 							<div className='cwc-card'>
-								<div className='cwc-location'>{currentLocation}</div>
+								<div className='cwc-location-condition-wrapper'>
+									<div className='cwc-location-wrapper'>
+										<div className='cwc-location'>{location}</div>
 
-								<div className='cwc-country'>
-									<div className='country-name'>{currentCountry}</div>
-									<img
-										className='country-flag'
-										src={currentFlag}
-										alt='Flag Icon'
-									/>
+										<div className='cwc-country'>
+											<div className='country-name'>{country}</div>
+											<img
+												className='country-flag'
+												src={flag}
+												alt='Flag Icon'
+											/>
+										</div>
+
+										<div className='cwc-time'>{localTime}</div>
+									</div>
+
+									<div className='cwc-condition-wrapper'>
+										{CurrentCondition}
+									</div>
 								</div>
 
-								<div className='cwc-time'>{currentTimeMsg}</div>
+								<div className='cwc-data-wrapper'>
+									<div className='cwc-uvi-icon'>{Uvi}</div>
 
-								<div className='cwc-uvi-icon'>
-									{currentData[0] <= 3 && (
-										<UviNumberIcon
-											bgColor='hsl(120, 100%, 25%)'
-											numColor='hsl(0, 0%, 100%)'
-											number={currentData[0]}
+									<div className='cwc-humidity-wrapper'>
+										<div className='cwc-humidity-label'>Humidity:</div>
+										<div className='cwc-humidity'>{humidity}</div>
+									</div>
+
+									<div className='cwc-wind-icon'>
+										<WindIcon
+											speed={windSpeed}
+											direction={windDirection}
 										/>
-									)}
-									{currentData[0] > 3 && currentData[0] < 7 && (
-										<UviNumberIcon
-											bgColor='hsl(39, 100%, 50%)'
-											numColor='hsl(0, 100%, 50%)'
-											number={currentData[0]}
-										/>
-									)}
-									{currentData[0] >= 7 && (
-										<UviNumberIcon
-											bgColor='hsl(0, 100%, 50%)'
-											numColor='hsl(60, 100%, 50%)'
-											number={currentData[0]}
-										/>
-									)}
-								</div>
-
-								<div className='cwc-condition-icon'>{currentConditionIcon}</div>
-
-								<div className='cwc-data-item'>
-									Current Conditions:
-									<span className='cwc-api-info'>{currentConditionText}</span>
-								</div>
-
-								<div className='cwc-data-item'>
-									Humidity:
-									<span className='cwc-api-info'>{currentData[1]}</span>
-								</div>
-
-								<div className='cwc-data-item'>
-									Temp:
-									<span className='cwc-api-info'>{currentData[2]}</span>
-								</div>
-
-								<div className='cwc-data-item'>
-									Wind:
-									<span className='cwc-api-info'>{currentData[3]}</span>
-									<div className='wind-icon'>
-										<WindIcon direction={currentData[4]} />
 									</div>
 								</div>
 							</div>
@@ -424,65 +362,36 @@ export default () => {
 
 						{isTabletSm && (
 							<div className='cwc-card'>
-								<div className='cwc-location'>{currentLocation}</div>
+								<div className='cwc-location-wrapper'>
+									<div className='cwc-location'>{location}</div>
 
-								<div className='cwc-country'>
-									<div className='country-name'>{currentCountry}</div>
-									<img
-										className='country-flag'
-										src={currentFlag}
-										alt='Flag Icon'
-									/>
-								</div>
-
-								<div className='cwc-time'>{currentTimeMsg}</div>
-
-								<div className='cwc-uvi-icon'>
-									{currentData[0] <= 3 && (
-										<UviNumberIcon
-											bgColor='hsl(120, 100%, 25%)'
-											numColor='hsl(0, 0%, 100%)'
-											number={currentData[0]}
+									<div className='cwc-country'>
+										<div className='country-name'>{country}</div>
+										<img
+											className='country-flag'
+											src={flag}
+											alt='Flag Icon'
 										/>
-									)}
-									{currentData[0] > 3 && currentData[0] < 7 && (
-										<UviNumberIcon
-											bgColor='hsl(39, 100%, 50%)'
-											numColor='hsl(0, 100%, 50%)'
-											number={currentData[0]}
+									</div>
+
+									<div className='cwc-time'>{localTime}</div>
+								</div>
+
+								<div className='cwc-condition-wrapper'>{CurrentCondition}</div>
+
+								<div className='cwc-data-wrapper'>
+									<div className='cwc-uvi-icon'>{Uvi}</div>
+
+									<div className='cwc-humidity-wrapper'>
+										<div className='cwc-humidity-label'>Humidity:</div>
+										<div className='cwc-humidity'>{humidity}</div>
+									</div>
+
+									<div className='cwc-wind-icon'>
+										<WindIcon
+											speed={windSpeed}
+											direction={windDirection}
 										/>
-									)}
-									{currentData[0] >= 7 && (
-										<UviNumberIcon
-											bgColor='hsl(0, 100%, 50%)'
-											numColor='hsl(60, 100%, 50%)'
-											number={currentData[0]}
-										/>
-									)}
-								</div>
-
-								<div className='cwc-condition-icon'>{currentConditionIcon}</div>
-
-								<div className='cwc-data-item'>
-									Current Conditions:
-									<span className='cwc-api-info'>{currentConditionText}</span>
-								</div>
-
-								<div className='cwc-data-item'>
-									Humidity:
-									<span className='cwc-api-info'>{currentData[1]}</span>
-								</div>
-
-								<div className='cwc-data-item'>
-									Temp:
-									<span className='cwc-api-info'>{currentData[2]}</span>
-								</div>
-
-								<div className='cwc-data-item'>
-									Wind:
-									<span className='cwc-api-info'>{currentData[3]}</span>
-									<div className='wind-icon'>
-										<WindIcon direction={currentData[4]} />
 									</div>
 								</div>
 							</div>
@@ -490,65 +399,36 @@ export default () => {
 
 						{isMobile && (
 							<div className='cwc-card'>
-								<div className='cwc-location'>{currentLocation}</div>
+								<div className='cwc-location-wrapper'>
+									<div className='cwc-location'>{location}</div>
 
-								<div className='cwc-country'>
-									<div className='country-name'>{currentCountry}</div>
-									<img
-										className='country-flag'
-										src={currentFlag}
-										alt='Flag Icon'
-									/>
-								</div>
-
-								<div className='cwc-time'>{currentTimeMsg}</div>
-
-								<div className='cwc-uvi-icon'>
-									{currentData[0] <= 3 && (
-										<UviNumberIcon
-											bgColor='hsl(120, 100%, 25%)'
-											numColor='hsl(0, 0%, 100%)'
-											number={currentData[0]}
+									<div className='cwc-country'>
+										<div className='country-name'>{country}</div>
+										<img
+											className='country-flag'
+											src={flag}
+											alt='Flag Icon'
 										/>
-									)}
-									{currentData[0] > 3 && currentData[0] < 7 && (
-										<UviNumberIcon
-											bgColor='hsl(39, 100%, 50%)'
-											numColor='hsl(0, 100%, 50%)'
-											number={currentData[0]}
+									</div>
+
+									<div className='cwc-time'>{localTime}</div>
+								</div>
+
+								<div className='cwc-condition-wrapper'>{CurrentCondition}</div>
+
+								<div className='cwc-data-wrapper'>
+									<div className='cwc-uvi-icon'>{Uvi}</div>
+
+									<div className='cwc-humidity-wrapper'>
+										<div className='cwc-humidity-label'>Humidity:</div>
+										<div className='cwc-humidity'>{humidity}</div>
+									</div>
+
+									<div className='cwc-wind-icon'>
+										<WindIcon
+											speed={windSpeed}
+											direction={windDirection}
 										/>
-									)}
-									{currentData[0] >= 7 && (
-										<UviNumberIcon
-											bgColor='hsl(0, 100%, 50%)'
-											numColor='hsl(60, 100%, 50%)'
-											number={currentData[0]}
-										/>
-									)}
-								</div>
-
-								<div className='cwc-condition-icon'>{currentConditionIcon}</div>
-
-								<div className='cwc-data-item'>
-									Current Conditions:
-									<span className='cwc-api-info'>{currentConditionText}</span>
-								</div>
-
-								<div className='cwc-data-item'>
-									Humidity:
-									<span className='cwc-api-info'>{currentData[1]}</span>
-								</div>
-
-								<div className='cwc-data-item'>
-									Temp:
-									<span className='cwc-api-info'>{currentData[2]}</span>
-								</div>
-
-								<div className='cwc-data-item'>
-									Wind:
-									<span className='cwc-api-info'>{currentData[3]}</span>
-									<div className='wind-icon'>
-										<WindIcon direction={currentData[4]} />
 									</div>
 								</div>
 							</div>

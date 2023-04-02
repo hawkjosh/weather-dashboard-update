@@ -1,4 +1,4 @@
-export default function useCountryFlag(countryName) {
+const useCountryFlag = (countryName) => {
 	const countries = {
 		Andorra: 'ad',
 		'United Arab Emirates': 'ae',
@@ -315,10 +315,8 @@ export default function useCountryFlag(countryName) {
 		return 'us'
 	}
 
-	// define array of words to not capitalize
 	const doNotCapitalize = ['and', 'of', 'the']
 
-	// convert country name to title case for better matching
 	const countryTitleCase = countryName
 		.toLowerCase()
 		.split(' ')
@@ -330,10 +328,11 @@ export default function useCountryFlag(countryName) {
 		})
 		.join(' ')
 
-	// check if the country exists in the countries object
 	if (countries[countryTitleCase]) {
 		return countries[countryTitleCase]
 	} else {
 		return
 	}
 }
+
+export default useCountryFlag

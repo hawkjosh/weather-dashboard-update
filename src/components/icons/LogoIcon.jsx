@@ -1,4 +1,6 @@
-export default ({ ...props }) => {
+import React from 'react'
+
+const LogoIcon = ({ ...props }) => {
 	return (
 		<svg
 			viewBox='0 0 42 42'
@@ -10,3 +12,5 @@ export default ({ ...props }) => {
 		</svg>
 	)
 }
+
+export default LogoIcon

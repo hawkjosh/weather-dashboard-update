@@ -1,4 +1,4 @@
-export default function useTimeConvert(dateStr) {
+const useTimeConvert = (dateStr) => {
 	const date = new Date(dateStr)
 	const hours = date.getHours()
 	const minutes = date.getMinutes()
@@ -8,3 +8,5 @@ export default function useTimeConvert(dateStr) {
 
 	return `${formattedHours}:${formattedMinutes}${ampm}`
 }
+
+export default useTimeConvert

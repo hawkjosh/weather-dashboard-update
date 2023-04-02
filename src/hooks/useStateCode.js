@@ -1,4 +1,4 @@
-export default function useStateCode(stateName) {
+const useStateCode = (stateName) => {
 	const states = {
 		Alabama: 'AL',
 		Alaska: 'AK',
@@ -57,10 +57,8 @@ export default function useStateCode(stateName) {
 		return 'D.C.'
 	}
 
-	// define array of words to not capitalize
 	const doNotCapitalize = ['and', 'of', 'the']
 
-	// convert state name to title case for better matching
 	const stateTitleCase = stateName
 		.toLowerCase()
 		.split(' ')
@@ -72,10 +70,11 @@ export default function useStateCode(stateName) {
 		})
 		.join(' ')
 
-	// check if the state exists in the states object
 	if (states[stateTitleCase]) {
 		return states[stateTitleCase]
 	} else {
 		return
 	}
 }
+
+export default useStateCode

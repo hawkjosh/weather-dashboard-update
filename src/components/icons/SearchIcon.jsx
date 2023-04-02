@@ -1,4 +1,6 @@
-export default ({ ...props }) => {
+import React from 'react'
+
+const SearchIcon = ({ ...props }) => {
 	return (
 		<svg
 			viewBox='0 0 18 18'
@@ -11,3 +13,5 @@ export default ({ ...props }) => {
 		</svg>
 	)
 }
+
+export default SearchIcon

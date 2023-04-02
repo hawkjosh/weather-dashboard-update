@@ -1,4 +1,4 @@
-export default function useDateFormat(dateStr) {
+const useDateFormat = (dateStr) => {
 	const date = new Date(dateStr)
 	const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 	const month = date.getMonth() + 1
@@ -6,3 +6,5 @@ export default function useDateFormat(dateStr) {
 	const weekday = weekdays[date.getDay()]
 	return `${weekday}, ${month}/${day}`
 }
+
+export default useDateFormat

@@ -1,4 +1,4 @@
-export default function useTimeFormat(timeStr) {
+const useTimeFormat = (timeStr) => {
 	const date = new Date(`01/01/2000 ${timeStr}`)
 	const hours = date.getHours()
 	const minutes = date.getMinutes()
@@ -8,3 +8,5 @@ export default function useTimeFormat(timeStr) {
 
 	return `${formattedHours}:${formattedMinutes}${ampm}`
 }
+
+export default useTimeFormat
