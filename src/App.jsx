@@ -14,11 +14,11 @@ import { useWindowSize } from './hooks/useWindowSize.js'
 
 import AlertModal from './components/AlertModal.jsx'
 
-import LogoIcon from './components/icons/LogoIcon.jsx'
-import TrashIcon from './components/icons/TrashIcon.jsx'
-import WindIcon from './components/icons/WindIcon.jsx'
-import SearchIcon from './components/icons/SearchIcon.jsx'
-import SearchHistoryIcon from './components/icons/SearchHistoryIcon.jsx'
+import LogoIcon from './components/icons/general/LogoIcon.jsx'
+import TrashIcon from './components/icons/general/TrashIcon.jsx'
+import WindIcon from './components/icons/wind/WindIcon.jsx'
+import SearchIcon from './components/icons/general/SearchIcon.jsx'
+import SearchHistoryIcon from './components/icons/general/SearchHistoryIcon.jsx'
 
 import './App.css'
 
@@ -89,7 +89,7 @@ export default () => {
 					const CurrentConditionInfo = useCurrentCondition(
 						iconCode,
 						isDay,
-						`${data.current.temp_f} °F`
+						data.current.temp_f
 					)
 					setCurrentCondition(CurrentConditionInfo)
 
@@ -296,9 +296,7 @@ export default () => {
 										<div className='cwc-time'>{localTime}</div>
 									</div>
 
-									<div className='cwc-condition-wrapper'>
-										{CurrentCondition}
-									</div>
+									{CurrentCondition}
 								</div>
 
 								<div className='cwc-data-wrapper'>
@@ -337,9 +335,7 @@ export default () => {
 										<div className='cwc-time'>{localTime}</div>
 									</div>
 
-									<div className='cwc-condition-wrapper'>
-										{CurrentCondition}
-									</div>
+									{CurrentCondition}
 								</div>
 
 								<div className='cwc-data-wrapper'>
@@ -377,7 +373,7 @@ export default () => {
 									<div className='cwc-time'>{localTime}</div>
 								</div>
 
-								<div className='cwc-condition-wrapper'>{CurrentCondition}</div>
+								{CurrentCondition}
 
 								<div className='cwc-data-wrapper'>
 									<div className='cwc-uvi-icon'>{Uvi}</div>
@@ -414,7 +410,7 @@ export default () => {
 									<div className='cwc-time'>{localTime}</div>
 								</div>
 
-								<div className='cwc-condition-wrapper'>{CurrentCondition}</div>
+								{CurrentCondition}
 
 								<div className='cwc-data-wrapper'>
 									<div className='cwc-uvi-icon'>{Uvi}</div>

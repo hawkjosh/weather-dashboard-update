@@ -1,39 +1,39 @@
 import React, { Fragment } from 'react'
 
-import Day1000 from '../components/icons/Day1000.jsx'
-import Day1003 from '../components/icons/Day1003.jsx'
-import Day1063 from '../components/icons/Day1063.jsx'
-import Day1066 from '../components/icons/Day1066.jsx'
-import Day1069 from '../components/icons/Day1069.jsx'
-import Day1087 from '../components/icons/Day1087.jsx'
-import Day1192 from '../components/icons/Day1192.jsx'
-import Day1222 from '../components/icons/Day1222.jsx'
-import Day1246 from '../components/icons/Day1246.jsx'
-import Day1252 from '../components/icons/Day1252.jsx'
-import Day1261 from '../components/icons/Day1261.jsx'
-import Day1264 from '../components/icons/Day1264.jsx'
-import Day1279 from '../components/icons/Day1279.jsx'
-import Multi1009 from '../components/icons/Multi1009.jsx'
-import Multi1030 from '../components/icons/Multi1030.jsx'
-import Multi1072 from '../components/icons/Multi1072.jsx'
-import Multi1114 from '../components/icons/Multi1114.jsx'
-import Multi1117 from '../components/icons/Multi1117.jsx'
-import Multi1135 from '../components/icons/Multi1135.jsx'
-import Multi1147 from '../components/icons/Multi1147.jsx'
-import Multi1171 from '../components/icons/Multi1171.jsx'
-import Night1000 from '../components/icons/Night1000.jsx'
-import Night1003 from '../components/icons/Night1003.jsx'
-import Night1063 from '../components/icons/Night1063.jsx'
-import Night1066 from '../components/icons/Night1066.jsx'
-import Night1069 from '../components/icons/Night1069.jsx'
-import Night1087 from '../components/icons/Night1087.jsx'
-import Night1192 from '../components/icons/Night1192.jsx'
-import Night1222 from '../components/icons/Night1222.jsx'
-import Night1246 from '../components/icons/Night1246.jsx'
-import Night1252 from '../components/icons/Night1252.jsx'
-import Night1261 from '../components/icons/Night1261.jsx'
-import Night1264 from '../components/icons/Night1264.jsx'
-import Night1279 from '../components/icons/Night1279.jsx'
+import Day1000 from '../components/icons/current-condition/Day1000.jsx'
+import Day1003 from '../components/icons/current-condition/Day1003.jsx'
+import Day1063 from '../components/icons/current-condition/Day1063.jsx'
+import Day1066 from '../components/icons/current-condition/Day1066.jsx'
+import Day1069 from '../components/icons/current-condition/Day1069.jsx'
+import Day1087 from '../components/icons/current-condition/Day1087.jsx'
+import Day1192 from '../components/icons/current-condition/Day1192.jsx'
+import Day1222 from '../components/icons/current-condition/Day1222.jsx'
+import Day1246 from '../components/icons/current-condition/Day1246.jsx'
+import Day1252 from '../components/icons/current-condition/Day1252.jsx'
+import Day1261 from '../components/icons/current-condition/Day1261.jsx'
+import Day1264 from '../components/icons/current-condition/Day1264.jsx'
+import Day1279 from '../components/icons/current-condition/Day1279.jsx'
+import Multi1009 from '../components/icons/current-condition/Multi1009.jsx'
+import Multi1030 from '../components/icons/current-condition/Multi1030.jsx'
+import Multi1072 from '../components/icons/current-condition/Multi1072.jsx'
+import Multi1114 from '../components/icons/current-condition/Multi1114.jsx'
+import Multi1117 from '../components/icons/current-condition/Multi1117.jsx'
+import Multi1135 from '../components/icons/current-condition/Multi1135.jsx'
+import Multi1147 from '../components/icons/current-condition/Multi1147.jsx'
+import Multi1171 from '../components/icons/current-condition/Multi1171.jsx'
+import Night1000 from '../components/icons/current-condition/Night1000.jsx'
+import Night1003 from '../components/icons/current-condition/Night1003.jsx'
+import Night1063 from '../components/icons/current-condition/Night1063.jsx'
+import Night1066 from '../components/icons/current-condition/Night1066.jsx'
+import Night1069 from '../components/icons/current-condition/Night1069.jsx'
+import Night1087 from '../components/icons/current-condition/Night1087.jsx'
+import Night1192 from '../components/icons/current-condition/Night1192.jsx'
+import Night1222 from '../components/icons/current-condition/Night1222.jsx'
+import Night1246 from '../components/icons/current-condition/Night1246.jsx'
+import Night1252 from '../components/icons/current-condition/Night1252.jsx'
+import Night1261 from '../components/icons/current-condition/Night1261.jsx'
+import Night1264 from '../components/icons/current-condition/Night1264.jsx'
+import Night1279 from '../components/icons/current-condition/Night1279.jsx'
 
 const iconMap = {
 	'1000-1': Day1000,
@@ -197,9 +197,11 @@ const useCurrentCondition = (iconCode, isDay, temp) => {
 	return (
 		<Fragment>
 			<div className='condition-icon'>
-				<IconComponent temperature={temp} />
+				<IconComponent
+					temperature={temp}
+					conditionText={iconText}
+				/>
 			</div>
-			<div className='condition-text'>{iconText}</div>
 		</Fragment>
 	)
 }

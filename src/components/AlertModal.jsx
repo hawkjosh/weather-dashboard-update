@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import CloseIcon from '../components/icons/CloseIcon.jsx'
-import WarningIcon from '../components/icons/WarningIcon.jsx'
+import CloseIcon from '../components/icons/general/CloseIcon.jsx'
+import WarningIcon from '../components/icons/general/WarningIcon.jsx'
 
 const AlertModal = ({ isOpen, onClose, children }) => {
 	if (!isOpen) {

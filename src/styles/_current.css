@@ -61,27 +61,24 @@
 					}
 				}
 
-				& .cwc-condition-wrapper {
+				& .condition-icon {
 					display: flex;
-					flex-direction: column;
+					justify-content: center;
 					align-items: center;
-					gap: 0.5rem;
 
-					& .condition-icon {
-						display: flex;
-						justify-content: center;
-						align-items: center;
+					& svg {
+						width: 15rem;
+						filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
+						font-weight: bold;
+						font-family: $font-family;
 
-						& svg {
-							width: 15rem;
-							filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
+						& text:nth-of-type(1) {
+							font-size: 0.875rem;
 						}
-					}
 
-					& .condition-text {
-						font-size: 1.75rem;
-						font-weight: 600;
-						color: $color-light-blue;
+						& text:nth-of-type(2) {
+							font-size: 0.625rem;
+						}
 					}
 				}
 			}
@@ -102,13 +99,13 @@
 						width: 8rem;
 
 						& text:nth-of-type(1) {
-							font-size: 1.25rem;
+							font-size: 1.375rem;
 							font-weight: bold;
 							font-family: $font-family-cursive;
 						}
 
 						& text:nth-of-type(2) {
-							font-size: 0.675rem;
+							font-size: 0.625rem;
 							font-family: $font-family-cursive;
 						}
 					}
@@ -144,23 +141,7 @@
 					align-items: center;
 
 					& svg {
-						width: 8rem;
-
-						& text:nth-of-type(1) {
-							font-size: 1rem;
-							font-weight: 600;
-						}
-
-						& text:nth-of-type(2) {
-							font-size: 0.5rem;
-							font-weight: 200;
-							font-style: italic;
-						}
-
-						& text:nth-of-type(3) {
-							font-size: 0.675rem;
-							font-weight: 600;
-						}
+						width: 10rem;
 					}
 				}
 			}
@@ -227,27 +208,24 @@
 				}
 			}
 
-			& .cwc-condition-wrapper {
+			& .condition-icon {
 				display: flex;
-				flex-direction: column;
+				justify-content: center;
 				align-items: center;
-				gap: 0.5rem;
 
-				& .condition-icon {
-					display: flex;
-					justify-content: center;
-					align-items: center;
+				& svg {
+					width: 15rem;
+					filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
+					font-weight: bold;
+					font-family: $font-family;
 
-					& svg {
-						width: 12rem;
-						filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
+					& text:nth-of-type(1) {
+						font-size: 0.875rem;
 					}
-				}
 
-				& .condition-text {
-					font-size: 1.5rem;
-					font-weight: 600;
-					color: $color-light-blue;
+					& text:nth-of-type(2) {
+						font-size: 0.625rem;
+					}
 				}
 			}
 		}
@@ -268,13 +246,13 @@
 					width: 7rem;
 
 					& text:nth-of-type(1) {
-						font-size: 1.25rem;
+						font-size: 1.375rem;
 						font-weight: bold;
 						font-family: $font-family-cursive;
 					}
 
 					& text:nth-of-type(2) {
-						font-size: 0.675rem;
+						font-size: 0.625rem;
 						font-family: $font-family-cursive;
 					}
 				}
@@ -310,23 +288,7 @@
 				align-items: center;
 
 				& svg {
-					width: 7rem;
-
-					& text:nth-of-type(1) {
-						font-size: 1rem;
-						font-weight: 600;
-					}
-
-					& text:nth-of-type(2) {
-						font-size: 0.5rem;
-						font-weight: 200;
-						font-style: italic;
-					}
-
-					& text:nth-of-type(3) {
-						font-size: 0.675rem;
-						font-weight: 600;
-					}
+					width: 9rem;
 				}
 			}
 		}
@@ -385,27 +347,24 @@
 			}
 		}
 
-		& .cwc-condition-wrapper {
+		& .condition-icon {
 			display: flex;
-			flex-direction: column;
+			justify-content: center;
 			align-items: center;
-			gap: 0.5rem;
 
-			& .condition-icon {
-				display: flex;
-				justify-content: center;
-				align-items: center;
+			& svg {
+				width: 15rem;
+				filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
+				font-weight: bold;
+				font-family: $font-family;
 
-				& svg {
-					width: 10rem;
-					filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
+				& text:nth-of-type(1) {
+					font-size: 0.875rem;
 				}
-			}
 
-			& .condition-text {
-				font-size: 1.375rem;
-				font-weight: 600;
-				color: $color-light-blue;
+				& text:nth-of-type(2) {
+					font-size: 0.625rem;
+				}
 			}
 		}
 
@@ -422,13 +381,13 @@
 					width: 6rem;
 
 					& text:nth-of-type(1) {
-						font-size: 1.25rem;
+						font-size: 1.375rem;
 						font-weight: bold;
 						font-family: $font-family-cursive;
 					}
 
 					& text:nth-of-type(2) {
-						font-size: 0.675rem;
+						font-size: 0.625rem;
 						font-family: $font-family-cursive;
 					}
 				}
@@ -464,23 +423,7 @@
 				align-items: center;
 
 				& svg {
-					width: 6rem;
-
-					& text:nth-of-type(1) {
-						font-size: 1rem;
-						font-weight: 600;
-					}
-
-					& text:nth-of-type(2) {
-						font-size: 0.5rem;
-						font-weight: 200;
-						font-style: italic;
-					}
-
-					& text:nth-of-type(3) {
-						font-size: 0.675rem;
-						font-weight: 600;
-					}
+					width: 8rem;
 				}
 			}
 		}
@@ -538,26 +481,24 @@
 			}
 		}
 
-		& .cwc-condition-wrapper {
+		& .condition-icon {
 			display: flex;
-			flex-direction: column;
+			justify-content: center;
 			align-items: center;
 
-			& .condition-icon {
-				display: flex;
-				justify-content: center;
-				align-items: center;
+			& svg {
+				width: 15rem;
+				filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
+				font-weight: bold;
+				font-family: $font-family;
 
-				& svg {
-					width: 15rem;
-					filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
+				& text:nth-of-type(1) {
+					font-size: 0.875rem;
 				}
-			}
 
-			& .condition-text {
-				font-size: 1.75rem;
-				font-weight: 600;
-				color: $color-light-blue;
+				& text:nth-of-type(2) {
+					font-size: 0.625rem;
+				}
 			}
 		}
 
@@ -576,13 +517,13 @@
 					width: 6rem;
 
 					& text:nth-of-type(1) {
-						font-size: 1.25rem;
+						font-size: 1.375rem;
 						font-weight: bold;
 						font-family: $font-family-cursive;
 					}
 
 					& text:nth-of-type(2) {
-						font-size: 0.675rem;
+						font-size: 0.625rem;
 						font-family: $font-family-cursive;
 					}
 				}
@@ -618,23 +559,7 @@
 				align-items: center;
 
 				& svg {
-					width: 6rem;
-
-					& text:nth-of-type(1) {
-						font-size: 1rem;
-						font-weight: 600;
-					}
-
-					& text:nth-of-type(2) {
-						font-size: 0.5rem;
-						font-weight: 200;
-						font-style: italic;
-					}
-
-					& text:nth-of-type(3) {
-						font-size: 0.675rem;
-						font-weight: 600;
-					}
+					width: 8rem;
 				}
 			}
 		}
