@@ -278,157 +278,40 @@ export default () => {
 			<main>
 				{weatherData.length !== 0 && (
 					<section className='current-weather-container'>
-						{isLaptop && (
-							<div className='cwc-card'>
-								<div className='cwc-location-condition-wrapper'>
-									<div className='cwc-location-wrapper'>
-										<div className='cwc-location'>{location}</div>
+						<div className='cwc-card'>
+							<div className='cwc-location-wrapper'>
+								<div className='cwc-location'>{location}</div>
 
-										<div className='cwc-country'>
-											<div className='country-name'>{country}</div>
-											<img
-												className='country-flag'
-												src={flag}
-												alt='Flag Icon'
-											/>
-										</div>
-
-										<div className='cwc-time'>{localTime}</div>
-									</div>
-
-									{CurrentCondition}
+								<div className='cwc-country'>
+									<div className='country-name'>{country}</div>
+									<img
+										className='country-flag'
+										src={flag}
+										alt='Flag Icon'
+									/>
 								</div>
 
-								<div className='cwc-data-wrapper'>
-									<div className='cwc-uvi-icon'>{Uvi}</div>
+								<div className='cwc-time'>{localTime}</div>
+							</div>
 
-									<div className='cwc-humidity-wrapper'>
-										<div className='cwc-humidity-label'>Humidity:</div>
-										<div className='cwc-humidity'>{humidity}</div>
-									</div>
+							{CurrentCondition}
 
-									<div className='cwc-wind-icon'>
-										<WindIcon
-											speed={windSpeed}
-											direction={windDirection}
-										/>
-									</div>
+							<div className='cwc-data-wrapper'>
+								<div className='cwc-uvi-icon'>{Uvi}</div>
+
+								<div className='cwc-humidity-wrapper'>
+									<div className='cwc-humidity-label'>Humidity:</div>
+									<div className='cwc-humidity'>{humidity}</div>
+								</div>
+
+								<div className='cwc-wind-icon'>
+									<WindIcon
+										speed={windSpeed}
+										direction={windDirection}
+									/>
 								</div>
 							</div>
-						)}
-
-						{isTabletLg && (
-							<div className='cwc-card'>
-								<div className='cwc-location-condition-wrapper'>
-									<div className='cwc-location-wrapper'>
-										<div className='cwc-location'>{location}</div>
-
-										<div className='cwc-country'>
-											<div className='country-name'>{country}</div>
-											<img
-												className='country-flag'
-												src={flag}
-												alt='Flag Icon'
-											/>
-										</div>
-
-										<div className='cwc-time'>{localTime}</div>
-									</div>
-
-									{CurrentCondition}
-								</div>
-
-								<div className='cwc-data-wrapper'>
-									<div className='cwc-uvi-icon'>{Uvi}</div>
-
-									<div className='cwc-humidity-wrapper'>
-										<div className='cwc-humidity-label'>Humidity:</div>
-										<div className='cwc-humidity'>{humidity}</div>
-									</div>
-
-									<div className='cwc-wind-icon'>
-										<WindIcon
-											speed={windSpeed}
-											direction={windDirection}
-										/>
-									</div>
-								</div>
-							</div>
-						)}
-
-						{isTabletSm && (
-							<div className='cwc-card'>
-								<div className='cwc-location-wrapper'>
-									<div className='cwc-location'>{location}</div>
-
-									<div className='cwc-country'>
-										<div className='country-name'>{country}</div>
-										<img
-											className='country-flag'
-											src={flag}
-											alt='Flag Icon'
-										/>
-									</div>
-
-									<div className='cwc-time'>{localTime}</div>
-								</div>
-
-								{CurrentCondition}
-
-								<div className='cwc-data-wrapper'>
-									<div className='cwc-uvi-icon'>{Uvi}</div>
-
-									<div className='cwc-humidity-wrapper'>
-										<div className='cwc-humidity-label'>Humidity:</div>
-										<div className='cwc-humidity'>{humidity}</div>
-									</div>
-
-									<div className='cwc-wind-icon'>
-										<WindIcon
-											speed={windSpeed}
-											direction={windDirection}
-										/>
-									</div>
-								</div>
-							</div>
-						)}
-
-						{isMobile && (
-							<div className='cwc-card'>
-								<div className='cwc-location-wrapper'>
-									<div className='cwc-location'>{location}</div>
-
-									<div className='cwc-country'>
-										<div className='country-name'>{country}</div>
-										<img
-											className='country-flag'
-											src={flag}
-											alt='Flag Icon'
-										/>
-									</div>
-
-									<div className='cwc-time'>{localTime}</div>
-								</div>
-
-								{CurrentCondition}
-
-								<div className='cwc-data-wrapper'>
-									<div className='cwc-uvi-icon'>{Uvi}</div>
-
-									<div className='cwc-humidity-wrapper'>
-										<div className='cwc-humidity-label'>Humidity:</div>
-										<div className='cwc-humidity'>{humidity}</div>
-									</div>
-
-									<div className='cwc-wind-icon'>
-										<WindIcon
-											speed={windSpeed}
-											direction={windDirection}
-										/>
-									</div>
-								</div>
-							</div>
-						)}
+						</div>
 					</section>
 				)}
 
