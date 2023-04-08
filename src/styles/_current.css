@@ -117,34 +117,19 @@
 					}
 				}
 
-				& .cwc-humidity-wrapper {
-					height: 7rem;
+				& .cwc-humidity-icon {
 					display: flex;
-					flex-direction: column;
 					justify-content: center;
 					align-items: center;
-					gap: 0.5rem;
-					border: 0.125rem solid $color-secondary;
-					border-radius: 2rem;
-					margin: 0 auto;
-					padding: 0.5rem 0.75rem;
-					transition: transform 0.3s ease;
 
-					&:hover {
-						transform: scale(1.35) translate(0px, -10px);
-						cursor: grab;
-					}
+					& svg {
+						width: 7rem;
+						transition: transform 0.3s ease;
 
-					& .cwc-humidity-label {
-						font-size: 1.125rem;
-						font-weight: 300;
-						color: $color-white;
-					}
-
-					& .cwc-humidity {
-						font-size: 1.5rem;
-						font-weight: 600;
-						color: $color-light-blue;
+						&:hover {
+							transform: scale(1.35) translate(0px, -10px);
+							cursor: grab;
+						}
 					}
 				}
 
@@ -283,34 +268,19 @@
 				}
 			}
 
-			& .cwc-humidity-wrapper {
-				height: 6rem;
+			& .cwc-humidity-icon {
 				display: flex;
-				flex-direction: column;
 				justify-content: center;
 				align-items: center;
-				gap: 0.5rem;
-				border: 0.125rem solid $color-secondary;
-				border-radius: 2rem;
-				margin: 0 auto;
-				padding: 0.5rem 0.75rem;
-				transition: transform 0.3s ease;
 
-				&:hover {
-					transform: scale(1.35) translate(0px, -5px);
-					cursor: grab;
-				}
+				& svg {
+					width: 6rem;
+					transition: transform 0.3s ease;
 
-				& .cwc-humidity-label {
-					font-size: 1.125rem;
-					font-weight: 300;
-					color: $color-white;
-				}
-
-				& .cwc-humidity {
-					font-size: 1.25rem;
-					font-weight: 600;
-					color: $color-light-blue;
+					&:hover {
+						transform: scale(1.35) translate(0px, -10px);
+						cursor: grab;
+					}
 				}
 			}
 
@@ -445,35 +415,19 @@
 				}
 			}
 
-			& .cwc-humidity-wrapper {
-				width: 5rem;
-				height: 5rem;
+			& .cwc-humidity-icon {
 				display: flex;
-				flex-direction: column;
 				justify-content: center;
 				align-items: center;
-				gap: 0.5rem;
-				border: 0.125rem solid $color-secondary;
-				border-radius: 2rem;
-				margin: 0 auto;
-				padding: 0.5rem 0.75rem;
-				transition: transform 0.3s ease;
 
-				&:hover {
-					transform: scale(1.5) translate(-5px, 0px);
-					cursor: grab;
-				}
+				& svg {
+					width: 5rem;
+					transition: transform 0.3s ease;
 
-				& .cwc-humidity-label {
-					font-size: 1.125rem;
-					font-weight: 300;
-					color: $color-white;
-				}
-
-				& .cwc-humidity {
-					font-size: 1.25rem;
-					font-weight: 600;
-					color: $color-light-blue;
+					&:hover {
+						transform: scale(1.35) translate(0px, -10px);
+						cursor: grab;
+					}
 				}
 			}
 
@@ -605,35 +559,19 @@
 				}
 			}
 
-			& .cwc-humidity-wrapper {
-				width: 5rem;
-				height: 5rem;
+			& .cwc-humidity-icon {
 				display: flex;
-				flex-direction: column;
 				justify-content: center;
 				align-items: center;
-				gap: 0.5rem;
-				border: 0.125rem solid $color-secondary;
-				border-radius: 2rem;
-				margin: 0 auto;
-				padding: 0.5rem 0.75rem;
-				transition: transform 0.3s ease;
 
-				&:hover {
-					transform: scale(1.5) translate(0px, -10px);
-					cursor: grab;
-				}
+				& svg {
+					width: 5rem;
+					transition: transform 0.3s ease;
 
-				& .cwc-humidity-label {
-					font-size: 1.125rem;
-					font-weight: 300;
-					color: $color-white;
-				}
-
-				& .cwc-humidity {
-					font-size: 1.25rem;
-					font-weight: 600;
-					color: $color-light-blue;
+					&:hover {
+						transform: scale(1.35) translate(0px, -10px);
+						cursor: grab;
+					}
 				}
 			}
 

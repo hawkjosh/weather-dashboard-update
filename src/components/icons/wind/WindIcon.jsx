@@ -79,7 +79,7 @@ const WindIcon = ({ speed, direction, ...props }) => {
 			/>
 
 			<g
-				id='wind-text'
+				id='wind-label-text'
 				fill='hsl(263, 80%, 22%)'
 				fontSize='12px'
 				fontWeight='bold'
@@ -88,19 +88,19 @@ const WindIcon = ({ speed, direction, ...props }) => {
 				<text
 					id='north-label'
 					x='50%'
-					y='17%'>
+					y='19%'>
 					N
 				</text>
 				<text
 					id='east-label'
-					x='86%'
+					x='84%'
 					y='53.5%'>
 					E
 				</text>
 				<text
 					id='south-label'
 					x='50%'
-					y='90%'>
+					y='88%'>
 					S
 				</text>
 				<text
@@ -113,7 +113,7 @@ const WindIcon = ({ speed, direction, ...props }) => {
 
 			<g
 				stroke='hsl(60, 100%, 50%)'
-				strokeWidth='1'
+				strokeWidth='1.5'
 				strokeLinecap='round'
 				strokeLinejoin='round'
 				markerEnd='url(#arrow-two)'
@@ -217,7 +217,7 @@ const WindIcon = ({ speed, direction, ...props }) => {
 			</g>
 
 			<circle
-				r='25'
+				r='30'
 				cx='54'
 				cy='54'
 				fill='hsl(263, 80%, 22%)'
@@ -230,18 +230,18 @@ const WindIcon = ({ speed, direction, ...props }) => {
 				textAnchor='middle'>
 				<text
 					id='speed-text'
-					fontSize='20px'
+					fontSize='28px'
 					fontWeight='bold'
 					x='50%'
-					y='51%'>
+					y='52.5%'>
 					{speed}
 				</text>
 				<text
 					id='mph-label'
-					fontSize='12px'
+					fontSize='18px'
 					fontStyle='italic'
 					x='50%'
-					y='62%'>
+					y='67.5%'>
 					mph
 				</text>
 			</g>

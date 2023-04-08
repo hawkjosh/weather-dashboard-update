@@ -17,6 +17,7 @@ import AlertModal from './components/AlertModal.jsx'
 import LogoIcon from './components/icons/general/LogoIcon.jsx'
 import TrashIcon from './components/icons/general/TrashIcon.jsx'
 import WindIcon from './components/icons/wind/WindIcon.jsx'
+import HumidityIcon from './components/icons/humidity/HumidityIcon.jsx'
 import SearchIcon from './components/icons/general/SearchIcon.jsx'
 import SearchHistoryIcon from './components/icons/general/SearchHistoryIcon.jsx'
 
@@ -299,9 +300,8 @@ export default () => {
 							<div className='cwc-data-wrapper'>
 								<div className='cwc-uvi-icon'>{Uvi}</div>
 
-								<div className='cwc-humidity-wrapper'>
-									<div className='cwc-humidity-label'>Humidity:</div>
-									<div className='cwc-humidity'>{humidity}</div>
+								<div className='cwc-humidity-icon'>
+									<HumidityIcon percentage={humidity} />
 								</div>
 
 								<div className='cwc-wind-icon'>
