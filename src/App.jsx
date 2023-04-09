@@ -19,6 +19,11 @@ import WindIcon from './components/icons/wind/WindIcon.jsx'
 import HumidityIcon from './components/icons/humidity/HumidityIcon.jsx'
 import SearchIcon from './components/icons/general/SearchIcon.jsx'
 import SearchHistoryIcon from './components/icons/general/SearchHistoryIcon.jsx'
+import SunriseIcon from './components/icons/sunrise/SunriseIcon.jsx'
+import SunsetIcon from './components/icons/sunset/SunsetIcon.jsx'
+import HighTempIcon from './components/icons/high-temp/HighTempIcon.jsx'
+import LowTempIcon from './components/icons/low-temp/LowTempIcon.jsx'
+import UmbrellaIcon from './components/icons/umbrella/UmbrellaIcon.jsx'
 
 import './App.css'
 
@@ -97,8 +102,7 @@ export default () => {
 
 					setWindDirection(data.current.wind_dir)
 
-					const forecastData = data.forecast
-					const forecastInfo = forecastData.forecastday.map((info) => ({
+					const forecastInfo = data.forecast.forecastday.map((info) => ({
 						date: useDateFormat(info.date),
 						condition: useForecastIcon(info.day.condition.code),
 						sunrise: useTimeFormat(info.astro.sunrise),
@@ -318,34 +322,42 @@ export default () => {
 							{forecastData.map((info, index) => (
 								<Fragment key={index}>
 									<div className='fc-card'>
-										<div className='fc-date'>{info.date}</div>
+										<div className='fc-date-condition-wrapper'>
+											<div className='fc-date'>{info.date}</div>
 
-										<div className='fc-condition-icon'>{info.condition()}</div>
+											<div className='fc-condition-icon'>
+												{info.condition()}
+											</div>
+										</div>
 
 										<div className='fc-data-wrapper'>
-											<div className='fc-data-item'>
-												Sunrise:
-												<span className='fc-api-info'>{info.sunrise}</span>
+											<div className='fc-rain-data'>
+												<UmbrellaIcon />
+												<span className='fc-api-rain'>{info.rain}</span>
 											</div>
 
-											<div className='fc-data-item'>
-												Sunset:
-												<span className='fc-api-info'>{info.sunset}</span>
+											<div className='fc-sunrise-sunset-wrapper'>
+												<div className='fc-sunrise-data'>
+													<SunriseIcon />
+													<span className='fc-api-sunrise'>{info.sunrise}</span>
+												</div>
+	
+												<div className='fc-sunset-data'>
+													<SunsetIcon />
+													<span className='fc-api-sunset'>{info.sunset}</span>
+												</div>
 											</div>
 
-											<div className='fc-data-item'>
-												High:
-												<span className='fc-api-info'>{info.tempHigh}</span>
-											</div>
-
-											<div className='fc-data-item'>
-												Low:
-												<span className='fc-api-info'>{info.tempLow}</span>
-											</div>
-
-											<div className='fc-data-item'>
-												Rain:
-												<span className='fc-api-info'>{info.rain}</span>
+											<div className='fc-temperature-wrapper'>
+												<div className='fc-high-temp-data'>
+													<HighTempIcon />
+													<span className='fc-api-high-temp'>{info.tempHigh}</span>
+												</div>
+	
+												<div className='fc-low-temp-data'>
+													<LowTempIcon />
+													<span className='fc-api-low-temp'>{info.tempLow}</span>
+												</div>
 											</div>
 										</div>
 									</div>

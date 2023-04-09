@@ -1,15 +1,8 @@
 import React from 'react'
 
-const style = {
-	border: '0.125rem solid hsl(0, 0%, 100%)',
-	borderRadius: '25%',
-}
-
 const Forecast1072 = () => {
 	return (
-		<svg
-			viewBox='0 0 64 64'
-			style={style}>
+		<svg viewBox='0 0 64 64'>
 			<g id='weather-icon'>
 				<path
 					id='cloud-large'
