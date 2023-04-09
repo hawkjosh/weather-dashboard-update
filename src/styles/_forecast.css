@@ -39,43 +39,45 @@
 				}
 			}
 
-			& .fc-data-item {
-				display: flex;
-				align-items: center;
-				gap: 0.5rem;
-				font-size: 1rem;
-				font-weight: 300;
-				color: $color-primary;
+			& .fc-data-wrapper {
+				& .fc-data-item {
+					display: flex;
+					align-items: center;
+					gap: 0.5rem;
+					font-size: 1rem;
+					font-weight: 300;
+					color: $color-primary;
 
-				/* Sunrise */
-				&:nth-of-type(3) {
-					outline: 2px dashed magenta;
-				}
+					/* Sunrise */
+					&:nth-of-type(3) {
+						outline: 2px dashed magenta;
+					}
 
-				/* Sunset */
-				&:nth-of-type(4) {
-					outline: 2px dashed magenta;
-				}
+					/* Sunset */
+					&:nth-of-type(4) {
+						outline: 2px dashed magenta;
+					}
 
-				/* High */
-				&:nth-of-type(5) {
-					outline: 2px dashed magenta;
-				}
+					/* High */
+					&:nth-of-type(5) {
+						outline: 2px dashed magenta;
+					}
 
-				/* Low */
-				&:nth-of-type(6) {
-					outline: 2px dashed magenta;
-				}
+					/* Low */
+					&:nth-of-type(6) {
+						outline: 2px dashed magenta;
+					}
 
-				/* Rain */
-				&:nth-of-type(7) {
-					outline: 2px dashed magenta;
-				}
+					/* Rain */
+					&:nth-of-type(7) {
+						outline: 2px dashed magenta;
+					}
 
-				& .fc-api-info {
-					font-size: 1.25rem;
-					font-weight: 600;
-					color: $color-light-blue;
+					& .fc-api-info {
+						font-size: 1.25rem;
+						font-weight: 600;
+						color: $color-light-blue;
+					}
 				}
 			}
 		}
@@ -123,43 +125,45 @@
 				}
 			}
 
-			& .fc-data-item {
-				display: flex;
-				align-items: center;
-				gap: 0.5rem;
-				font-size: 1rem;
-				font-weight: 300;
-				color: $color-primary;
+			& .fc-data-wrapper {
+				& .fc-data-item {
+					display: flex;
+					align-items: center;
+					gap: 0.5rem;
+					font-size: 1rem;
+					font-weight: 300;
+					color: $color-primary;
 
-				/* Sunrise */
-				&:nth-of-type(3) {
-					outline: 2px dashed magenta;
-				}
+					/* Sunrise */
+					&:nth-of-type(3) {
+						outline: 2px dashed magenta;
+					}
 
-				/* Sunset */
-				&:nth-of-type(4) {
-					outline: 2px dashed magenta;
-				}
+					/* Sunset */
+					&:nth-of-type(4) {
+						outline: 2px dashed magenta;
+					}
 
-				/* High */
-				&:nth-of-type(5) {
-					outline: 2px dashed magenta;
-				}
+					/* High */
+					&:nth-of-type(5) {
+						outline: 2px dashed magenta;
+					}
 
-				/* Low */
-				&:nth-of-type(6) {
-					outline: 2px dashed magenta;
-				}
+					/* Low */
+					&:nth-of-type(6) {
+						outline: 2px dashed magenta;
+					}
 
-				/* Rain */
-				&:nth-of-type(7) {
-					outline: 2px dashed magenta;
-				}
+					/* Rain */
+					&:nth-of-type(7) {
+						outline: 2px dashed magenta;
+					}
 
-				& .fc-api-info {
-					font-size: 1.25rem;
-					font-weight: 600;
-					color: $color-light-blue;
+					& .fc-api-info {
+						font-size: 1.25rem;
+						font-weight: 600;
+						color: $color-light-blue;
+					}
 				}
 			}
 		}
@@ -207,43 +211,45 @@
 				}
 			}
 
-			& .fc-data-item {
-				display: flex;
-				align-items: center;
-				gap: 0.5rem;
-				font-size: 1rem;
-				font-weight: 300;
-				color: $color-primary;
+			& .fc-data-wrapper {
+				& .fc-data-item {
+					display: flex;
+					align-items: center;
+					gap: 0.5rem;
+					font-size: 1rem;
+					font-weight: 300;
+					color: $color-primary;
 
-				/* Sunrise */
-				&:nth-of-type(3) {
-					outline: 2px dashed magenta;
-				}
+					/* Sunrise */
+					&:nth-of-type(3) {
+						outline: 2px dashed magenta;
+					}
 
-				/* Sunset */
-				&:nth-of-type(4) {
-					outline: 2px dashed magenta;
-				}
+					/* Sunset */
+					&:nth-of-type(4) {
+						outline: 2px dashed magenta;
+					}
 
-				/* High */
-				&:nth-of-type(5) {
-					outline: 2px dashed magenta;
-				}
+					/* High */
+					&:nth-of-type(5) {
+						outline: 2px dashed magenta;
+					}
 
-				/* Low */
-				&:nth-of-type(6) {
-					outline: 2px dashed magenta;
-				}
+					/* Low */
+					&:nth-of-type(6) {
+						outline: 2px dashed magenta;
+					}
 
-				/* Rain */
-				&:nth-of-type(7) {
-					outline: 2px dashed magenta;
-				}
+					/* Rain */
+					&:nth-of-type(7) {
+						outline: 2px dashed magenta;
+					}
 
-				& .fc-api-info {
-					font-size: 1.25rem;
-					font-weight: 600;
-					color: $color-light-blue;
+					& .fc-api-info {
+						font-size: 1.25rem;
+						font-weight: 600;
+						color: $color-light-blue;
+					}
 				}
 			}
 		}
@@ -254,8 +260,16 @@
 	.forecast-container {
 		width: 100%;
 		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.5rem;
+
 
 		& .fc-card {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1rem;
 			background: linear-gradient(
 				to left,
 				$bg-color-white,
@@ -266,68 +280,45 @@
 			padding: 1rem;
 
 			& .fc-date {
-				font-size: 1.5rem;
+				grid-column: 1 / 3;
+				font-size: 2rem;
 				font-weight: 600;
 				text-align: center;
-
-				outline: 2px dashed magenta;
 			}
 
 			& .fc-condition-icon {
+				grid-column: 1 / 2;
+				grid-row: 2 / 3;
 				display: flex;
 				justify-content: center;
 				align-items: center;
 
-				outline: 2px dashed magenta;
-
 				& svg {
-					width: 7.5rem;
+					width: 9rem;
 					filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
-
-					& rect {
-						stroke: $color-primary;
-						stroke-width: 1;
-					}
 				}
 			}
 
-			& .fc-data-item {
+			& .fc-data-wrapper {
+				grid-column: 2 / 3;
+				grid-row: 2 / 3;
 				display: flex;
-				align-items: center;
-				gap: 0.5rem;
-				font-size: 1rem;
-				font-weight: 300;
-				color: $color-primary;
+				flex-direction: column;
+				gap: 0.25rem;
 
-				/* Sunrise */
-				&:nth-of-type(3) {
-					outline: 2px dashed magenta;
-				}
-
-				/* Sunset */
-				&:nth-of-type(4) {
-					outline: 2px dashed magenta;
-				}
-
-				/* High */
-				&:nth-of-type(5) {
-					outline: 2px dashed magenta;
-				}
-
-				/* Low */
-				&:nth-of-type(6) {
-					outline: 2px dashed magenta;
-				}
-
-				/* Rain */
-				&:nth-of-type(7) {
-					outline: 2px dashed magenta;
-				}
-
-				& .fc-api-info {
+				& .fc-data-item {
+					display: flex;
+					align-items: center;
+					gap: 0.25rem;
 					font-size: 1.25rem;
-					font-weight: 600;
-					color: $color-light-blue;
+					font-weight: 300;
+					color: $color-primary;
+
+					& .fc-api-info {
+						font-size: 1.375rem;
+						font-weight: 600;
+						color: $color-light-blue;
+					}
 				}
 			}
 		}

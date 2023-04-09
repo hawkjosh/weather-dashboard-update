@@ -10,7 +10,6 @@ import useForecastIcon from './hooks/useForecastIcon.js'
 import useTimeFormat from './hooks/useTimeFormat.js'
 import useTimeConvert from './hooks/useTimeConvert.js'
 import useDateFormat from './hooks/useDateFormat.js'
-import { useWindowSize } from './hooks/useWindowSize.js'
 
 import AlertModal from './components/AlertModal.jsx'
 
@@ -24,8 +23,6 @@ import SearchHistoryIcon from './components/icons/general/SearchHistoryIcon.jsx'
 import './App.css'
 
 export default () => {
-	const { isMobile, isTabletSm, isTabletLg, isLaptop } = useWindowSize()
-
 	const [searchLocation, setSearchLocation] = useState('')
 
 	const [searchHistory, setSearchHistory] = useState(
@@ -317,17 +314,15 @@ export default () => {
 
 				{forecastData.length !== 0 && (
 					<section className='forecast-container'>
-						{isLaptop && (
-							<Fragment>
-								{forecastData.map((info, index) => (
-									<Fragment key={index}>
-										<div className='fc-card'>
-											<div className='fc-date'>{info.date}</div>
+						<Fragment>
+							{forecastData.map((info, index) => (
+								<Fragment key={index}>
+									<div className='fc-card'>
+										<div className='fc-date'>{info.date}</div>
 
-											<div className='fc-condition-icon'>
-												{info.condition()}
-											</div>
+										<div className='fc-condition-icon'>{info.condition()}</div>
 
+										<div className='fc-data-wrapper'>
 											<div className='fc-data-item'>
 												Sunrise:
 												<span className='fc-api-info'>{info.sunrise}</span>
@@ -353,133 +348,10 @@ export default () => {
 												<span className='fc-api-info'>{info.rain}</span>
 											</div>
 										</div>
-									</Fragment>
-								))}
-							</Fragment>
-						)}
-
-						{isTabletLg && (
-							<Fragment>
-								{forecastData.map((info, index) => (
-									<Fragment key={index}>
-										<div className='fc-card'>
-											<div className='fc-date'>{info.date}</div>
-
-											<div className='fc-condition-icon'>
-												{info.condition()}
-											</div>
-
-											<div className='fc-data-item'>
-												Sunrise:
-												<span className='fc-api-info'>{info.sunrise}</span>
-											</div>
-
-											<div className='fc-data-item'>
-												Sunset:
-												<span className='fc-api-info'>{info.sunset}</span>
-											</div>
-
-											<div className='fc-data-item'>
-												High:
-												<span className='fc-api-info'>{info.tempHigh}</span>
-											</div>
-
-											<div className='fc-data-item'>
-												Low:
-												<span className='fc-api-info'>{info.tempLow}</span>
-											</div>
-
-											<div className='fc-data-item'>
-												Rain:
-												<span className='fc-api-info'>{info.rain}</span>
-											</div>
-										</div>
-									</Fragment>
-								))}
-							</Fragment>
-						)}
-
-						{isTabletSm && (
-							<Fragment>
-								{forecastData.map((info, index) => (
-									<Fragment key={index}>
-										<div className='fc-card'>
-											<div className='fc-date'>{info.date}</div>
-
-											<div className='fc-condition-icon'>
-												{info.condition()}
-											</div>
-
-											<div className='fc-data-item'>
-												Sunrise:
-												<span className='fc-api-info'>{info.sunrise}</span>
-											</div>
-
-											<div className='fc-data-item'>
-												Sunset:
-												<span className='fc-api-info'>{info.sunset}</span>
-											</div>
-
-											<div className='fc-data-item'>
-												High:
-												<span className='fc-api-info'>{info.tempHigh}</span>
-											</div>
-
-											<div className='fc-data-item'>
-												Low:
-												<span className='fc-api-info'>{info.tempLow}</span>
-											</div>
-
-											<div className='fc-data-item'>
-												Rain:
-												<span className='fc-api-info'>{info.rain}</span>
-											</div>
-										</div>
-									</Fragment>
-								))}
-							</Fragment>
-						)}
-
-						{isMobile && (
-							<Fragment>
-								{forecastData.map((info, index) => (
-									<Fragment key={index}>
-										<div className='fc-card'>
-											<div className='fc-date'>{info.date}</div>
-
-											<div className='fc-condition-icon'>
-												{info.condition()}
-											</div>
-
-											<div className='fc-data-item'>
-												Sunrise:
-												<span className='fc-api-info'>{info.sunrise}</span>
-											</div>
-
-											<div className='fc-data-item'>
-												Sunset:
-												<span className='fc-api-info'>{info.sunset}</span>
-											</div>
-
-											<div className='fc-data-item'>
-												High:
-												<span className='fc-api-info'>{info.tempHigh}</span>
-											</div>
-
-											<div className='fc-data-item'>
-												Low:
-												<span className='fc-api-info'>{info.tempLow}</span>
-											</div>
-
-											<div className='fc-data-item'>
-												Rain:
-												<span className='fc-api-info'>{info.rain}</span>
-											</div>
-										</div>
-									</Fragment>
-								))}
-							</Fragment>
-						)}
+									</div>
+								</Fragment>
+							))}
+						</Fragment>
 					</section>
 				)}
 			</main>
