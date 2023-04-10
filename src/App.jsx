@@ -5,7 +5,6 @@ import { weatherApiKey, weatherApiBaseUrl } from '../config.js'
 import useStateCode from './hooks/useStateCode.js'
 import useCountryFlag from './hooks/useCountryFlag.js'
 import useCurrentCondition from './hooks/useCurrentCondition.jsx'
-import useUviNumberIcon from './hooks/useUviNumberIcon.jsx'
 import useForecastIcon from './hooks/useForecastIcon.js'
 import useTimeFormat from './hooks/useTimeFormat.js'
 import useTimeConvert from './hooks/useTimeConvert.js'
@@ -15,6 +14,7 @@ import AlertModal from './components/AlertModal.jsx'
 
 import LogoIcon from './components/icons/general/LogoIcon.jsx'
 import TrashIcon from './components/icons/general/TrashIcon.jsx'
+import UviIcon from './components/icons/uvi/UviIcon.jsx'
 import WindIcon from './components/icons/wind/WindIcon.jsx'
 import HumidityIcon from './components/icons/humidity/HumidityIcon.jsx'
 import SearchIcon from './components/icons/general/SearchIcon.jsx'
@@ -40,8 +40,8 @@ export default () => {
 	const [country, setCountry] = useState('')
 	const [flag, setFlag] = useState('')
 	const [localTime, setLocalTime] = useState('')
-	const [Uvi, setUvi] = useState(null)
 	const [CurrentCondition, setCurrentCondition] = useState(null)
+	const [uvi, setUvi] = useState('')
 	const [humidity, setHumidity] = useState('')
 	const [windSpeed, setWindSpeed] = useState('')
 	const [windDirection, setWindDirection] = useState('')
@@ -84,9 +84,6 @@ export default () => {
 
 					setLocalTime(useTimeConvert(data.location.localtime))
 
-					const UviNumberIcon = useUviNumberIcon(data.current.uv)
-					setUvi(UviNumberIcon)
-
 					const iconCode = data.current.condition.code
 					const isDay = data.current.is_day
 					const CurrentConditionInfo = useCurrentCondition(
@@ -95,6 +92,8 @@ export default () => {
 						data.current.temp_f
 					)
 					setCurrentCondition(CurrentConditionInfo)
+
+					setUvi(data.current.uv)
 
 					setHumidity(`${data.current.humidity}%`)
 
@@ -284,25 +283,31 @@ export default () => {
 							<div className='cwc-location-wrapper'>
 								<div className='cwc-location'>{location}</div>
 
-								<div className='cwc-country'>
-									<div className='country-name'>{country}</div>
-									<img
-										className='country-flag'
-										src={flag}
-										alt='Flag Icon'
-									/>
-								</div>
+								<div className='cwc-country-time-wrapper'>
+									<div className='cwc-country'>
+										<div className='country-name'>{country}</div>
+										<img
+											className='country-flag'
+											src={flag}
+											alt='Flag Icon'
+										/>
+									</div>
 
-								<div className='cwc-time'>{localTime}</div>
+									<div className='cwc-time'>{localTime}</div>
+								</div>
 							</div>
 
 							{CurrentCondition}
 
 							<div className='cwc-data-wrapper'>
-								<div className='cwc-uvi-icon'>{Uvi}</div>
+								<div className='cwc-uvi-icon'>
+									<UviIcon number={uvi} />
+									<div className='cwc-uvi-label'>UV Index</div>
+								</div>
 
 								<div className='cwc-humidity-icon'>
 									<HumidityIcon percentage={humidity} />
+									<div className='cwc-humidity-label'>Humidity</div>
 								</div>
 
 								<div className='cwc-wind-icon'>
@@ -310,6 +315,7 @@ export default () => {
 										speed={windSpeed}
 										direction={windDirection}
 									/>
+									<div className='cwc-wind-label'>Wind</div>
 								</div>
 							</div>
 						</div>
@@ -331,33 +337,35 @@ export default () => {
 										</div>
 
 										<div className='fc-data-wrapper'>
-											<div className='fc-rain-data'>
-												<UmbrellaIcon />
-												<span className='fc-api-rain'>{info.rain}</span>
-											</div>
-
 											<div className='fc-sunrise-sunset-wrapper'>
 												<div className='fc-sunrise-data'>
 													<SunriseIcon />
-													<span className='fc-api-sunrise'>{info.sunrise}</span>
+													<div className='fc-api-sunrise'>{info.sunrise}</div>
 												</div>
-	
+
 												<div className='fc-sunset-data'>
 													<SunsetIcon />
-													<span className='fc-api-sunset'>{info.sunset}</span>
+													<div className='fc-api-sunset'>{info.sunset}</div>
 												</div>
 											</div>
 
 											<div className='fc-temperature-wrapper'>
 												<div className='fc-high-temp-data'>
 													<HighTempIcon />
-													<span className='fc-api-high-temp'>{info.tempHigh}</span>
+													<div className='fc-api-high-temp'>
+														{info.tempHigh}
+													</div>
 												</div>
-	
+
 												<div className='fc-low-temp-data'>
 													<LowTempIcon />
-													<span className='fc-api-low-temp'>{info.tempLow}</span>
+													<div className='fc-api-low-temp'>{info.tempLow}</div>
 												</div>
+											</div>
+
+											<div className='fc-rain-data'>
+												<UmbrellaIcon />
+												<div className='fc-api-rain'>{info.rain}</div>
 											</div>
 										</div>
 									</div>

@@ -17,11 +17,15 @@ const Night1000 = ({ temperature, conditionText, ...props }) => {
 
 			<g
 				id='condition-text'
-				textAnchor='middle'>
+				fontFamily='"Open Sans", sans-serif'
+				fontWeight='bold'
+				textAnchor='middle'
+				>
 				<text
 					id='current-temp'
 					x='67.5%'
 					y='47.5%'
+					fontSize='14px'
 					fill='hsl(0, 0%, 100%)'>
 					{`${temperature} °F`}
 				</text>
@@ -29,10 +33,12 @@ const Night1000 = ({ temperature, conditionText, ...props }) => {
 					id='current-condition'
 					x='50%'
 					y='94%'
+					fontSize='10px'
 					fill='hsl(200, 100%, 50%)'>
 					{conditionText}
 				</text>
 			</g>
+
 		</svg>
 	)
 }

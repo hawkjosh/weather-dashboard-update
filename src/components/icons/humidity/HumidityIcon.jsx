@@ -9,7 +9,7 @@ const HumidityIcon = ({ percentage, ...props }) => {
 				r='41'
 				cx='42.5'
 				cy='42.5'
-				stroke='hsl(0, 0%, 100%)'
+				stroke='hsl(39, 100%, 50%)'
 				strokeWidth='3'
 				fill='transparent'
 			/>
@@ -30,7 +30,7 @@ const HumidityIcon = ({ percentage, ...props }) => {
 				fontFamily='"Farsan", cursive'
 				fill='hsl(0, 0%, 100%)'
 				textAnchor='middle'
-				fontSize='15px'
+				fontSize='17.25px'
 				fontWeight='bold'
 				x='42%'
 				y='66%'>

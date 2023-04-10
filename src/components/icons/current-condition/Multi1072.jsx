@@ -32,11 +32,15 @@ const Multi1072 = ({ temperature, conditionText, ...props }) => {
 
 			<g
 				id='condition-text'
-				textAnchor='middle'>
+				fontFamily='"Open Sans", sans-serif'
+				fontWeight='bold'
+				textAnchor='middle'
+				>
 				<text
 					id='current-temp'
 					x='50%'
 					y='55%'
+					fontSize='14px'
 					fill='hsl(263, 80%, 22%)'>
 					{`${temperature} °F`}
 				</text>
@@ -44,6 +48,7 @@ const Multi1072 = ({ temperature, conditionText, ...props }) => {
 					id='current-condition'
 					x='50%'
 					y='93%'
+					fontSize='10px'
 					fill='hsl(200, 100%, 50%)'>
 					{conditionText}
 				</text>

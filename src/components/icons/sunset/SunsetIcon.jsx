@@ -8,7 +8,7 @@ const SunsetIcon = ({ ...props }) => {
 			<path
 				id='sunset-icon'
 				fill='transparent'
-				stroke='hsl(263, 80%, 22%)'
+				stroke='hsl(333, 100%, 50%)'
 				strokeLinecap='round'
 				strokeLinejoin='round'
 				strokeWidth='2'

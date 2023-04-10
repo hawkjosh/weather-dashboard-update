@@ -8,7 +8,7 @@ const SunriseIcon = ({ ...props }) => {
 			<path
 				id='sunrise-icon'
 				fill='transparent'
-				stroke='hsl(263, 80%, 22%)'
+				stroke='hsl(78, 50%, 45%)'
 				strokeLinecap='round'
 				strokeLinejoin='round'
 				strokeWidth='2'

@@ -2,274 +2,17 @@
 	.forecast-container {
 		width: 100%;
 		height: 100%;
-
-		& .fc-card {
-			background: linear-gradient(
-				to left,
-				$bg-color-white,
-				$bg-color-light-gray
-			);
-			border-radius: 0.5rem;
-			box-shadow: 0 0.5rem 1rem 0 $bs-color-dark;
-			padding: 1rem;
-
-			& .fc-date {
-				font-size: 1.5rem;
-				font-weight: 600;
-				text-align: center;
-
-				outline: 2px dashed magenta;
-			}
-
-			& .fc-condition-icon {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-
-				outline: 2px dashed magenta;
-
-				& svg {
-					width: 7.5rem;
-					filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
-
-					& rect {
-						stroke: $color-primary;
-						stroke-width: 1;
-					}
-				}
-			}
-
-			& .fc-data-wrapper {
-				& .fc-data-item {
-					display: flex;
-					align-items: center;
-					gap: 0.5rem;
-					font-size: 1rem;
-					font-weight: 300;
-					color: $color-primary;
-
-					/* Sunrise */
-					&:nth-of-type(3) {
-						outline: 2px dashed magenta;
-					}
-
-					/* Sunset */
-					&:nth-of-type(4) {
-						outline: 2px dashed magenta;
-					}
-
-					/* High */
-					&:nth-of-type(5) {
-						outline: 2px dashed magenta;
-					}
-
-					/* Low */
-					&:nth-of-type(6) {
-						outline: 2px dashed magenta;
-					}
-
-					/* Rain */
-					&:nth-of-type(7) {
-						outline: 2px dashed magenta;
-					}
-
-					& .fc-api-info {
-						font-size: 1.25rem;
-						font-weight: 600;
-						color: $color-light-blue;
-					}
-				}
-			}
-		}
-	}
-}
-
-@media (--tablet-lg) {
-	.forecast-container {
-		width: 100%;
-		height: 100%;
-
-		& .fc-card {
-			background: linear-gradient(
-				to left,
-				$bg-color-white,
-				$bg-color-light-gray
-			);
-			border-radius: 0.5rem;
-			box-shadow: 0 0.5rem 1rem 0 $bs-color-dark;
-			padding: 1rem;
-
-			& .fc-date {
-				font-size: 1.5rem;
-				font-weight: 600;
-				text-align: center;
-
-				outline: 2px dashed magenta;
-			}
-
-			& .fc-condition-icon {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-
-				outline: 2px dashed magenta;
-
-				& svg {
-					width: 7.5rem;
-					filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
-
-					& rect {
-						stroke: $color-primary;
-						stroke-width: 1;
-					}
-				}
-			}
-
-			& .fc-data-wrapper {
-				& .fc-data-item {
-					display: flex;
-					align-items: center;
-					gap: 0.5rem;
-					font-size: 1rem;
-					font-weight: 300;
-					color: $color-primary;
-
-					/* Sunrise */
-					&:nth-of-type(3) {
-						outline: 2px dashed magenta;
-					}
-
-					/* Sunset */
-					&:nth-of-type(4) {
-						outline: 2px dashed magenta;
-					}
-
-					/* High */
-					&:nth-of-type(5) {
-						outline: 2px dashed magenta;
-					}
-
-					/* Low */
-					&:nth-of-type(6) {
-						outline: 2px dashed magenta;
-					}
-
-					/* Rain */
-					&:nth-of-type(7) {
-						outline: 2px dashed magenta;
-					}
-
-					& .fc-api-info {
-						font-size: 1.25rem;
-						font-weight: 600;
-						color: $color-light-blue;
-					}
-				}
-			}
-		}
-	}
-}
-
-@media (--tablet-sm) {
-	.forecast-container {
-		width: 100%;
-		height: 100%;
-
-		& .fc-card {
-			background: linear-gradient(
-				to left,
-				$bg-color-white,
-				$bg-color-light-gray
-			);
-			border-radius: 0.5rem;
-			box-shadow: 0 0.5rem 1rem 0 $bs-color-dark;
-			padding: 1rem;
-
-			& .fc-date {
-				font-size: 1.5rem;
-				font-weight: 600;
-				text-align: center;
-
-				outline: 2px dashed magenta;
-			}
-
-			& .fc-condition-icon {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-
-				outline: 2px dashed magenta;
-
-				& svg {
-					width: 7.5rem;
-					filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
-
-					& rect {
-						stroke: $color-primary;
-						stroke-width: 1;
-					}
-				}
-			}
-
-			& .fc-data-wrapper {
-				& .fc-data-item {
-					display: flex;
-					align-items: center;
-					gap: 0.5rem;
-					font-size: 1rem;
-					font-weight: 300;
-					color: $color-primary;
-
-					/* Sunrise */
-					&:nth-of-type(3) {
-						outline: 2px dashed magenta;
-					}
-
-					/* Sunset */
-					&:nth-of-type(4) {
-						outline: 2px dashed magenta;
-					}
-
-					/* High */
-					&:nth-of-type(5) {
-						outline: 2px dashed magenta;
-					}
-
-					/* Low */
-					&:nth-of-type(6) {
-						outline: 2px dashed magenta;
-					}
-
-					/* Rain */
-					&:nth-of-type(7) {
-						outline: 2px dashed magenta;
-					}
-
-					& .fc-api-info {
-						font-size: 1.25rem;
-						font-weight: 600;
-						color: $color-light-blue;
-					}
-				}
-			}
-		}
-	}
-}
-
-@media (--mobile) {
-	.forecast-container {
-		width: 100%;
-		height: 100%;
 		display: flex;
-		flex-direction: column;
+		justify-content: center;
 		align-items: center;
-		gap: 1.5rem;
+		gap: 1rem;
 
 		& .fc-card {
 			width: 100%;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
+			gap: 1rem;
 			background: linear-gradient(
 				to left,
 				$bg-color-white,
@@ -282,6 +25,331 @@
 			& .fc-date-condition-wrapper {
 				display: flex;
 				flex-direction: column;
+				gap: 1rem;
+
+				& .fc-date {
+					font-size: 2.5rem;
+					font-weight: 600;
+					text-align: center;
+					color: $color-primary;
+				}
+
+				& .fc-condition-icon {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+
+					& svg {
+						width: 12rem;
+						filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
+					}
+				}
+			}
+
+			& .fc-data-wrapper {
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+
+				& .fc-sunrise-sunset-wrapper {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					gap: 1.75rem;
+
+					& .fc-sunrise-data {
+						display: flex;
+						align-items: center;
+						gap: 0.625rem;
+
+						& svg {
+							width: 1.75rem;
+						}
+
+						& .fc-api-sunrise {
+							font-size: 1.25rem;
+							font-weight: 600;
+							color: $color-primary;
+						}
+					}
+
+					& .fc-sunset-data {
+						display: flex;
+						align-items: center;
+						gap: 0.75rem;
+
+						& svg {
+							width: 1.75rem;
+						}
+
+						& .fc-api-sunset {
+							font-size: 1.25rem;
+							font-weight: 600;
+							color: $color-primary;
+						}
+					}
+				}
+
+				& .fc-temperature-wrapper {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					gap: 1.75rem;
+
+					& .fc-high-temp-data {
+						display: flex;
+						align-items: center;
+						gap: 0.625rem;
+						color: $color-primary;
+
+						& svg {
+							width: 1.75rem;
+						}
+
+						& .fc-api-high-temp {
+							font-size: 1.25rem;
+							font-weight: 600;
+							color: $color-primary;
+						}
+					}
+
+					& .fc-low-temp-data {
+						display: flex;
+						align-items: center;
+						gap: 0.75rem;
+						color: $color-primary;
+
+						& svg {
+							width: 1.75rem;
+						}
+
+						& .fc-api-low-temp {
+							font-size: 1.25rem;
+							font-weight: 600;
+							color: $color-primary;
+						}
+					}
+				}
+
+				& .fc-rain-data {
+					align-self: center;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					gap: 1.5rem;
+
+					border: 0.125rem solid $color-primary;
+					border-radius: 2rem;
+					background-color: hsl(178, 100%, 50%);
+					background-color: hsl(0, 0%, 75%);
+					padding: 1rem 0.5rem;
+					width: 75%;
+
+					& svg {
+						width: 3.5rem;
+					}
+
+					& .fc-api-rain {
+						font-size: 2rem;
+						font-weight: 600;
+						color: $color-primary;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media (--tablet-lg) {
+	.forecast-container {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 1rem;
+
+		& .fc-card {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 1rem;
+			background: linear-gradient(
+				to left,
+				$bg-color-white,
+				$bg-color-light-gray
+			);
+			border-radius: 0.5rem;
+			box-shadow: 0 0.5rem 1rem 0 $bs-color-dark;
+			padding: 1rem;
+
+			& .fc-date-condition-wrapper {
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+
+				& .fc-date {
+					font-size: 1.75rem;
+					font-weight: 600;
+					text-align: center;
+					color: $color-primary;
+				}
+
+				& .fc-condition-icon {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+
+					& svg {
+						width: 8rem;
+						filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
+					}
+				}
+			}
+
+			& .fc-data-wrapper {
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+
+				& .fc-sunrise-sunset-wrapper {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					gap: 1rem;
+
+					& .fc-sunrise-data {
+						display: flex;
+						align-items: center;
+						gap: 0.5rem;
+
+						& svg {
+							width: 1.25rem;
+						}
+
+						& .fc-api-sunrise {
+							font-size: 1rem;
+							font-weight: 600;
+							color: $color-primary;
+						}
+					}
+
+					& .fc-sunset-data {
+						display: flex;
+						align-items: center;
+						gap: 0.5rem;
+
+						& svg {
+							width: 1.25rem;
+						}
+
+						& .fc-api-sunset {
+							font-size: 1rem;
+							font-weight: 600;
+							color: $color-primary;
+						}
+					}
+				}
+
+				& .fc-temperature-wrapper {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					gap: 1rem;
+
+					& .fc-high-temp-data {
+						display: flex;
+						align-items: center;
+						gap: 0.5rem;
+						color: $color-primary;
+
+						& svg {
+							width: 1.25rem;
+						}
+
+						& .fc-api-high-temp {
+							font-size: 1rem;
+							font-weight: 600;
+							color: $color-primary;
+						}
+					}
+
+					& .fc-low-temp-data {
+						display: flex;
+						align-items: center;
+						gap: 0.5rem;
+						color: $color-primary;
+
+						& svg {
+							width: 1.25rem;
+						}
+
+						& .fc-api-low-temp {
+							font-size: 1rem;
+							font-weight: 600;
+							color: $color-primary;
+						}
+					}
+				}
+
+				& .fc-rain-data {
+					align-self: center;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					gap: 1.5rem;
+
+					border: 0.125rem solid $color-primary;
+					border-radius: 2rem;
+					background-color: hsl(178, 100%, 50%);
+					background-color: hsl(0, 0%, 75%);
+					padding: 1rem 0.5rem;
+					width: 75%;
+
+					& svg {
+						width: 2.75rem;
+					}
+
+					& .fc-api-rain {
+						font-size: 1.5rem;
+						font-weight: 600;
+						color: $color-primary;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media (--tablet-sm) {
+	.forecast-container {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.5rem;
+
+		& .fc-card {
+			width: 95%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 1.5rem;
+			background: linear-gradient(
+				to left,
+				$bg-color-white,
+				$bg-color-light-gray
+			);
+			border-radius: 0.5rem;
+			box-shadow: 0 0.5rem 1rem 0 $bs-color-dark;
+			padding: 1rem;
+
+			& .fc-date-condition-wrapper {
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
 
 				& .fc-date {
 					font-size: 2.75rem;
@@ -307,24 +375,6 @@
 				flex-direction: column;
 				gap: 1rem;
 
-				& .fc-rain-data {
-					align-self: center;
-					display: flex;
-					align-items: center;
-					gap: 2rem;
-					color: $color-primary;
-
-					& svg {
-						width: 4rem;
-					}
-
-					& .fc-api-rain {
-						font-size: 3.5rem;
-						font-weight: 600;
-						color: $color-light-blue;
-					}
-				}
-
 				& .fc-sunrise-sunset-wrapper {
 					display: flex;
 					justify-content: space-evenly;
@@ -334,17 +384,16 @@
 					& .fc-sunrise-data {
 						display: flex;
 						align-items: center;
-						gap: 0.75rem;
-						color: $color-primary;
+						gap: 0.625rem;
 
 						& svg {
-							width: 2.5rem;
+							width: 2rem;
 						}
 
 						& .fc-api-sunrise {
-							font-size: 1.75rem;
+							font-size: 1.5rem;
 							font-weight: 600;
-							color: $color-light-blue;
+							color: $color-primary;
 						}
 					}
 
@@ -352,16 +401,15 @@
 						display: flex;
 						align-items: center;
 						gap: 0.75rem;
-						color: $color-primary;
 
 						& svg {
-							width: 2.5rem;
+							width: 2rem;
 						}
 
 						& .fc-api-sunset {
-							font-size: 1.75rem;
+							font-size: 1.5rem;
 							font-weight: 600;
-							color: $color-light-blue;
+							color: $color-primary;
 						}
 					}
 				}
@@ -375,17 +423,17 @@
 					& .fc-high-temp-data {
 						display: flex;
 						align-items: center;
-						gap: 0.75rem;
+						gap: 0.625rem;
 						color: $color-primary;
 
 						& svg {
-							width: 2.5rem;
+							width: 2rem;
 						}
 
 						& .fc-api-high-temp {
-							font-size: 1.75rem;
+							font-size: 1.5rem;
 							font-weight: 600;
-							color: $color-light-blue;
+							color: $color-primary;
 						}
 					}
 
@@ -396,14 +444,201 @@
 						color: $color-primary;
 
 						& svg {
-							width: 2.5rem;
+							width: 2rem;
 						}
 
 						& .fc-api-low-temp {
-							font-size: 1.75rem;
+							font-size: 1.5rem;
 							font-weight: 600;
-							color: $color-light-blue;
+							color: $color-primary;
 						}
+					}
+				}
+
+				& .fc-rain-data {
+					align-self: center;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					gap: 1.75rem;
+
+					border: 0.125rem solid $color-primary;
+					border-radius: 2rem;
+					background-color: hsl(178, 100%, 50%);
+					background-color: hsl(0, 0%, 75%);
+					padding: 1rem 0.5rem;
+					width: 75%;
+
+					& svg {
+						width: 4rem;
+					}
+
+					& .fc-api-rain {
+						font-size: 2.5rem;
+						font-weight: 600;
+						color: $color-primary;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media (--mobile) {
+	.forecast-container {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.5rem;
+
+		& .fc-card {
+			width: 95%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 1.5rem;
+			background: linear-gradient(
+				to left,
+				$bg-color-white,
+				$bg-color-light-gray
+			);
+			border-radius: 0.5rem;
+			box-shadow: 0 0.5rem 1rem 0 $bs-color-dark;
+			padding: 1rem;
+
+			& .fc-date-condition-wrapper {
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+
+				& .fc-date {
+					font-size: 2.75rem;
+					font-weight: 600;
+					text-align: center;
+					color: $color-primary;
+				}
+
+				& .fc-condition-icon {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+
+					& svg {
+						width: 15rem;
+						filter: drop-shadow(0.5rem 0.5rem 0.25rem $bs-color-dark);
+					}
+				}
+			}
+
+			& .fc-data-wrapper {
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+
+				& .fc-sunrise-sunset-wrapper {
+					display: flex;
+					justify-content: space-evenly;
+					align-items: center;
+					gap: 2rem;
+
+					& .fc-sunrise-data {
+						display: flex;
+						align-items: center;
+						gap: 0.625rem;
+
+						& svg {
+							width: 2rem;
+						}
+
+						& .fc-api-sunrise {
+							font-size: 1.5rem;
+							font-weight: 600;
+							color: $color-primary;
+						}
+					}
+
+					& .fc-sunset-data {
+						display: flex;
+						align-items: center;
+						gap: 0.75rem;
+
+						& svg {
+							width: 2rem;
+						}
+
+						& .fc-api-sunset {
+							font-size: 1.5rem;
+							font-weight: 600;
+							color: $color-primary;
+						}
+					}
+				}
+
+				& .fc-temperature-wrapper {
+					display: flex;
+					justify-content: space-evenly;
+					align-items: center;
+					gap: 2rem;
+
+					& .fc-high-temp-data {
+						display: flex;
+						align-items: center;
+						gap: 0.625rem;
+						color: $color-primary;
+
+						& svg {
+							width: 2rem;
+						}
+
+						& .fc-api-high-temp {
+							font-size: 1.5rem;
+							font-weight: 600;
+							color: $color-primary;
+						}
+					}
+
+					& .fc-low-temp-data {
+						display: flex;
+						align-items: center;
+						gap: 0.75rem;
+						color: $color-primary;
+
+						& svg {
+							width: 2rem;
+						}
+
+						& .fc-api-low-temp {
+							font-size: 1.5rem;
+							font-weight: 600;
+							color: $color-primary;
+						}
+					}
+				}
+
+				& .fc-rain-data {
+					align-self: center;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					gap: 1.75rem;
+
+					border: 0.125rem solid $color-primary;
+					border-radius: 2rem;
+					background-color: hsl(178, 100%, 50%);
+					background-color: hsl(0, 0%, 75%);
+					padding: 1rem 0.5rem;
+					width: 75%;
+
+					& svg {
+						width: 4rem;
+					}
+
+					& .fc-api-rain {
+						font-size: 2.5rem;
+						font-weight: 600;
+						color: $color-primary;
 					}
 				}
 			}

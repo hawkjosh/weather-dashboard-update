@@ -13,9 +13,11 @@ const fillColor = {
 	1: 'hsl(120, 100%, 45%)',
 }
 
-const UviNumberIcon = ({ number }) => {
+const UviIcon = ({ number, ...props }) => {
 	return (
-		<svg viewBox='0 0 50 47.5'>
+		<svg
+			viewBox='0 0 50 47.5'
+			{...props}>
 			<g
 				id='uvi-icon'
 				fill='transparent'
@@ -108,25 +110,19 @@ const UviNumberIcon = ({ number }) => {
 				)}
 			</g>
 
-			<g
+			<text
 				id='uvi-text'
+				fontSize='26px'
 				fill={fillColor[number]}
-				textAnchor='middle'>
-				<text
-					id='uvi-number'
-					x='50%'
-					y='60%'>
-					{number}
-				</text>
-				<text
-					id='uvi-label'
-					x='50%'
-					y='85%'>
-					UVI
-				</text>
-			</g>
+				fontFamily='"Farsan", cursive'
+				fontWeight='bold'
+				textAnchor='middle'
+				x='50%'
+				y='70%'>
+				{number}
+			</text>
 		</svg>
 	)
 }
 
-export default UviNumberIcon
+export default UviIcon
