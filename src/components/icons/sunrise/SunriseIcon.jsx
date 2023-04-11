@@ -1,19 +1,30 @@
 import React from 'react'
 
-const SunriseIcon = ({ ...props }) => {
+const SunriseIcon = ({ time, ...props }) => {
 	return (
 		<svg
-			viewBox='0 0 24 24'
+			viewBox='0 0 108 24'
 			{...props}>
 			<path
 				id='sunrise-icon'
 				fill='transparent'
 				stroke='hsl(78, 50%, 45%)'
+				strokeWidth='2'
 				strokeLinecap='round'
 				strokeLinejoin='round'
-				strokeWidth='2'
-				d='M3 17h1m16 0h1M5.6 10.6l.7.7m12.1-.7l-.7.7M8 17a4 4 0 0 1 8 0M3 21h18M12 9V3l3 3M9 6l3-3'
+				d='M2 22h20m-15 -4a5 5 0 0 1 10 0m-13 0h-2m3.072 -4l-1.732 -1m4.66 -1.928l-1 -1.732m9 1.732l1 -1.732m1.928 4.66l1.732 -1m-0.66 5h2m-10 -9v-7m-3 3l3 -3l3 3'
 			/>
+
+			<text
+				fontSize='19px'
+				fontWeight='600'
+				fontFamily='"Open Sans", sans-serif'
+				fill='hsl(263, 80%, 22%)'
+				textAnchor='middle'
+				x='62%'
+				y='82%'>
+				{time}
+			</text>
 		</svg>
 	)
 }

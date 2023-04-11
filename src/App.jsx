@@ -279,43 +279,40 @@ export default () => {
 			<main>
 				{weatherData.length !== 0 && (
 					<section className='current-weather-container'>
-						<div className='cwc-card'>
-							<div className='cwc-location-wrapper'>
-								<div className='cwc-location'>{location}</div>
+						<div className='cw-card'>
+							<div className='cw-card-header'>
+								<div className='cw-location'>{location}</div>
 
-								<div className='cwc-country-time-wrapper'>
-									<div className='cwc-country'>
-										<div className='country-name'>{country}</div>
+								<div className='cw-card-subheader'>
+									<div className='cw-country-wrapper'>
+										<div className='cw-country'>{country}</div>
 										<img
-											className='country-flag'
+											className='cw-flag'
 											src={flag}
 											alt='Flag Icon'
 										/>
 									</div>
 
-									<div className='cwc-time'>{localTime}</div>
+									<div className='cw-time'>{localTime}</div>
 								</div>
 							</div>
 
-							{CurrentCondition}
+							<div className='cw-condition-icon'>{CurrentCondition}</div>
 
-							<div className='cwc-data-wrapper'>
-								<div className='cwc-uvi-icon'>
+							<div className='cw-data-wrapper'>
+								<div className='cw-data-icon'>
 									<UviIcon number={uvi} />
-									<div className='cwc-uvi-label'>UV Index</div>
 								</div>
 
-								<div className='cwc-humidity-icon'>
+								<div className='cw-data-icon'>
 									<HumidityIcon percentage={humidity} />
-									<div className='cwc-humidity-label'>Humidity</div>
 								</div>
 
-								<div className='cwc-wind-icon'>
+								<div className='cw-data-icon'>
 									<WindIcon
 										speed={windSpeed}
 										direction={windDirection}
 									/>
-									<div className='cwc-wind-label'>Wind</div>
 								</div>
 							</div>
 						</div>
@@ -323,49 +320,40 @@ export default () => {
 				)}
 
 				{forecastData.length !== 0 && (
-					<section className='forecast-container'>
+					<section className='forecast-weather-container'>
 						<Fragment>
 							{forecastData.map((info, index) => (
 								<Fragment key={index}>
-									<div className='fc-card'>
-										<div className='fc-date-condition-wrapper'>
-											<div className='fc-date'>{info.date}</div>
+									<div className='fw-card'>
+										<div className='fw-card-header'>
+											<div className='fw-date'>{info.date}</div>
 
-											<div className='fc-condition-icon'>
-												{info.condition()}
+											<div className='fw-rain-icon'>
+												<UmbrellaIcon number={info.rain} />
 											</div>
 										</div>
 
-										<div className='fc-data-wrapper'>
-											<div className='fc-sunrise-sunset-wrapper'>
-												<div className='fc-sunrise-data'>
-													<SunriseIcon />
-													<div className='fc-api-sunrise'>{info.sunrise}</div>
+										<div className='fw-condition-icon'>{info.condition()}</div>
+
+										<div className='fw-data-wrapper'>
+											<div className='fw-data-group'>
+												<div className='fw-data-icon'>
+													<SunriseIcon time={info.sunrise} />
 												</div>
 
-												<div className='fc-sunset-data'>
-													<SunsetIcon />
-													<div className='fc-api-sunset'>{info.sunset}</div>
-												</div>
-											</div>
-
-											<div className='fc-temperature-wrapper'>
-												<div className='fc-high-temp-data'>
-													<HighTempIcon />
-													<div className='fc-api-high-temp'>
-														{info.tempHigh}
-													</div>
-												</div>
-
-												<div className='fc-low-temp-data'>
-													<LowTempIcon />
-													<div className='fc-api-low-temp'>{info.tempLow}</div>
+												<div className='fw-data-icon'>
+													<SunsetIcon time={info.sunset} />
 												</div>
 											</div>
 
-											<div className='fc-rain-data'>
-												<UmbrellaIcon />
-												<div className='fc-api-rain'>{info.rain}</div>
+											<div className='fw-data-group'>
+												<div className='fw-data-icon'>
+													<HighTempIcon temp={info.tempHigh} />
+												</div>
+
+												<div className='fw-data-icon'>
+													<LowTempIcon temp={info.tempLow} />
+												</div>
 											</div>
 										</div>
 									</div>

@@ -301,6 +301,7 @@ const useCountryFlag = (countryName) => {
 		'United States Virgin Islands': 'vi',
 		Vietnam: 'vn',
 		Vanuatu: 'vu',
+		'Vatican City': 'it',
 		'Wallis and Futuna': 'wf',
 		Samoa: 'ws',
 		Kosovo: 'xk',
