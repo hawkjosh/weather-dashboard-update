@@ -140,6 +140,7 @@ header {
 				padding: 0.75rem;
 				overflow-y: scroll;
 				z-index: 1;
+				scrollbar-width: none;
 
 				& .list-item-wrapper {
 					width: 100%;

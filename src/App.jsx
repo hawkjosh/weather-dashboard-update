@@ -278,47 +278,44 @@ export default () => {
 
 			<main>
 				{weatherData.length !== 0 && (
-					<section className='current-weather-container'>
-						<div className='cw-card'>
-							<div className='cw-card-header'>
-								<div className='cw-location'>{location}</div>
+					<section className='current-weather-card'>
+						<div className='cw-card-header'>
+							<div className='cw-location'>{location}</div>
 
-								<div className='cw-card-subheader'>
-									<div className='cw-country-wrapper'>
-										<div className='cw-country'>{country}</div>
-										<img
-											className='cw-flag'
-											src={flag}
-											alt='Flag Icon'
-										/>
-									</div>
-
-									<div className='cw-time'>{localTime}</div>
-								</div>
-							</div>
-
-							<div className='cw-condition-icon'>{CurrentCondition}</div>
-
-							<div className='cw-data-wrapper'>
-								<div className='cw-data-icon'>
-									<UviIcon number={uvi} />
-								</div>
-
-								<div className='cw-data-icon'>
-									<HumidityIcon percentage={humidity} />
-								</div>
-
-								<div className='cw-data-icon'>
-									<WindIcon
-										speed={windSpeed}
-										direction={windDirection}
+							<div className='cw-card-subheader'>
+								<div className='cw-country-wrapper'>
+									<div className='cw-country'>{country}</div>
+									<img
+										className='cw-flag'
+										src={flag}
+										alt='Flag Icon'
 									/>
 								</div>
+
+								<div className='cw-time'>{localTime}</div>
+							</div>
+						</div>
+
+						<div className='cw-condition-icon'>{CurrentCondition}</div>
+
+						<div className='cw-data-wrapper'>
+							<div className='cw-data-icon'>
+								<UviIcon number={uvi} />
+							</div>
+
+							<div className='cw-data-icon'>
+								<HumidityIcon percentage={humidity} />
+							</div>
+
+							<div className='cw-data-icon'>
+								<WindIcon
+									speed={windSpeed}
+									direction={windDirection}
+								/>
 							</div>
 						</div>
 					</section>
 				)}
-
 				{forecastData.length !== 0 && (
 					<section className='forecast-weather-container'>
 						<Fragment>
@@ -362,6 +359,18 @@ export default () => {
 						</Fragment>
 					</section>
 				)}
+				<div className='ref-link'>
+					<a
+						href='https://www.weatherapi.com/'
+						title='Free Weather API'
+						target='_blank'
+						rel='noreferrer'>
+						<img
+							src='//cdn.weatherapi.com/v4/images/weatherapi_logo.png'
+							alt='Weather data by WeatherAPI.com'
+						/>
+					</a>
+				</div>{' '}
 			</main>
 		</Fragment>
 	)
