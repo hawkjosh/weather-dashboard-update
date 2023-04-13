@@ -11,12 +11,12 @@
 html {
 	height: 100%;
 	scrollbar-width: none;
-}
 
-body {
-	width: 100%;
-	min-height: 100vh;
-	font-family: $font-family;
-	background-color: $bg-color-medium-gray;
-	overflow-x: hidden;
+	& body {
+		width: 100%;
+		min-height: 100vh;
+		font-family: $font-family;
+		background-color: $bg-color-medium-gray;
+		overflow-x: hidden;
+	}
 }
