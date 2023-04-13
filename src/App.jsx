@@ -68,6 +68,7 @@ export default () => {
 				.then((data) => {
 					setWeatherData(data)
 					setLocation(data.location.name)
+					console.log(data)
 
 					const countryName =
 						data.location.country.includes('USA') ||

@@ -57,7 +57,6 @@ const WindIcon = ({ speed, direction, ...props }) => {
 			<g
 				stroke='hsl(0, 0%, 100%)'
 				strokeWidth='1.25'>
-				<path d='M4 54h100' />
 				<path
 					d='M54 102v-99'
 					strokeWidth='0.625'
