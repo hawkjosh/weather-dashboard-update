@@ -68,7 +68,6 @@ export default () => {
 				.then((data) => {
 					setWeatherData(data)
 					setLocation(data.location.name)
-					console.log(data)
 
 					const countryName =
 						data.location.country.includes('USA') ||
@@ -84,6 +83,8 @@ export default () => {
 					setFlag(flag)
 
 					setLocalTime(useTimeConvert(data.location.localtime))
+					console.log(data.location.localtime)
+					console.log(localTime)
 
 					const iconCode = data.current.condition.code
 					const isDay = data.current.is_day
