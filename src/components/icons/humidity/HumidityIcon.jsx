@@ -33,7 +33,7 @@ const HumidityIcon = ({ percentage, ...props }) => {
 				fontWeight='bold'
 				x='40%'
 				y='52.5%'>
-				{percentage}
+				{percentage}%
 			</text>
 			<text
 				id='humidity-label'

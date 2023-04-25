@@ -27,7 +27,7 @@ import UmbrellaIcon from './components/icons/umbrella/UmbrellaIcon.jsx'
 
 import './App.css'
 
-export default () => {
+export const App = () => {
 	const [searchLocation, setSearchLocation] = useState('')
 
 	const [searchHistory, setSearchHistory] = useState(
@@ -56,10 +56,9 @@ export default () => {
 
 	const getWeatherData = async (location) => {
 		if (!location) {
-			const emptyError = new Error(
-				'Empty search field. Please enter valid city or zip code.'
+			setEmptyError(
+				new Error('Empty search field. Please enter valid city or zip code.')
 			)
-			setEmptyError(emptyError)
 		} else {
 			try {
 				const response = await fetch(
@@ -67,43 +66,57 @@ export default () => {
 				)
 				const data = await response.json()
 
-				setWeatherData(data)
+				if (!data.location) {
+					setInvalidError(
+						new Error('Invalid entry. Please enter valid city or zip code.')
+					)
+				}
 
-				setLocation(data.location.name)
-
-				const countryName =
-					data.location.country.includes('USA') ||
-					data.location.country.includes('USA United States of America') ||
-					data.location.country.includes('United States of America') ||
-					data.location.country.includes('United States')
+				const getCountryName = (country) => {
+					const countryNames = [
+						'USA',
+						'USA United States of America',
+						'United States of America',
+						'United States',
+					]
+					return countryNames.some((name) => country.includes(name))
 						? `${data.location.region}, USA`
-						: data.location.country
-				setCountry(countryName)
+						: country
+				}
+
+				const searchHistoryName = getCountryName(
+					data.location.country
+				).includes('USA')
+					? `${data.location.name}, ${useStateCode(data.location.region)}`
+					: `${data.location.name}, ${data.location.country}`
+
+				if (!searchHistory.includes(searchHistoryName)) {
+					const updatedSearchHistory = [...searchHistory, searchHistoryName]
+					setSearchHistory(updatedSearchHistory)
+					localStorage.setItem(
+						'searchHistory',
+						JSON.stringify(updatedSearchHistory)
+					)
+				}
+
+				setWeatherData(data)
+				setLocation(data.location.name)
+				setCountry(getCountryName(data.location.country))
 
 				const countryCode = useCountryFlag(data.location.country)
-				const flag = `https://flagcdn.com/256x192/${countryCode}.webp`
-				setFlag(flag)
-
-				useTimeConvert(data.location.localtime)
+				setFlag(`https://flagcdn.com/256x192/${countryCode}.webp`)
 
 				setLocalTime(useTimeConvert(data.location.localtime))
-
-
-				const iconCode = data.current.condition.code
-				const isDay = data.current.is_day
-				const CurrentConditionInfo = CurrentConditionIcon(
-					iconCode,
-					isDay,
-					data.current.temp_f
+				setCurrentCondition(
+					CurrentConditionIcon(
+						data.current.condition.code,
+						data.current.is_day,
+						data.current.temp_f
+					)
 				)
-				setCurrentCondition(CurrentConditionInfo)
-
 				setUvi(data.current.uv)
-
-				setHumidity(`${data.current.humidity}%`)
-
+				setHumidity(data.current.humidity)
 				setWindSpeed(data.current.wind_mph)
-
 				setWindDirection(data.current.wind_dir)
 
 				const forecastInfo = data.forecast.forecastday.map((info) => ({
@@ -116,29 +129,8 @@ export default () => {
 					rain: `${info.day.daily_chance_of_rain}%`,
 				}))
 				setForecastData(forecastInfo)
-
-				const searchHistoryName =
-					data.location.country.includes('USA') ||
-					data.location.country.includes('USA United States of America') ||
-					data.location.country.includes('United States of America') ||
-					data.location.country.includes('United States')
-						? `${data.location.name}, ${useStateCode(data.location.region)}`
-						: `${data.location.name}, ${data.location.country}`
-
-				if (!searchHistory.includes(searchHistoryName)) {
-					setSearchHistory([...searchHistory, searchHistoryName])
-					localStorage.setItem(
-						'searchHistory',
-						JSON.stringify([...searchHistory, searchHistoryName])
-					)
-				}
 			} catch (err) {
 				console.error(err)
-				if (err.response && err.response.status === 400) {
-					setInvalidError({
-						message: 'Invalid entry. Please enter valid city or zip code.',
-					})
-				}
 			}
 		}
 	}
@@ -166,25 +158,29 @@ export default () => {
 	}
 
 	const removeHistoryItem = (search) => {
-		if (typeof Storage !== 'undefined') {
-			const searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
-			if (searchHistory !== null) {
-				const index = searchHistory.indexOf(search)
-				if (index !== -1) {
-					searchHistory.splice(index, 1)
-					localStorage.setItem('searchHistory', JSON.stringify(searchHistory))
-					setSearchHistory(searchHistory)
-					if (searchHistory.length === 0) {
-						setShowHistory(false)
-					}
-				} else {
-					console.log(`${search} not found in searchHistory.`)
-				}
-			} else {
-				console.log('searchHistory not found in localStorage.')
-			}
-		} else {
+		if (typeof Storage === 'undefined') {
 			console.log('Sorry, your browser does not support web storage.')
+			return
+		}
+
+		const searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
+		if (!searchHistory) {
+			console.log('searchHistory not found in localStorage.')
+			return
+		}
+
+		const index = searchHistory.indexOf(search)
+		if (index === -1) {
+			console.log(`${search} not found in searchHistory.`)
+			return
+		}
+
+		searchHistory.splice(index, 1)
+		localStorage.setItem('searchHistory', JSON.stringify(searchHistory))
+		setSearchHistory(searchHistory)
+
+		if (searchHistory.length === 0) {
+			setShowHistory(false)
 		}
 	}
 
@@ -296,7 +292,7 @@ export default () => {
 									/>
 								</div>
 
-								<div className='cw-time'>{localTime}</div>
+								{localTime && <div className='cw-time'>{localTime}</div>}
 							</div>
 						</div>
 
@@ -361,18 +357,20 @@ export default () => {
 						))}
 					</section>
 				)}
-				<div className='ref-link'>
-					<a
-						href='https://www.weatherapi.com/'
-						title='Free Weather API'
-						target='_blank'
-						rel='noreferrer'>
-						<img
-							src='//cdn.weatherapi.com/v4/images/weatherapi_logo.png'
-							alt='Weather data by WeatherAPI.com'
-						/>
-					</a>
-				</div>{' '}
+				{weatherData.length !== 0 && (
+					<div className='ref-link'>
+						<a
+							href='https://www.weatherapi.com/'
+							title='Free Weather API'
+							target='_blank'
+							rel='noreferrer'>
+							<img
+								src='//cdn.weatherapi.com/v4/images/weatherapi_logo.png'
+								alt='Weather data by WeatherAPI.com'
+							/>
+						</a>
+					</div>
+				)}
 			</main>
 		</Fragment>
 	)
