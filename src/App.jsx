@@ -49,95 +49,96 @@ export default () => {
 	const [weatherData, setWeatherData] = useState([])
 	const [forecastData, setForecastData] = useState([])
 
+
 	const [emptyError, setEmptyError] = useState(null)
 	const [invalidError, setInvalidError] = useState(null)
 
 	const dropdownRef = useRef(null)
 
-	const getWeatherData = (location) => {
+	const getWeatherData = async (location) => {
 		if (!location) {
 			const emptyError = new Error(
 				'Empty search field. Please enter valid city or zip code.'
 			)
 			setEmptyError(emptyError)
 		} else {
-			fetch(
-				`${weatherApiBaseUrl}/forecast.json?key=${weatherApiKey}&q=${location}&days=3&aqi=no&alerts=no`
-			)
-				.then((response) => response.json())
-				.then((data) => {
-					setWeatherData(data)
-					setLocation(data.location.name)
+			try {
+				const response = await fetch(
+					`${weatherApiBaseUrl}/forecast.json?key=${weatherApiKey}&q=${location}&days=3&aqi=no&alerts=no`
+				)
+				const data = await response.json()
 
-					const countryName =
-						data.location.country.includes('USA') ||
-						data.location.country.includes('USA United States of America') ||
-						data.location.country.includes('United States of America') ||
-						data.location.country.includes('United States')
-							? `${data.location.region}, USA`
-							: data.location.country
-					setCountry(countryName)
+				setWeatherData(data)
 
-					const countryCode = useCountryFlag(data.location.country)
-					const flag = `https://flagcdn.com/256x192/${countryCode}.webp`
-					setFlag(flag)
+				setLocation(data.location.name)
 
-					setLocalTime(useTimeConvert(data.location.localtime))
-					console.log(data.location.localtime)
-					console.log(localTime)
+				const countryName =
+					data.location.country.includes('USA') ||
+					data.location.country.includes('USA United States of America') ||
+					data.location.country.includes('United States of America') ||
+					data.location.country.includes('United States')
+						? `${data.location.region}, USA`
+						: data.location.country
+				setCountry(countryName)
 
-					const iconCode = data.current.condition.code
-					const isDay = data.current.is_day
-					const CurrentConditionInfo = useCurrentCondition(
-						iconCode,
-						isDay,
-						data.current.temp_f
+				const countryCode = useCountryFlag(data.location.country)
+				const flag = `https://flagcdn.com/256x192/${countryCode}.webp`
+				setFlag(flag)
+
+				// setLocalTime(useTimeConvert(data.location.localtime))
+				setLocalTime(data.location.localtime)
+
+				const iconCode = data.current.condition.code
+				const isDay = data.current.is_day
+				const CurrentConditionInfo = useCurrentCondition(
+					iconCode,
+					isDay,
+					data.current.temp_f
+				)
+				setCurrentCondition(CurrentConditionInfo)
+
+				setUvi(data.current.uv)
+
+				setHumidity(`${data.current.humidity}%`)
+
+				setWindSpeed(data.current.wind_mph)
+
+				setWindDirection(data.current.wind_dir)
+
+				const forecastInfo = data.forecast.forecastday.map((info) => ({
+					date: useDateFormat(info.date),
+					condition: useForecastIcon(info.day.condition.code),
+					sunrise: useTimeFormat(info.astro.sunrise),
+					sunset: useTimeFormat(info.astro.sunset),
+					tempHigh: `${info.day.maxtemp_f} °F`,
+					tempLow: `${info.day.mintemp_f} °F`,
+					rain: `${info.day.daily_chance_of_rain}%`,
+				}))
+				setForecastData(forecastInfo)
+
+				const searchHistoryName =
+					data.location.country.includes('USA') ||
+					data.location.country.includes('USA United States of America') ||
+					data.location.country.includes('United States of America') ||
+					data.location.country.includes('United States')
+						? `${data.location.name}, ${useStateCode(data.location.region)}`
+						: `${data.location.name}, ${data.location.country}`
+
+				if (!searchHistory.includes(searchHistoryName)) {
+					setSearchHistory([...searchHistory, searchHistoryName])
+					localStorage.setItem(
+						'searchHistory',
+						JSON.stringify([...searchHistory, searchHistoryName])
 					)
-					setCurrentCondition(CurrentConditionInfo)
-
-					setUvi(data.current.uv)
-
-					setHumidity(`${data.current.humidity}%`)
-
-					setWindSpeed(data.current.wind_mph)
-
-					setWindDirection(data.current.wind_dir)
-
-					const forecastInfo = data.forecast.forecastday.map((info) => ({
-						date: useDateFormat(info.date),
-						condition: useForecastIcon(info.day.condition.code),
-						sunrise: useTimeFormat(info.astro.sunrise),
-						sunset: useTimeFormat(info.astro.sunset),
-						tempHigh: `${info.day.maxtemp_f} °F`,
-						tempLow: `${info.day.mintemp_f} °F`,
-						rain: `${info.day.daily_chance_of_rain}%`,
-					}))
-					setForecastData(forecastInfo)
-
-					const searchHistoryName =
-						data.location.country.includes('USA') ||
-						data.location.country.includes('USA United States of America') ||
-						data.location.country.includes('United States of America') ||
-						data.location.country.includes('United States')
-							? `${data.location.name}, ${useStateCode(data.location.region)}`
-							: `${data.location.name}, ${data.location.country}`
-
-					if (!searchHistory.includes(searchHistoryName)) {
-						setSearchHistory([...searchHistory, searchHistoryName])
-						localStorage.setItem(
-							'searchHistory',
-							JSON.stringify([...searchHistory, searchHistoryName])
-						)
-					}
-				})
-				.catch((err) => {
-					console.error(err)
-					if (err.response && err.response.status === 400) {
-						setInvalidError({
-							message: 'Invalid entry. Please enter valid city or zip code.',
-						})
-					}
-				})
+				}
+			} catch (err) {
+				console.error(err)
+				if (err.response && err.response.status === 400) {
+					setInvalidError({
+						message: 'Invalid entry. Please enter valid city or zip code.',
+					})
+				}
+			}
 		}
 	}
 
@@ -197,7 +198,7 @@ export default () => {
 		return () => {
 			document.removeEventListener('click', handleClickOutside)
 		}
-	}, [dropdownRef])
+	}, [showHistory, searchHistory, dropdownRef])
 
 	return (
 		<Fragment>
@@ -294,7 +295,8 @@ export default () => {
 									/>
 								</div>
 
-								<div className='cw-time'>{localTime}</div>
+								{/* <div className='cw-time'>{localTime}</div> */}
+								<div className='cw-time'>{useTimeConvert(localTime)}</div>
 							</div>
 						</div>
 
