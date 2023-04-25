@@ -85,8 +85,7 @@ export default () => {
 				const flag = `https://flagcdn.com/256x192/${countryCode}.webp`
 				setFlag(flag)
 
-				// setLocalTime(useTimeConvert(data.location.localtime))
-				setLocalTime(data.location.localtime)
+				setLocalTime(useTimeConvert(data.location.localtime))
 
 				const iconCode = data.current.condition.code
 				const isDay = data.current.is_day
@@ -141,6 +140,10 @@ export default () => {
 			}
 		}
 	}
+
+	useEffect(() => {
+		console.log(localTime)
+	}, [localTime])
 
 	const handleCloseError = () => {
 		setEmptyError(null)
@@ -295,8 +298,7 @@ export default () => {
 									/>
 								</div>
 
-								{/* <div className='cw-time'>{localTime}</div> */}
-								<div className='cw-time'>{useTimeConvert(localTime)}</div>
+								<div className='cw-time'>{localTime}</div>
 							</div>
 						</div>
 
