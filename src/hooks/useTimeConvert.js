@@ -1,10 +1,15 @@
 export const useTimeConvert = (dateStr) => {
-	const date = new Date(dateStr)
-	const hours = date.getHours()
-	const minutes = date.getMinutes()
-	const ampm = hours >= 12 ? 'pm' : 'am'
-	const formattedHours = hours % 12 === 0 ? 12 : hours % 12
-	const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes
+	const timeSplit = dateStr.split(' ')[1].split(':')
 
-	return `${formattedHours}:${formattedMinutes}${ampm}`
+	let convertedTime
+	if (timeSplit[0] > 12) {
+		timeSplit[0] = timeSplit[0] - 12
+		convertedTime = `${timeSplit[0]}:${timeSplit[1]}pm`
+	} else if (timeSplit[0] == 0) {
+		convertedTime = `12:${timeSplit[1]}am`
+	} else {
+		convertedTime = `${timeSplit[0]}:${timeSplit[1]}am`
+	}
+
+	return convertedTime
 }
