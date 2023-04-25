@@ -2,15 +2,15 @@ import React, { Fragment, useEffect, useRef, useState } from 'react'
 
 import { weatherApiKey, weatherApiBaseUrl } from '../config.js'
 
-import useStateCode from './hooks/useStateCode.js'
-import useCountryFlag from './hooks/useCountryFlag.js'
-import useCurrentCondition from './hooks/useCurrentCondition.jsx'
-import useForecastIcon from './hooks/useForecastIcon.js'
-import useTimeFormat from './hooks/useTimeFormat.js'
-import useTimeConvert from './hooks/useTimeConvert.js'
-import useDateFormat from './hooks/useDateFormat.js'
+import { useStateCode } from './hooks/useStateCode.js'
+import { useCountryFlag } from './hooks/useCountryFlag.js'
+import { useForecastIcon } from './hooks/useForecastIcon.js'
+import { useTimeFormat } from './hooks/useTimeFormat.js'
+import { useTimeConvert } from './hooks/useTimeConvert.js'
+import { useDateFormat } from './hooks/useDateFormat.js'
 
-import AlertModal from './components/AlertModal.jsx'
+import { AlertModal } from './components/AlertModal.jsx'
+import { CurrentConditionIcon } from './components/CurrentConditionIcon.jsx'
 
 import LogoIcon from './components/icons/general/LogoIcon.jsx'
 import TrashIcon from './components/icons/general/TrashIcon.jsx'
@@ -49,7 +49,6 @@ export default () => {
 	const [weatherData, setWeatherData] = useState([])
 	const [forecastData, setForecastData] = useState([])
 
-
 	const [emptyError, setEmptyError] = useState(null)
 	const [invalidError, setInvalidError] = useState(null)
 
@@ -85,11 +84,14 @@ export default () => {
 				const flag = `https://flagcdn.com/256x192/${countryCode}.webp`
 				setFlag(flag)
 
+				useTimeConvert(data.location.localtime)
+
 				setLocalTime(useTimeConvert(data.location.localtime))
+
 
 				const iconCode = data.current.condition.code
 				const isDay = data.current.is_day
-				const CurrentConditionInfo = useCurrentCondition(
+				const CurrentConditionInfo = CurrentConditionIcon(
 					iconCode,
 					isDay,
 					data.current.temp_f
@@ -140,10 +142,6 @@ export default () => {
 			}
 		}
 	}
-
-	useEffect(() => {
-		console.log(localTime)
-	}, [localTime])
 
 	const handleCloseError = () => {
 		setEmptyError(null)
@@ -324,45 +322,43 @@ export default () => {
 				)}
 				{forecastData.length !== 0 && (
 					<section className='forecast-weather-container'>
-						<Fragment>
-							{forecastData.map((info, index) => (
-								<Fragment key={index}>
-									<div className='fw-card'>
-										<div className='fw-card-header'>
-											<div className='fw-date'>{info.date}</div>
+						{forecastData.map((info, index) => (
+							<Fragment key={index}>
+								<div className='fw-card'>
+									<div className='fw-card-header'>
+										<div className='fw-date'>{info.date}</div>
 
-											<div className='fw-rain-icon'>
-												<UmbrellaIcon number={info.rain} />
+										<div className='fw-rain-icon'>
+											<UmbrellaIcon number={info.rain} />
+										</div>
+									</div>
+
+									<div className='fw-condition-icon'>{info.condition()}</div>
+
+									<div className='fw-data-wrapper'>
+										<div className='fw-data-group'>
+											<div className='fw-data-icon'>
+												<SunriseIcon time={info.sunrise} />
+											</div>
+
+											<div className='fw-data-icon'>
+												<SunsetIcon time={info.sunset} />
 											</div>
 										</div>
 
-										<div className='fw-condition-icon'>{info.condition()}</div>
-
-										<div className='fw-data-wrapper'>
-											<div className='fw-data-group'>
-												<div className='fw-data-icon'>
-													<SunriseIcon time={info.sunrise} />
-												</div>
-
-												<div className='fw-data-icon'>
-													<SunsetIcon time={info.sunset} />
-												</div>
+										<div className='fw-data-group'>
+											<div className='fw-data-icon'>
+												<HighTempIcon temp={info.tempHigh} />
 											</div>
 
-											<div className='fw-data-group'>
-												<div className='fw-data-icon'>
-													<HighTempIcon temp={info.tempHigh} />
-												</div>
-
-												<div className='fw-data-icon'>
-													<LowTempIcon temp={info.tempLow} />
-												</div>
+											<div className='fw-data-icon'>
+												<LowTempIcon temp={info.tempLow} />
 											</div>
 										</div>
 									</div>
-								</Fragment>
-							))}
-						</Fragment>
+								</div>
+							</Fragment>
+						))}
 					</section>
 				)}
 				<div className='ref-link'>

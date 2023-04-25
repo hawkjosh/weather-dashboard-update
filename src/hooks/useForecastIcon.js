@@ -71,7 +71,7 @@ const iconMap = {
 	1282: Forecast1279,
 }
 
-const useForecastIcon = (iconCode) => {
+export const useForecastIcon = (iconCode) => {
 	const forecastIcon = iconMap[iconCode]
 
 	if (!forecastIcon) {
@@ -80,5 +80,3 @@ const useForecastIcon = (iconCode) => {
 
 	return forecastIcon
 }
-
-export default useForecastIcon

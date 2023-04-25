@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import CloseIcon from '../components/icons/general/CloseIcon.jsx'
 import WarningIcon from '../components/icons/general/WarningIcon.jsx'
 
-const AlertModal = ({ isOpen, onClose, children }) => {
+export const AlertModal = ({ isOpen, onClose, children }) => {
 	if (!isOpen) {
 		return null
 	}
@@ -30,5 +30,3 @@ const AlertModal = ({ isOpen, onClose, children }) => {
 		document.getElementById('alert-modal')
 	)
 }
-
-export default AlertModal

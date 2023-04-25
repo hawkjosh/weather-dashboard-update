@@ -1,4 +1,4 @@
-const useCountryFlag = (countryName) => {
+export const useCountryFlag = (countryName) => {
 	const countries = {
 		Andorra: 'ad',
 		'United Arab Emirates': 'ae',
@@ -335,5 +335,3 @@ const useCountryFlag = (countryName) => {
 		return
 	}
 }
-
-export default useCountryFlag

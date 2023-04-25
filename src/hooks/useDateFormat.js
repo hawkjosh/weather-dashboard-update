@@ -1,4 +1,4 @@
-const useDateFormat = (dateStr) => {
+export const useDateFormat = (dateStr) => {
 	const date = new Date(dateStr)
 	const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 	const month = date.getUTCMonth() + 1
@@ -6,5 +6,3 @@ const useDateFormat = (dateStr) => {
 	const weekday = weekdays[date.getUTCDay()]
 	return `${weekday}, ${month}/${day}`
 }
-
-export default useDateFormat

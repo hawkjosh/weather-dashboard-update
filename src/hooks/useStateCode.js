@@ -1,4 +1,4 @@
-const useStateCode = (stateName) => {
+export const useStateCode = (stateName) => {
 	const states = {
 		Alabama: 'AL',
 		Alaska: 'AK',
@@ -76,5 +76,3 @@ const useStateCode = (stateName) => {
 		return
 	}
 }
-
-export default useStateCode
